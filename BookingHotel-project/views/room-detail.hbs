@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Chi tiết phòng - Azure Ocean Resort</title>
+
+    <!-- Tailwind CDN -->
+    <script>
+        tailwind = {
+            config: {
+                theme: {
+                    extend: {
+                        colors: {
+                            primary: "hsl(var(--primary))",
+                            "primary-foreground": "hsl(var(--primary-foreground))",
+                            secondary: "hsl(var(--secondary))",
+                            "secondary-foreground": "hsl(var(--secondary-foreground))",
+                            accent: "hsl(var(--accent))",
+                            "accent-foreground": "hsl(var(--accent-foreground))",
+                            background: "hsl(var(--background))",
+                            foreground: "hsl(var(--foreground))",
+                            muted: "hsl(var(--muted))",
+                            "muted-foreground": "hsl(var(--muted-foreground))",
+                            border: "hsl(var(--border))",
+                            card: "hsl(var(--card))",
+                            "card-foreground": "hsl(var(--card-foreground))",
+                        },
+                        borderRadius: { lg: "0.75rem" },
+                    },
+                },
+            },
+        };
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="./css/styles.css" />
+</head>
+<body class="bg-background text-foreground antialiased">
+<!-- Toasts -->
+<div id="toasts" class="toast-wrap" aria-live="polite"></div>
+
+<!-- Header -->
+<header
+        class="fixed inset-x-0 top-0 z-40 backdrop border-b border-border/60 backdrop left-0 right-0 bg-card/60"
+>
+    <div
+            class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between"
+    >
+        <div class="flex items-center gap-3">
+            <div class="size-8 rounded-lg bg-[#11234B]"></div>
+            <a href="index.html" class="text-lg font-semibold tracking-tight"
+            >Khu Nghỉ Dưỡng Azure Ocean</a
+            >
+        </div>
+
+        <nav class="hidden md:flex items-center gap-8 text-sm">
+            <a href="index.html" class="text-foreground/80 hover:text-foreground"
+            >Trang chủ</a
+            >
+            <a
+                    href="index.html#rooms"
+                    class="text-foreground/80 hover:text-foreground"
+            >Phòng</a
+            >
+        </nav>
+    </div>
+</header>
+
+<!-- Page content -->
+<main class="room-detail-container">
+    <div id="roomDetailContent">
+        <!-- Content will be populated by JS -->
+        <div class="text-center py-12">
+            <div class="loading mx-auto"></div>
+            <p class="mt-4 text-muted-foreground">Đang tải thông tin phòng...</p>
+        </div>
+    </div>
+</main>
+
+<script src="./js/data.js"></script>
+<script src="./js/utils.js"></script>
+<script src="./js/room-detail.js"></script>
+</body>
+</html>
