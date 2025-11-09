@@ -9,5 +9,7 @@ router.all("*", function(req, res, next) {
 router.get("/", function(req, res) {
     res.render("admin/index", {title: "admin"});
 })
-
+router.get("/room", function(req, res) {
+    res.render("admin/room", {title: "room"});
+})
 module.exports = router;

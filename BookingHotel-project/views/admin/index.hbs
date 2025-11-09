@@ -6,7 +6,102 @@
 </head>
 <body>
     <main>
-        <h1>Admin Page</h1>
+        <main class="p-6">
+            <header class="flex items-center gap-4 mb-6">
+                <div class="flex-1">
+                    <h1 class="text-2xl font-semibold">Quản lý phòng</h1>
+                    <p class="text-sm text-muted">Tạo, sửa, xóa và quản lý trạng thái phòng. Dữ liệu lưu cục bộ trên trình duyệt.</p>
+                </div>
+                <div class="flex items-center gap-2">
+                    <input id="search" type="search" placeholder="Tìm theo khách, mã, phòng..." class="pl-3 pr-3 py-2 border rounded-md" />
+                    <button id="btn-new-booking" class="py-2 px-4 rounded-md brand">+ Đặt phòng mới</button>
+                </div>
+            </header>
+
+            <!-- Stats -->
+            <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                <div class="p-4 bg-white rounded-md shadow-sm">
+                    <div class="text-sm text-muted">Công suất phòng</div>
+                    <div class="mt-2 flex items-baseline justify-between">
+                        <div>
+                            <div class="text-2xl font-semibold" id="occupancy">86%</div>
+                            <div class="text-xs text-muted">64/74 phòng đang sử dụng</div>
+                        </div>
+                        <div class="text-3xl">🛏️</div>
+                    </div>
+                </div>
+                <div class="p-4 bg-white rounded-md shadow-sm">
+                    <div class="text-sm text-muted">Đặt phòng hôm nay</div>
+                    <div class="mt-2 flex items-baseline justify-between">
+                        <div>
+                            <div class="text-2xl font-semibold" id="bookings-today">32</div>
+                            <div class="text-xs text-muted">+8 so với hôm qua</div>
+                        </div>
+                        <div class="text-3xl">📅</div>
+                    </div>
+                </div>
+                <div class="p-4 bg-white rounded-md shadow-sm">
+                    <div class="text-sm text-muted">Khách lưu trú</div>
+                    <div class="mt-2 flex items-baseline justify-between">
+                        <div>
+                            <div class="text-2xl font-semibold" id="guests-staying">128</div>
+                            <div class="text-xs text-muted">Tổng số khách hiện tại</div>
+                        </div>
+                        <div class="text-3xl">👥</div>
+                    </div>
+                </div>
+                <div class="p-4 bg-white rounded-md shadow-sm">
+                    <div class="text-sm text-muted">Doanh thu</div>
+                    <div class="mt-2 flex items-baseline justify-between">
+                        <div>
+                            <div class="text-2xl font-semibold" id="revenue">680,000,000 ₫</div>
+                            <div class="text-xs text-muted">Tháng này</div>
+                        </div>
+                        <div class="text-3xl">💰</div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="grid lg:grid-cols-3 gap-4 mb-6">
+                <div class="lg:col-span-2 bg-white rounded-md p-4 shadow-sm">
+                    <h3 class="font-semibold mb-3">Lịch tháng</h3>
+                    <div id="calendar" class="grid gap-1"></div>
+                </div>
+
+                <div class="bg-white rounded-md p-4 shadow-sm">
+                    <h3 class="font-semibold mb-3">Đặt phòng gần đây</h3>
+                    <div id="bookings-list" class="space-y-3 text-sm"></div>
+                    <div class="mt-4 flex gap-2">
+                        <button id="export-bookings" class="px-3 py-2 border rounded">Xuất CSV</button>
+                        <label class="px-3 py-2 border rounded cursor-pointer">
+                            Nhập CSV <input id="import-bookings" type="file" accept="text/csv" class="hidden" />
+                        </label>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Rooms list and timeline -->
+            <section class="grid lg:grid-cols-2 gap-4">
+                <div class="bg-white rounded-md p-4 shadow-sm">
+                    <div class="flex items-center justify-between mb-3">
+                        <h3 class="font-semibold">Danh sách phòng</h3>
+                        <div class="text-sm text-muted" id="rooms-count">0 phòng</div>
+                    </div>
+                    <div id="rooms-table" class="space-y-2 text-sm"></div>
+                    <div class="mt-4">
+                        <button id="btn-add-room" class="px-3 py-2 rounded border">Thêm phòng</button>
+                        <button id="export-rooms" class="px-3 py-2 rounded border">Xuất CSV</button>
+                        <label class="px-3 py-2 rounded border cursor-pointer">Nhập CSV <input id="import-rooms" type="file" accept="text/csv" class="hidden" /></label>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-md p-4 shadow-sm overflow-auto">
+                    <h3 class="font-semibold mb-3">Timeline (tháng này)</h3>
+                    <div id="timeline" class="overflow-auto"></div>
+                </div>
+            </section>
+
+        </main>
     </main>
 </body>
 </html>
