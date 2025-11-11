@@ -5,132 +5,138 @@
     <title>Document</title>
 </head>
 <body>
-<main class="p-6 bg-gray-50 min-h-screen space-y-8">
-
-    <!-- Header -->
-    <header class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
-        <div>
-            <h1 class="text-2xl font-semibold text-gray-800">Quản lý phòng</h1>
-            <p class="text-sm text-gray-500 mt-1">
-                Tạo, sửa, xóa và quản lý trạng thái phòng. Dữ liệu lưu cục bộ trên trình duyệt.
-            </p>
-        </div>
-
-        <div class="flex items-center gap-3">
-            <div class="relative">
-                <input
-                        id="search"
-                        type="search"
-                        placeholder="Tìm theo khách, mã, phòng..."
-                        class="pl-10 pr-3 py-2 w-64 rounded-md border focus:ring-[#11234B]"
-                />
-                <svg xmlns="http://www.w3.org/2000/svg"
-                     class="w-5 h-5 absolute left-3 top-2.5 text-gray-400"
-                     fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                          d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16z"/>
-                </svg>
-            </div>
-            <button
-                    id="btn-new-booking"
-                    class="px-4 py-2 rounded-md bg-[#11234B] hover:bg-[#0d1c3d] text-white font-medium transition-colors">
-                + Đặt phòng mới
-            </button>
-        </div>
-    </header>
-
-    <!-- Stats -->
-    <section class="grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
-        <div class="p-5 bg-white rounded-lg shadow-sm border border-gray-100">
-            <div class="text-sm text-gray-500">Công suất phòng</div>
-            <div class="mt-3 flex items-baseline justify-between">
-                <div>
-                    <div class="text-3xl font-semibold text-gray-800" id="occupancy">86%</div>
-                    <div class="text-xs text-gray-500">64/74 phòng đang sử dụng</div>
+    <!-- Nội dung chính -->
+    <div class="p-6 space-y-6">
+        <!-- Grid chính: Admin chiếm 2 phần, 4 khối chia 3 phần -->
+        <div class="grid grid-cols-1 lg:grid-cols-5 space-x-6">
+            <!-- Khối Welcome Admin - chiếm 2 phần -->
+            <div
+                    class="lg:col-span-2 bg-white rounded-lg shadow-sm border border-gray-100 p-8"
+            >
+                <div class="flex items-start justify-between">
+                    <div>
+                        <h1 class="text-3xl font-bold text-slate-900 mb-2">
+                            Chào mừng Quản trị viên
+                        </h1>
+                        <p class="text-slate-600">
+                            Làm quen với bảng điều khiển, sau đây là một số cách để bắt đầu.
+                        </p>
+                        <button
+                                class="mt-4 px-4 py-2 bg-[#11234B] hover:shadow-xl text-white rounded-md text-sm font-medium"
+                        >
+                            Bắt đầu
+                        </button>
+                    </div>
+                    <div class="text-blue-200">
+                        <i class="fa-solid fa-person text-9xl opacity-20"></i>
+                    </div>
                 </div>
-                <div class="text-3xl">🛏️</div>
             </div>
-        </div>
 
-        <div class="p-5 bg-white rounded-lg shadow-sm border border-gray-100">
-            <div class="text-sm text-gray-500">Đặt phòng hôm nay</div>
-            <div class="mt-3 flex items-baseline justify-between">
-                <div>
-                    <div class="text-3xl font-semibold text-gray-800" id="bookings-today">32</div>
-                    <div class="text-xs text-emerald-600">+8 so với hôm qua</div>
+            <!-- Khối 1: Total Booking -->
+            <div
+                    class="bg-white rounded-lg shadow-sm border border-gray-100 p-6"
+            >
+                <div class="flex items-start justify-between mb-4">
+                    <div
+                            class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center"
+                    >
+                        <i class="fa-solid fa-calendar text-blue-600 text-xl"></i>
+                    </div>
+                    <button class="text-gray-400 hover:text-gray-600">
+                        <i class="fa-solid fa-ellipsis-v"></i>
+                    </button>
                 </div>
-                <div class="text-3xl">📅</div>
-            </div>
-        </div>
-
-        <div class="p-5 bg-white rounded-lg shadow-sm border border-gray-100">
-            <div class="text-sm text-gray-500">Khách lưu trú</div>
-            <div class="mt-3 flex items-baseline justify-between">
-                <div>
-                    <div class="text-3xl font-semibold text-gray-800" id="guests-staying">128</div>
-                    <div class="text-xs text-gray-500">Tổng số khách hiện tại</div>
+                <h3 class="text-gray-600 text-sm font-medium mb-2">
+                    Số đơn đặt phòng
+                </h3>
+                <div class="mb-3">
+                    <p class="text-3xl font-bold text-slate-900">12</p>
                 </div>
-                <div class="text-3xl">👥</div>
-            </div>
-        </div>
-
-        <div class="p-5 bg-white rounded-lg shadow-sm border border-gray-100">
-            <div class="text-sm text-gray-500">Doanh thu</div>
-            <div class="mt-3 flex items-baseline justify-between">
-                <div>
-                    <div class="text-3xl font-semibold text-gray-800" id="revenue">680,000,000 ₫</div>
-                    <div class="text-xs text-gray-500">Tháng này</div>
+                <div class="flex items-center gap-1 text-green-600 text-sm">
+                    <i class="fa-solid fa-arrow-trend-up"></i>
+                    <span>+10%</span>
                 </div>
-                <div class="text-3xl">💰</div>
+            </div>
+
+            <!-- Khối 2: Menunggu Konfirmasi -->
+            <div
+                    class="bg-white rounded-lg shadow-sm border border-gray-100 p-6"
+            >
+                <div class="flex items-start justify-between mb-4">
+                    <div
+                            class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center"
+                    >
+                        <i
+                                class="fa-solid fa-file-contract text-orange-600 text-xl"
+                        ></i>
+                    </div>
+                    <button class="text-gray-400 hover:text-gray-600">
+                        <i class="fa-solid fa-ellipsis-v"></i>
+                    </button>
+                </div>
+                <h3 class="text-gray-600 text-sm font-medium mb-2">
+                    Đơn chờ xác nhận
+                </h3>
+                <div class="mb-3">
+                    <p class="text-3xl font-bold text-slate-900">1</p>
+                </div>
+                <div class="flex items-center gap-1 text-green-600 text-sm">
+                    <i class="fa-solid fa-arrow-trend-up"></i>
+                    <span>+0</span>
+                </div>
+            </div>
+
+            <!-- Khối 3: Phòng Trống -->
+            <div
+                    class="bg-white rounded-lg shadow-sm border border-gray-100 p-6"
+            >
+                <div class="flex items-start justify-between mb-4">
+                    <div
+                            class="w-12 h-12 bg-cyan-100 rounded-lg flex items-center justify-center"
+                    >
+                        <i class="fa-solid fa-door-open text-cyan-600 text-xl"></i>
+                    </div>
+                    <button class="text-gray-400 hover:text-gray-600">
+                        <i class="fa-solid fa-ellipsis-v"></i>
+                    </button>
+                </div>
+                <h3 class="text-gray-600 text-sm font-medium mb-2">
+                    Phòng Trống
+                </h3>
+                <div class="mb-3">
+                    <p class="text-3xl font-bold text-slate-900">5</p>
+                </div>
+                <div class="flex items-center gap-1 text-green-600 text-sm">
+                    <i class="fa-solid fa-arrow-trend-up"></i>
+                    <span>+2%</span>
+                </div>
             </div>
         </div>
-    </section>
 
-    <!-- Calendar & Booking list -->
-    <section class="grid lg:grid-cols-3 gap-6">
-        <div class="lg:col-span-2 bg-white rounded-lg p-5 shadow-sm border border-gray-100">
-            <h3 class="font-semibold text-gray-800 mb-4">Lịch tháng</h3>
-            <div id="calendar" class="grid gap-1"></div>
-        </div>
-
-        <div class="bg-white rounded-lg p-5 shadow-sm border border-gray-100">
-            <h3 class="font-semibold text-gray-800 mb-4">Đặt phòng gần đây</h3>
-            <div id="bookings-list" class="space-y-3 text-sm"></div>
-            <div class="mt-5 flex flex-wrap gap-2">
-                <button id="export-bookings" class="px-3 py-2 border rounded hover:bg-gray-50">Xuất CSV</button>
-                <label class="px-3 py-2 border rounded cursor-pointer hover:bg-gray-50">
-                    Nhập CSV
-                    <input id="import-bookings" type="file" accept="text/csv" class="hidden" />
-                </label>
+        <!-- Biểu đồ thống kê -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Biểu đồ cột -->
+            <div class="bg-white shadow-md rounded-xl p-5">
+                <div class="flex justify-between items-center mb-3">
+                    <h2 class="text-lg font-semibold text-gray-700">
+                        Doanh thu theo tháng
+                    </h2>
+                    <span class="text-sm text-gray-500">Năm 2025</span>
+                </div>
+                <canvas id="barChart" height="200"></canvas>
+            </div>
+            <!-- Biểu đồ tròn -->
+            <div class="bg-white shadow-md rounded-xl p-5">
+                <div class="flex justify-between items-center mb-3">
+                    <h2 class="text-lg font-semibold text-gray-700">Số lượng đặt phòng theo loại</h2>
+                    <span class="text-sm text-gray-500">Tháng 11</span>
+                </div>
+                <canvas id="pieChart" height="200"></canvas>
             </div>
         </div>
-    </section>
-
-    <!-- Rooms & Timeline -->
-    <section class="grid lg:grid-cols-2 gap-6">
-        <div class="bg-white rounded-lg p-5 shadow-sm border border-gray-100">
-            <div class="flex items-center justify-between mb-4">
-                <h3 class="font-semibold text-gray-800">Danh sách phòng</h3>
-                <div class="text-sm text-gray-500" id="rooms-count">0 phòng</div>
-            </div>
-            <div id="rooms-table" class="space-y-2 text-sm"></div>
-            <div class="mt-5 flex flex-wrap gap-2">
-                <button id="btn-add-room" class="px-3 py-2 border rounded hover:bg-gray-50">Thêm phòng</button>
-                <button id="export-rooms" class="px-3 py-2 border rounded hover:bg-gray-50">Xuất CSV</button>
-                <label class="px-3 py-2 border rounded cursor-pointer hover:bg-gray-50">
-                    Nhập CSV
-                    <input id="import-rooms" type="file" accept="text/csv" class="hidden" />
-                </label>
-            </div>
-        </div>
-
-        <div class="bg-white rounded-lg p-5 shadow-sm border border-gray-100 overflow-auto">
-            <h3 class="font-semibold text-gray-800 mb-4">Timeline (tháng này)</h3>
-            <div id="timeline" class="overflow-auto"></div>
-        </div>
-    </section>
-
-</main>
+    </div>
+    </div>
 
 <script type="module" src="/admin/js/dashboard.js"></script>
 </body>
