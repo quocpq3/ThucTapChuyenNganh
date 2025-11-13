@@ -1,0 +1,182 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Document</title>
+    <style>
+        /* CSS 1: HIỆU ỨNG ĐÓNG MỞ (KHẮC PHỤC LỖI TRẮNG TINH) */
+        .collapse-transition {
+            overflow: hidden;
+            /* Thêm transition cho max-height và visibility */
+            transition: max-height 300ms ease-in-out, visibility 300ms ease-in-out;
+            max-height: 0;
+            visibility: hidden;
+            padding-left: 0 !important; /* KHÔNG CỘNG DỒN LỀ TRÁI CỦA UL */
+        }
+        .collapse-transition.open {
+            max-height: 500px; /* GIÁ TRỊ CỐ ĐỊNH LỚN */
+            visibility: visible;
+        }
+
+        /* ---------------------------------------------------- */
+        /* CSS 2: CĂN CHỈNH MENU CON (KHẮC PHỤC LỖI LỆCH) */
+        /* ---------------------------------------------------- */
+        .sidebar-menu-item {
+            /* Đồng nhất Padding, Font và Box Model */
+            width: 100%;
+            text-align: left;
+            padding: 8px 12px; /* Padding cơ sở cho tất cả mục */
+            border-radius: 6px;
+            transition: background-color 0.1s;
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: inherit;
+            line-height: 1.5;
+            font-size: 16px; /* Thay thế text-lg/text-sm không đồng nhất */
+        }
+
+        .sidebar-menu-item:hover {
+            background-color: #f3f4f6; /* hover:bg-gray-100 */
+        }
+
+        .sidebar-menu-item.collapse-toggle {
+            justify-content: space-between;
+        }
+
+        /* Icon */
+        .sidebar-menu-item i:not(.fa-chevron-down) {
+            min-width: 20px;
+            margin-right: 12px;
+        }
+
+        /* ---------------------------------------------------- */
+        /* CĂN CHỈNH ĐỘ THỤT VÀO THEO CẤP */
+        /* Ta thêm padding-left vào item (A/BUTTON) thay vì UL */
+        /* ---------------------------------------------------- */
+
+        /* Cấp 1: Padding 12px (Đã định nghĩa ở .sidebar-menu-item) */
+
+        /* Cấp 2 (Nằm trong #menu-rooms): Thụt vào 20px */
+        #menu-rooms > .sidebar-menu-item,
+        #menu-rooms > li > .sidebar-menu-item {
+            padding-left: 32px; /* 12px (cơ sở) + 20px (thụt vào) */
+        }
+
+        /* Cấp 3 (Nằm trong #menu-room-types): Thụt vào 40px */
+        #menu-room-types > .sidebar-menu-item,
+        #menu-room-types > li > .sidebar-menu-item {
+            padding-left: 52px; /* 12px (cơ sở) + 40px (thụt vào) */
+        }
+
+        /* Cấp 4 (Nằm trong #menu-room-floors): Thụt vào 60px */
+        #menu-room-floors > li > .sidebar-menu-item {
+            padding-left: 72px; /* 12px (cơ sở) + 60px (thụt vào) */
+        }
+    </style>
+</head>
+<body>
+<aside id="sidebar"
+       class="border-r bg-white p-3 lg:sticky lg:top-0 lg:h-screen lg:overflow-y-auto fixed inset-y-0 left-0 z-40 w-[260px] -translate-x-full lg:translate-x-0 transition-transform duration-300">
+    <div class="flex items-center justify-between mb-6">
+        <a href="/">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-md bg-[#11234B]"></div>
+                <div>
+                    <div class="font-semibold">Emerald Hotel</div>
+                    <div class="text-xs text-muted">Quản trị</div>
+                </div>
+            </div>
+        </a>
+
+        <button id="closeSidebar" class="lg:hidden text-slate-600 hover:text-slate-900 text-xl">✕</button>
+    </div>
+
+    <nav class="space-y-1 flex flex-col text-gray-700">
+
+        <a href="/admin" class="sidebar-menu-item">
+            <i class="fa-solid fa-chart-line"></i> Bảng điều khiển
+        </a>
+
+        <a href="/admin/order" class="sidebar-menu-item">
+            <i class="fa-regular fa-calendar"></i> Đặt phòng
+        </a>
+
+        <button class="sidebar-menu-item collapse-toggle" data-collapse="#menu-rooms">
+            <span><i class="fa-regular fa-house"></i> Phòng</span>
+            <i class="fa-solid fa-chevron-down text-sm transition-transform duration-300"></i>
+        </button>
+
+        <ul id="menu-rooms" class="collapse-transition space-y-1">
+            <button class="sidebar-menu-item collapse-toggle" data-collapse="#menu-room-types">
+                <span>Loại phòng</span>
+                <i class="fa-solid fa-chevron-down text-sm transition-transform duration-300"></i>
+            </button>
+
+            <ul id="menu-room-types" class="collapse-transition space-y-1">
+
+                <li>
+                    <button class="sidebar-menu-item collapse-toggle" data-collapse="#menu-room-floors">
+                        <span>Tầng</span>
+                        <i class="fa-solid fa-chevron-down text-sm transition-transform duration-300"></i>
+                    </button>
+
+                    <ul id="menu-room-floors" class="collapse-transition space-y-1">
+                        <li><a href="#" class="sidebar-menu-item" onclick="filterByFloor('Tầng 1')">Tầng 1</a></li>
+                        <li><a href="#" class="sidebar-menu-item" onclick="filterByFloor('Tầng 2')">Tầng 2</a></li>
+                        <li><a href="#" class="sidebar-menu-item" onclick="filterByFloor('Tầng 3')">Tầng 3</a></li>
+                        <li><a href="#" class="sidebar-menu-item" onclick="filterByFloor('all')">Tất cả tầng</a></li>
+                    </ul>
+                </li>
+
+                <li><a href="#" class="sidebar-menu-item">Phòng Deluxe</a></li>
+                <li><a href="#" class="sidebar-menu-item">Phòng Superior</a></li>
+            </ul>
+
+            <li><a href="/admin/rooms" class="sidebar-menu-item">Thêm phòng</a></li>
+            <li><a href="#" class="sidebar-menu-item">Thống kê phòng</a></li>
+        </ul>
+
+        <a href="/admin/user" class="sidebar-menu-item">
+            <i class="fa-regular fa-user"></i> Khách
+        </a>
+
+        <a href="/admin/services" class="sidebar-menu-item">
+            <i class="fa-regular fa-face-smile"></i> Tiện ích
+        </a>
+
+    </nav>
+</aside>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const toggles = document.querySelectorAll(".collapse-toggle");
+        toggles.forEach(toggle => {
+            toggle.addEventListener("click", () => {
+                const targetId = toggle.getAttribute("data-collapse");
+                const target = document.querySelector(targetId);
+                const chevron = toggle.querySelector(".fa-chevron-down");
+                if (!target) return;
+
+                const isOpen = target.classList.contains("open");
+
+                if (isOpen) {
+                    // Đóng menu
+                    target.classList.remove("open");
+                    chevron?.classList.remove("rotate-180");
+                } else {
+                    // Mở menu
+                    target.classList.add("open");
+                    chevron?.classList.add("rotate-180");
+                }
+            });
+        });
+
+        document.getElementById("closeSidebar")?.addEventListener("click", () => {
+            document.getElementById("sidebar").classList.add("-translate-x-full");
+        });
+    });
+</script>
+
+</body>
+</html>

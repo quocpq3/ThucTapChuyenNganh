@@ -19,6 +19,9 @@ const roomsData = [
             "Smart TV",
             "Điều Hòa",
         ],
+        // THÔNG TIN MỚI
+        category: "Deluxe",
+        floor: "Tầng 3", // Thường là các tầng giữa
     },
     {
         id: 2,
@@ -38,6 +41,9 @@ const roomsData = [
             "Minibar Cao Cấp",
             "Bàn Làm Việc",
         ],
+        // THÔNG TIN MỚI
+        category: "Suite",
+        floor: "Tầng 5", // Tầng cao hơn với view đẹp hơn
     },
     {
         id: 3,
@@ -57,6 +63,9 @@ const roomsData = [
             "Phòng Ăn",
             "Phòng Tắm Master",
         ],
+        // THÔNG TIN MỚI
+        category: "Penthouse",
+        floor: "Tầng Thượng", // Tầng cao nhất
     },
     {
         id: 4,
@@ -76,9 +85,13 @@ const roomsData = [
             "Ăn Ngoài Trời",
             "Concierge",
         ],
+        // THÔNG TIN MỚI
+        category: "Villa",
+        floor: "Tầng Trệt", // Villa thường ở mặt đất
     },
 ];
 
+const allRoomsData = [...roomsData]; // roomsData đã có thông tin tầng
 const amenitiesData = [
     {
         name: "Hồ Bơi Vô Cực",
