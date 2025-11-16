@@ -1,179 +1,164 @@
-// Shared data for the application
+// Shared data for the hotel
 
 const roomsData = [
-    {
-        id: 1,
-        name: "Phòng Deluxe",
-        url: "/home/images/PhongSuperio/611068499.jpg",
-        description:
-            "Phòng sang trọng với giường King-size êm ái, tiện nghi hiện đại và tầm nhìn tuyệt đẹp ra thành phố. Hoàn hảo cho các cặp đôi tìm kiếm sự thoải mái và phong cách.",
-        price: 299,
-        size: 35,
-        maxGuests: 2,
-        bedType: "King",
-        features: [
-            "Giường King Size",
-            "View Thành Phố",
-            "WiFi Miễn Phí",
-            "Mini Bar",
-            "Smart TV",
-            "Điều Hòa",
-        ],
-        // THÔNG TIN MỚI
-        category: "Deluxe",
-        floor: "Tầng 3", // Thường là các tầng giữa
-    },
-    {
-        id: 2,
-        url: "/home/images/PhongDeluxe/611068661.jpg",
-        name: "Suite Cao Cấp",
-        description:
-            "Suite rộng rãi với phòng khách riêng biệt, nội thất cao cấp và tầm nhìn ngoạn mục ra đại dương từ ban công riêng của bạn.",
-        price: 499,
-        size: 55,
-        maxGuests: 3,
-        bedType: "King",
-        features: [
-            "View Biển",
-            "Phòng Khách Riêng",
-            "Ban Công Riêng",
-            "Bồn Tắm Jacuzzi",
-            "Minibar Cao Cấp",
-            "Bàn Làm Việc",
-        ],
-        // THÔNG TIN MỚI
-        category: "Suite",
-        floor: "Tầng 5", // Tầng cao hơn với view đẹp hơn
-    },
-    {
-        id: 3,
-        url: "/home/images/PhongSuperio/611068511.jpg",
-        name: "Suite Penthouse",
-        description:
-            "Đỉnh cao của sự xa hoa với tầm nhìn toàn cảnh đại dương, sân thượng riêng, dịch vụ quản gia và tiện nghi độc quyền cho trải nghiệm khó quên.",
-        price: 899,
-        size: 85,
-        maxGuests: 4,
-        bedType: "King",
-        features: [
-            "View Toàn Cảnh",
-            "Sân Thượng Riêng",
-            "Dịch Vụ Quản Gia",
-            "Bar Cao Cấp",
-            "Phòng Ăn",
-            "Phòng Tắm Master",
-        ],
-        // THÔNG TIN MỚI
-        category: "Penthouse",
-        floor: "Tầng Thượng", // Tầng cao nhất
-    },
-    {
-        id: 4,
-        url: "/home/images/PhongDeluxe/611068706.jpg",
-        name: "Biệt Thự Biển",
-        description:
-            "Biệt thự ven biển độc quyền với lối đi riêng ra bãi biển, hồ bơi riêng, bếp đầy đủ và dịch vụ concierge cá nhân.",
-        price: 1299,
-        size: 120,
-        maxGuests: 6,
-        bedType: "2 King",
-        features: [
-            "Hồ Bơi Riêng",
-            "Lối Ra Biển",
-            "Bếp Đầy Đủ",
-            "Nhiều Phòng Ngủ",
-            "Ăn Ngoài Trời",
-            "Concierge",
-        ],
-        // THÔNG TIN MỚI
-        category: "Villa",
-        floor: "Tầng Trệt", // Villa thường ở mặt đất
-    },
+  // --- Deluxe Rooms ---
+  {
+    id: 1,
+    name: "Phòng Deluxe 101",
+    url: "/home/images/PhongDeluxe/611068699.jpg",
+    description:
+      "Phòng Deluxe ấm cúng với giường King-size, nội thất hiện đại và view hướng thành phố. Lý tưởng cho cặp đôi hoặc khách công tác.",
+    price: 299,
+    size: 35,
+    maxGuests: 2,
+    bedType: "King",
+    features: [
+      "Giường King Size",
+      "View Thành Phố",
+      "WiFi Miễn Phí",
+      "Mini Bar",
+      "Smart TV",
+      "Điều Hòa",
+    ],
+    category: "Deluxe",
+    floor: "Tầng 1",
+  },
+  {
+    id: 2,
+    name: "Phòng Deluxe 102",
+    url: "/home/images/PhongDeluxe/611068706.jpg",
+    description:
+      "Phòng Deluxe hiện đại với ánh sáng tự nhiên, giường đôi và khu vực làm việc riêng. Phù hợp cho kỳ nghỉ ngắn ngày.",
+    price: 299,
+    size: 36,
+    maxGuests: 2,
+    bedType: "Queen",
+    features: [
+      "Giường Queen Size",
+      "View Thành Phố",
+      "WiFi Miễn Phí",
+      "Bàn Làm Việc",
+      "Mini Bar",
+      "Smart TV",
+    ],
+    category: "Deluxe",
+    floor: "Tầng 1",
+  },
+
+  // --- Suite Rooms ---
+  {
+    id: 3,
+    name: "Phòng Superio 201",
+    url: "/home/images/PhongSuperio/611068499.jpg",
+    description:
+      "Phòng Suite cao cấp với phòng khách riêng, ban công view biển và nội thất sang trọng. Lý tưởng cho kỳ nghỉ thư giãn hoặc tuần trăng mật.",
+    price: 499,
+    size: 55,
+    maxGuests: 3,
+    bedType: "King",
+    features: [
+      "View Biển",
+      "Phòng Khách Riêng",
+      "Ban Công Riêng",
+      "Bồn Tắm Jacuzzi",
+      "Mini Bar Cao Cấp",
+      "Bàn Làm Việc",
+    ],
+    category: "Superio",
+    floor: "Tầng 2",
+  },
+  {
+    id: 4,
+    name: "Phòng Superio 202",
+    url: "/home/images/PhongSuperio/611068510.jpg",
+    description:
+      "Phòng Suite hướng biển, nội thất hiện đại, không gian mở cùng dịch vụ riêng biệt mang đến trải nghiệm nghỉ dưỡng đẳng cấp.",
+    price: 499,
+    size: 58,
+    maxGuests: 3,
+    bedType: "King",
+    features: [
+      "View Biển",
+      "Ban Công Riêng",
+      "Phòng Khách Rộng",
+      "Bồn Tắm Lớn",
+      "Smart TV 65 inch",
+      "Điều Hòa Hai Chiều",
+    ],
+    category: "Superio",
+    floor: "Tầng 2",
+  },
 ];
 
-const allRoomsData = [...roomsData]; // roomsData đã có thông tin tầng
+const allRoomsData = [...roomsData];
+
 const amenitiesData = [
-    {
-        name: "Hồ Bơi Vô Cực",
-        description: "Tận hưởng tầm nhìn toàn cảnh đại dương",
-    },
-    { name: "Trung Tâm Thể Dục", description: "Thiết bị hiện đại, phục vụ 24/7" },
-    {
-        name: "Spa & Chăm Sóc Sức Khỏe",
-        description: "Liệu trình spa cao cấp đa dạng",
-    },
-    {
-        name: "Ẩm Thực Đẳng Cấp",
-        description: "Nhà hàng đạt sao Michelin danh giá",
-    },
-    { name: "WiFi Tốc Độ Cao", description: "Kết nối internet không giới hạn" },
-    {
-        name: "Lễ Tân 24/7",
-        description: "Đội ngũ chuyên nghiệp luôn sẵn sàng hỗ trợ",
-    },
-    { name: "Đỗ Xe VIP", description: "Dịch vụ đỗ xe có người phục vụ miễn phí" },
-    { name: "Dịch Vụ Phòng", description: "Phục vụ tận phòng 24 giờ mỗi ngày" },
-    { name: "Bãi Biển Riêng", description: "Đường dạo biển và khu vực riêng tư" },
-    {
-        name: "Trung Tâm Hội Nghị",
-        description: "Phòng họp sang trọng với trang thiết bị hiện đại",
-    },
-    {
-        name: "Khu Vui Chơi Trẻ Em",
-        description: "Hoạt động giải trí phong phú cho trẻ",
-    },
-    {
-        name: "Quầy Bar & Sảnh Chờ",
-        description: "Thưởng thức cocktail đẳng cấp thế giới",
-    },
+  {
+    name: "Hồ Bơi Ngoài Trời",
+    description: "Tận hưởng làn nước mát và tầm nhìn hướng biển",
+  },
+  { name: "Phòng Gym", description: "Trang bị hiện đại, mở cửa 24/7" },
+  { name: "Nhà Hàng", description: "Thưởng thức ẩm thực Á – Âu tinh tế" },
+  {
+    name: "Spa & Massage",
+    description: "Dịch vụ chăm sóc thư giãn chuyên nghiệp",
+  },
+  {
+    name: "WiFi Miễn Phí",
+    description: "Kết nối tốc độ cao trong toàn khách sạn",
+  },
+  { name: "Lễ Tân 24/7", description: "Luôn sẵn sàng phục vụ quý khách" },
+  { name: "Dịch Vụ Phòng", description: "Phục vụ tận phòng 24 giờ mỗi ngày" },
+  {
+    name: "Bãi Đỗ Xe Riêng",
+    description: "An toàn, miễn phí cho khách lưu trú",
+  },
 ];
 
 const offersData = [
-    {
-        title: "Ưu Đãi Đặt Sớm",
-        discount: "Giảm 25%",
-        description:
-            "Đặt trước 30 ngày và tận hưởng ưu đãi độc quyền cho kỳ nghỉ sang trọng của bạn.",
-        features: [
-            "Giảm 25% giá phòng",
-            "Bữa sáng miễn phí cho hai người",
-            "Trả phòng muộn đến 14:00",
-            "Miễn phí sử dụng spa",
-        ],
-    },
-    {
-        title: "Kỳ Nghỉ Lãng Mạn",
-        discount: "Gói Đặc Biệt",
-        description:
-            "Hoàn hảo cho các cặp đôi tìm kiếm kỳ nghỉ lãng mạn với tiện nghi và dịch vụ cao cấp.",
-        features: [
-            "Champagne chào đón",
-            "Trị liệu spa cho cặp đôi",
-            "Bữa tối dưới ánh nến",
-            "Dịch vụ trang trí phòng với cánh hoa hồng",
-        ],
-    },
+  {
+    title: "Ưu Đãi Đặt Sớm",
+    discount: "Giảm 20%",
+    description:
+      "Đặt phòng trước 30 ngày để nhận ưu đãi độc quyền cho kỳ nghỉ của bạn.",
+    features: [
+      "Giảm 20% giá phòng",
+      "Bữa sáng miễn phí",
+      "Trả phòng muộn đến 14:00",
+    ],
+  },
+  {
+    title: "Gói Nghỉ Dưỡng Cặp Đôi",
+    discount: "Combo Lãng Mạn",
+    description:
+      "Tận hưởng không gian riêng tư cùng người thương với gói dịch vụ cao cấp.",
+    features: [
+      "Champagne chào đón",
+      "Bữa tối dưới ánh nến",
+      "Liệu trình spa cho cặp đôi",
+    ],
+  },
 ];
 
 const testimonialsData = [
-    {
-        name: "Nguyễn Thị Hương",
-        location: "Hà Nội, Việt Nam",
-        review:
-            "Tuyệt vời! Tầm nhìn ra biển từ phòng suite thật ngoạn mục. Nhân viên rất tận tình chu đáo để kỷ niệm ngày cưới của chúng tôi thật đặc biệt. Chắc chắn sẽ quay lại!",
-    },
-    {
-        name: "Trần Minh Quân",
-        location: "TP.HCM, Việt Nam",
-        review:
-            "Trải nghiệm khách sạn tuyệt vời nhất! Dịch vụ spa thật tuyệt, đồ ăn xuất sắc, và sự chú ý đến từng chi tiết thật hoàn hảo. Rất đáng để trải nghiệm!",
-    },
-    {
-        name: "Lê Thanh Thảo",
-        location: "Đà Nẵng, Việt Nam",
-        review:
-            "Một thiên đường thực sự! Ngay từ khi đến, chúng tôi đã được đón tiếp như những vị khách VIP. Phòng penthouse vượt xa mong đợi. Hoàn hảo cho tuần trăng mật!",
-    },
+  {
+    name: "Nguyễn Thị Hương",
+    location: "Hà Nội",
+    review:
+      "Phòng Deluxe rất thoải mái và sạch sẽ, nhân viên thân thiện. Tôi rất thích hồ bơi và nhà hàng trong khách sạn!",
+  },
+  {
+    name: "Trần Minh Quân",
+    location: "TP.HCM",
+    review:
+      "Phòng Suite thật tuyệt vời, view biển đẹp và dịch vụ chuyên nghiệp. Đáng giá từng đồng!",
+  },
+  {
+    name: "Lê Thanh Thảo",
+    location: "Đà Nẵng",
+    review:
+      "Kỳ nghỉ hoàn hảo! Không gian yên tĩnh, tiện nghi hiện đại, nhân viên cực kỳ chu đáo.",
+  },
 ];
 
-const priceMap = { deluxe: 299, suite: 499, penthouse: 899, villa: 1299 };
+const priceMap = { deluxe: 299, suite: 499 };

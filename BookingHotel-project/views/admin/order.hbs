@@ -1,118 +1,136 @@
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Document</title>
-</head>
-<body>
-<section class="p-6 space-y-6 flex-1">
-    <div class="flex items-center justify-between mb-4">
-        <h2 class="text-2xl font-bold text-[#11234B]">
-            Danh sách đơn đặt phòng
-        </h2>
+  </head>
+  <body>
+    <section class="p-6 space-y-6 flex-1">
+      <!-- Header -->
+      <div class="flex items-center justify-between mb-4">
+        <h2 class="text-2xl font-bold text-[#11234B]">Danh sách đơn đặt phòng</h2>
         <div class="flex gap-2">
-            <button
-                    class="px-4 py-2 bg-[#11234B] text-white rounded hover:shadow-lg flex items-center gap-2"
-            >
-                <i class="fa-solid fa-rotate"></i> Làm mới
-            </button>
+          <button
+            class="px-4 py-2 bg-[#11234B] text-white rounded hover:shadow-lg flex items-center gap-2 transition duration-150"
+          >
+            <i class="fa-solid fa-rotate"></i>
+            Làm mới
+          </button>
         </div>
-    </div>
+      </div>
 
-    <!-- Bảng danh sách -->
-    <div class="overflow-x-auto bg-white rounded shadow">
-        <table class="min-w-full text-left">
-            <thead class="bg-gray-100 text-gray-700 text-sm uppercase">
+      <!-- Table -->
+      <div class="overflow-x-auto bg-white rounded-xl shadow-lg">
+        <table class="min-w-full text-left divide-y divide-gray-200">
+          <thead class="bg-gray-100 text-gray-700 text-sm uppercase">
             <tr>
-                <th class="py-3 px-4">#</th>
-                <th class="py-3 px-4">Khách hàng</th>
-                <th class="py-3 px-4">Phòng</th>
-                <th class="py-3 px-4">Ngày nhận</th>
-                <th class="py-3 px-4">Ngày trả</th>
-                <th class="py-3 px-4">Số khách</th>
-                <th class="py-3 px-4">Tổng tiền</th>
-                <th class="py-3 px-4">Trạng thái</th>
-                <th class="py-3 px-4 text-center">Hành động</th>
+              <th class="py-3 px-4">#</th>
+              <th class="py-3 px-4">Khách hàng</th>
+              <th class="py-3 px-4">Phòng</th>
+              <th class="py-3 px-4">Ngày nhận</th>
+              <th class="py-3 px-4">Ngày trả</th>
+              <th class="py-3 px-4">Số khách</th>
+              <th class="py-3 px-4">Tổng tiền</th>
+              <th class="py-3 px-4">Trạng thái</th>
+              <th class="py-3 px-4 text-center">Hành động</th>
             </tr>
-            </thead>
-            <tbody id="bookingTableBody" class="text-sm">
-            <!-- Dữ liệu mẫu -->
-            <tr class="border-b hover:bg-gray-50">
-                <td class="py-3 px-4">1</td>
-                <td class="py-3 px-4 font-medium">Nguyễn Văn A</td>
-                <td class="py-3 px-4">Phòng Deluxe</td>
-                <td class="py-3 px-4">12/11/2025</td>
-                <td class="py-3 px-4">14/11/2025</td>
-                <td class="py-3 px-4">2 khách</td>
-                <td class="py-3 px-4 text-[#11234B] font-semibold">5.980.000₫</td>
-                <td class="py-3 px-4">
-                  <span class="px-2 py-1 rounded bg-yellow-100 text-yellow-700 text-xs font-medium">
-                    Chờ xác nhận
-                  </span>
-                </td>
-                <td class="py-3 px-4 flex gap-2 justify-center">
-                    <button
-                            class="bg-green-100 text-green-700 px-3 py-1 rounded hover:bg-green-200"
-                    >
-                        <i class="fa-solid fa-check"></i> Xác nhận
-                    </button>
-                    <button
-                            class="bg-red-100 text-red-700 px-3 py-1 rounded hover:bg-red-200"
-                    >
-                        <i class="fa-solid fa-xmark"></i> Hủy
-                    </button>
-                </td>
-            </tr>
-
-            <tr class="border-b hover:bg-gray-50">
-                <td class="py-3 px-4">2</td>
-                <td class="py-3 px-4 font-medium">Trần Thị B</td>
-                <td class="py-3 px-4">Suite Cao Cấp</td>
-                <td class="py-3 px-4">10/11/2025</td>
-                <td class="py-3 px-4">13/11/2025</td>
-                <td class="py-3 px-4">3 khách</td>
-                <td class="py-3 px-4 text-[#11234B] font-semibold">14.970.000₫</td>
-                <td class="py-3 px-4">
-                  <span class="px-2 py-1 rounded bg-green-100 text-green-700 text-xs font-medium">
-                    Đã xác nhận
-                  </span>
-                </td>
-                <td class="py-3 px-4 flex gap-2 justify-center">
-                    <button
-                            class="bg-gray-100 text-gray-600 px-3 py-1 rounded cursor-not-allowed"
-                            disabled
-                    >
-                        <i class="fa-solid fa-check-double"></i> Đã duyệt
-                    </button>
-                </td>
+          </thead>
+          <tbody
+            id="bookingTableBody"
+            class="text-sm bg-white divide-y divide-gray-200"
+          >
+            <!-- Row mẫu -->
+            <tr class="hover:bg-gray-50">
+              <td class="py-3 px-4">1</td>
+              <td class="py-3 px-4 font-medium">Nguyễn Văn A</td>
+              <td class="py-3 px-4">Phòng Deluxe</td>
+              <td class="py-3 px-4">12/11/2025</td>
+              <td class="py-3 px-4">14/11/2025</td>
+              <td class="py-3 px-4">2 khách</td>
+              <td class="py-3 px-4 text-[#11234B] font-semibold">5.980.000₫</td>
+              <td class="py-3 px-4">
+                <span
+                  class="px-2 py-1 rounded-full bg-yellow-100 text-yellow-700 text-xs font-medium"
+                >
+                  Chờ xác nhận
+                </span>
+              </td>
+              <td class="py-3 px-4 flex gap-2 justify-center">
+                <button
+                  class="bg-green-100 text-green-700 px-3 py-1 rounded hover:bg-green-200 transition duration-150"
+                >
+                  <i class="fa-solid fa-check"></i>
+                  Xác nhận
+                </button>
+                <button
+                  class="bg-red-100 text-red-700 px-3 py-1 rounded hover:bg-red-200 transition duration-150"
+                >
+                  <i class="fa-solid fa-xmark"></i>
+                  Hủy
+                </button>
+              </td>
             </tr>
 
-            <tr class="border-b hover:bg-gray-50">
-                <td class="py-3 px-4">3</td>
-                <td class="py-3 px-4 font-medium">Phạm Văn C</td>
-                <td class="py-3 px-4">Biệt Thự Biển</td>
-                <td class="py-3 px-4">05/11/2025</td>
-                <td class="py-3 px-4">07/11/2025</td>
-                <td class="py-3 px-4">4 khách</td>
-                <td class="py-3 px-4 text-[#11234B] font-semibold">25.980.000₫</td>
-                <td class="py-3 px-4">
-                  <span class="px-2 py-1 rounded bg-red-100 text-red-700 text-xs font-medium">
-                    Đã hủy
-                  </span>
-                </td>
-                <td class="py-3 px-4 flex gap-2 justify-center">
-                    <button
-                            class="bg-gray-100 text-gray-600 px-3 py-1 rounded cursor-not-allowed"
-                            disabled
-                    >
-                        <i class="fa-solid fa-ban"></i> Đã hủy
-                    </button>
-                </td>
+            <tr class="hover:bg-gray-50">
+              <td class="py-3 px-4">2</td>
+              <td class="py-3 px-4 font-medium">Trần Thị B</td>
+              <td class="py-3 px-4">Suite Cao Cấp</td>
+              <td class="py-3 px-4">10/11/2025</td>
+              <td class="py-3 px-4">13/11/2025</td>
+              <td class="py-3 px-4">3 khách</td>
+              <td
+                class="py-3 px-4 text-[#11234B] font-semibold"
+              >14.970.000₫</td>
+              <td class="py-3 px-4">
+                <span
+                  class="px-2 py-1 rounded-full bg-green-100 text-green-700 text-xs font-medium"
+                >
+                  Đã xác nhận
+                </span>
+              </td>
+              <td class="py-3 px-4 flex gap-2 justify-center">
+                <button
+                  class="bg-gray-100 text-gray-600 px-3 py-1 rounded cursor-not-allowed"
+                  disabled
+                >
+                  <i class="fa-solid fa-check-double"></i>
+                  Đã duyệt
+                </button>
+              </td>
             </tr>
-            </tbody>
+
+            <tr class="hover:bg-gray-50">
+              <td class="py-3 px-4">3</td>
+              <td class="py-3 px-4 font-medium">Phạm Văn C</td>
+              <td class="py-3 px-4">Biệt Thự Biển</td>
+              <td class="py-3 px-4">05/11/2025</td>
+              <td class="py-3 px-4">07/11/2025</td>
+              <td class="py-3 px-4">4 khách</td>
+              <td
+                class="py-3 px-4 text-[#11234B] font-semibold"
+              >25.980.000₫</td>
+              <td class="py-3 px-4">
+                <span
+                  class="px-2 py-1 rounded-full bg-red-100 text-red-700 text-xs font-medium"
+                >
+                  Đã hủy
+                </span>
+              </td>
+              <td class="py-3 px-4 flex gap-2 justify-center">
+                <button
+                  class="bg-gray-100 text-gray-600 px-3 py-1 rounded cursor-not-allowed"
+                  disabled
+                >
+                  <i class="fa-solid fa-ban"></i>
+                  Đã hủy
+                </button>
+              </td>
+            </tr>
+          </tbody>
         </table>
-    </div>
-</section>
-<script type="module" src="/admin/js/dashboard.js"></script>
-</body>
+      </div>
+    </section>
+
+    <script type="module" src="/admin/js/dashboard.js"></script>
+  </body>
 </html>

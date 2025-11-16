@@ -34,7 +34,7 @@ function renderRoomDetail() {
 
   content.innerHTML = `
     <div class="mb-6">
-      <a href="/public#rooms" class="text-sm text-muted-foreground hover:text-foreground">
+      <a href="/#rooms" class="text-sm text-muted-foreground hover:text-foreground">
         ← Quay lại danh sách phòng
       </a>
     </div>
@@ -62,8 +62,8 @@ function renderRoomDetail() {
             <div class="flex justify-between">
               <span class="text-muted-foreground">Giá mỗi đêm:</span>
               <span class="text-accent font-semibold text-lg">${formatPrice(
-      room.price
-  )}</span>
+                room.price
+              )}</span>
             </div>
           </div>
         </div>
@@ -75,16 +75,16 @@ function renderRoomDetail() {
         <div class="mb-6">
           <h3 class="font-semibold mb-3">Mô tả</h3>
           <p class="text-muted-foreground leading-relaxed">${
-      room.description
-  }</p>
+            room.description
+          }</p>
         </div>
 
         <div class="mb-6">
           <h3 class="font-semibold mb-3">Tiện ích phòng</h3>
           <div class="grid grid-cols-1 gap-3">
             ${room.features
-      .map(
-          (f) => `
+              .map(
+                (f) => `
               <div class="flex items-center gap-3 p-3 rounded-lg border bg-card">
                 <svg class="w-5 h-5 text-accent flex-shrink-0" viewBox="0 0 24 24" fill="none">
                   <path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
@@ -92,8 +92,8 @@ function renderRoomDetail() {
                 <span class="text-sm">${f}</span>
               </div>
             `
-      )
-      .join("")}
+              )
+              .join("")}
           </div>
         </div>
 

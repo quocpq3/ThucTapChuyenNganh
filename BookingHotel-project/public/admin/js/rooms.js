@@ -1,32 +1,13 @@
-// roomsData (giả định đã được cung cấp ở file khác và có trường 'floor')
-// Ví dụ: const roomsData = [{ ..., floor: "Tầng 3" }, ...];
+// rooms.js
 
-// Khởi tạo data từ localStorage nếu có
-let rooms = JSON.parse(localStorage.getItem("rooms") || "[]");
-if (!rooms.length) {
-    // roomsData phải là dữ liệu đã có trường 'floor' và 'category'
-    rooms = roomsData;
-    localStorage.setItem("rooms", JSON.stringify(rooms));
-}
-
-// Biến global để lưu trữ danh sách phòng sau khi lọc.
-// Ban đầu, nó hiển thị tất cả phòng.
-let filteredRooms = [...rooms];
-
-// DOM
-const roomTableBody = document.getElementById("roomTableBody");
+// ----------------- DOM ELEMENTS -----------------
+const mainContent = document.getElementById("mainContent");
 const roomModal = document.getElementById("roomModal");
-const addRoomBtn = document.getElementById("addRoomBtn");
-const closeModalBtn = document.getElementById("closeModalBtn");
-const cancelBtn = document.getElementById("cancelBtn");
 const roomForm = document.getElementById("roomForm");
-const modalTitle = document.getElementById("modalTitle");
-
-// Inputs
 const roomIdInput = document.getElementById("roomId");
 const roomNameInput = document.getElementById("roomName");
 const roomTypeInput = document.getElementById("roomType");
-const roomBedTypeInput = document.getElementById("roomBedType");
+const roomBedInput = document.getElementById("roomBedType");
 const roomPriceInput = document.getElementById("roomPrice");
 const roomSizeInput = document.getElementById("roomSize");
 const roomGuestsInput = document.getElementById("roomGuests");
@@ -34,164 +15,499 @@ const roomUrlInput = document.getElementById("roomUrl");
 const roomDescInput = document.getElementById("roomDesc");
 const roomFeaturesInput = document.getElementById("roomFeatures");
 const roomStatusInput = document.getElementById("roomStatus");
-const roomFloorInput = document.getElementById("roomFloor"); // ĐẢM BẢO INPUT NÀY CÓ TRONG HTML MODAL
+const closeModalBtn = document.getElementById("closeModalBtn");
+const cancelBtn = document.getElementById("cancelBtn");
 
-// Render bảng
-function renderRooms() {
-    // SỬ DỤNG filteredRooms cho việc render
-    const dataToRender = filteredRooms;
-
-    roomTableBody.innerHTML = dataToRender.map((room, idx) => `
-      <tr class="border-b hover:bg-gray-50 align-top">
-        <td class="py-3 px-4">${idx + 1}</td>
-        <td class="py-3 px-4">
-          <img src="${room.url || ''}" alt="${room.name}" class="w-20 h-14 object-cover rounded-md border" onerror="this.src='https://via.placeholder.com/150x100?text=No+Image'"/>
-        </td>
-        <td class="py-3 px-4 font-semibold">${room.name}</td>
-        <td class="py-3 px-4 text-sm text-gray-600">${(room.description||'').slice(0,80)}${(room.description||'').length>80?'...':''}</td>
-        <td class="py-3 px-4 text-[#11234B] font-medium">${Number(room.price).toLocaleString()}₫</td>
-        <td class="py-3 px-4">${room.size ? room.size + ' m²' : '-'}</td>
-        <td class="py-3 px-4">${room.maxGuests || '-'}</td>
-        <td class="py-3 px-4">${room.bedType || '-'}</td>
-        <td class="py-3 px-4">${room.floor || '-'}</td> <td class="py-3 px-4 text-sm">${(room.features||[]).slice(0,3).join(', ')}${(room.features||[]).length>3?'...':''}</td>
-        <td class="py-3 px-4 flex gap-2">
-          <button class="editBtn px-2 py-1 text-yellow-500 hover:text-yellow-700" data-id="${room.id}" title="Sửa"><i class="fa-solid fa-pen"></i></button>
-          <button class="deleteBtn px-2 py-1 text-red-600 hover:text-red-800" data-id="${room.id}" title="Xóa"><i class="fa-solid fa-trash"></i></button>
-        </td>
-      </tr>
-    `).join('');
-
-    // gán event
-    document.querySelectorAll('.editBtn').forEach(btn => btn.onclick = () => openEditRoom(btn.dataset.id));
-    document.querySelectorAll('.deleteBtn').forEach(btn => btn.onclick = () => deleteRoom(btn.dataset.id));
+// ----------------- HELPER: STATUS BADGE -----------------
+function getStatusBadge(status) {
+  switch (status) {
+    case "Đã đặt":
+      return '<span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">Đã đặt</span>';
+    case "Bảo trì":
+      return '<span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">Bảo trì</span>';
+    case "Trống":
+    default:
+      return '<span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Trống</span>';
+  }
 }
 
-// Mở modal thêm (Đã thêm reset input floor)
-function openAddRoom() {
-    modalTitle.textContent = 'Thêm phòng mới';
-    roomForm.reset();
-    roomIdInput.value = '';
+// ----------------- RENDER BẢNG CRUD -----------------
+export function renderRoomTable() {
+  mainContent.innerHTML = `
+    <div class="flex items-center justify-between mb-8">
+      <h1 class="text-3xl font-extrabold text-gray-800">Quản lý phòng khách sạn</h1>
+      <button id="addRoomBtn" class="px-5 py-2 bg-[#11234B] text-white font-medium rounded-lg shadow-md hover:bg-opacity-90 hover:shadow-lg transition duration-200 flex items-center gap-2">
+        <i class="fa-solid fa-plus text-sm"></i> Thêm phòng mới
+      </button>
+    </div>
+    <div class="bg-white p-4 rounded-xl shadow-lg border border-gray-100">
+      <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200">
+          <thead>
+            <tr class="text-left text-xs font-semibold uppercase tracking-wider text-gray-500 bg-gray-50">
+              <th class="px-4 py-3">#</th>
+              <th class="px-4 py-3">Ảnh</th>
+              <th class="px-4 py-3">Tên phòng</th>
+              <th class="px-4 py-3">Loại phòng</th>
+              <th class="px-4 py-3 text-right">Giá (VNĐ)</th>
+              <th class="px-4 py-3 text-center">Sức chứa</th>
+              <th class="px-4 py-3 text-center">Giường</th>
+              <th class="px-4 py-3 hidden md:table-cell">Diện tích (m²)</th>
+              <th class="px-4 py-3 hidden lg:table-cell">Tiện nghi</th>
+              <th class="px-4 py-3 text-center">Trạng thái</th>
+              <th class="px-4 py-3 text-center">Hành động</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-100">
+            ${roomsData
+              .map(
+                (r, i) => `
+              <tr class="hover:bg-blue-50 transition duration-150">
+                <td class="px-4 py-3 text-sm font-medium text-gray-900">${
+                  i + 1
+                }</td>
+                <td class="px-4 py-3"><img src="${r.url}" alt="${
+                  r.name
+                }" class="w-16 h-12 object-cover rounded-md shadow-sm border border-gray-200"/></td>
+                <td class="px-4 py-3"><a href="#" class="room-link text-[#11234B] hover:text-blue-700 font-semibold text-sm" data-id="${
+                  r.id
+                }">${r.name}</a></td>
+                <td class="px-4 py-3 text-sm text-gray-600">${r.category}</td>
+                <td class="px-4 py-3 text-sm font-bold text-right text-green-600">${r.price.toLocaleString(
+                  "vi-VN"
+                )}</td>
+                <td class="px-4 py-3 text-sm text-center text-gray-600">${
+                  r.maxGuests
+                }</td>
+                <td class="px-4 py-3 text-sm text-center text-gray-600">${
+                  r.bedType
+                }</td>
+                <td class="px-4 py-3 text-sm text-center text-gray-600 hidden md:table-cell">${
+                  r.size
+                }</td>
+                <td class="px-4 py-3 text-xs text-gray-500 max-w-[150px] truncate hidden lg:table-cell" title="${r.features.join(
+                  ", "
+                )}">${r.features.slice(0, 3).join(", ")}${
+                  r.features.length > 3 ? ", ..." : ""
+                }</td>
+                <td class="px-4 py-3 text-center">${getStatusBadge(
+                  r.status
+                )}</td>
+                <td class="px-4 py-3 text-center space-x-2">
+                  <button class="editBtn text-blue-600 hover:text-blue-800 font-medium text-sm p-1 rounded-full hover:bg-blue-100 transition" data-id="${
+                    r.id
+                  }" title="Sửa">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                  </button>
+                  <button class="deleteBtn text-red-600 hover:text-red-800 font-medium text-sm p-1 rounded-full hover:bg-red-100 transition" data-id="${
+                    r.id
+                  }" title="Xóa">
+                    <i class="fa-solid fa-trash-can"></i>
+                  </button>
+                </td>
+              </tr>
+            `
+              )
+              .join("")}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `;
 
-    // Reset các giá trị khác
-    roomPriceInput.value = '';
-    roomSizeInput.value = '';
-    roomGuestsInput.value = '';
-    roomUrlInput.value = '';
-    roomDescInput.value = '';
-    roomFeaturesInput.value = '';
-    roomBedTypeInput.value = '';
-    roomFloorInput.value = ''; // RESET TRƯỜNG FLOOR
+  // Click vào tên phòng → render chi tiết
+  mainContent.querySelectorAll(".room-link").forEach((a) => {
+    a.addEventListener("click", (e) => {
+      e.preventDefault();
+      openRoomDetail(a.dataset.id);
+    });
+  });
 
-    roomModal.classList.remove('hidden');
+  document
+    .getElementById("addRoomBtn")
+    .addEventListener("click", () => openRoomForm());
+  attachCRUDButtons();
 }
 
-// Mở modal sửa (Đã thêm đọc trường floor)
-function openEditRoom(id) {
-    const room = rooms.find(r => String(r.id) === String(id));
-    if (!room) return alert('Không tìm thấy phòng');
-    modalTitle.textContent = 'Chỉnh sửa phòng';
+// ----------------- CHI TIẾT PHÒNG -----------------
+// ----------------- CHI TIẾT PHÒNG -----------------
+export function openRoomDetail(id) {
+  const room = roomsData.find((r) => r.id == id);
+  if (!room) return;
 
+  // Hàm helper để tạo badge trạng thái (giả định đã tồn tại)
+  function getStatusBadge(status) {
+    switch (status) {
+      case "Đã đặt":
+        return '<span class="px-3 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800">Đã đặt</span>';
+      case "Bảo trì":
+        return '<span class="px-3 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-800">Bảo trì</span>';
+      case "Trống":
+      default:
+        return '<span class="px-3 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">Trống</span>';
+    }
+  }
+
+  mainContent.innerHTML = `
+    <div class="space-y-6">
+      <div class="flex items-center justify-between">
+        <h1 class="text-3xl font-extrabold text-gray-800">${room.name}</h1>
+        <button onclick="renderRoomTable()" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition duration-150 flex items-center gap-2">
+          <i class="fa-solid fa-arrow-left"></i> Quay lại
+        </button>
+      </div>
+
+      <div class="bg-white rounded-xl shadow-lg border border-gray-100 p-6 lg:p-8">
+        
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div class="lg:col-span-1">
+            <img 
+              src="${room.url}" 
+              alt="${room.name}" 
+              class="w-full h-auto object-cover rounded-xl shadow-md transition duration-300 hover:shadow-xl"
+            />
+          </div>
+
+          <div class="lg:col-span-2 space-y-6">
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4 text-gray-700">
+              
+              <div class="flex items-center space-x-3">
+                <i class="fa-solid fa-tag text-blue-500 w-5"></i>
+                <p><strong>Loại phòng:</strong> <span class="font-medium">${
+                  room.category
+                }</span></p>
+              </div>
+              
+              <div class="flex items-center space-x-3">
+                <i class="fa-solid fa-bed text-blue-500 w-5"></i>
+                <p><strong>Giường:</strong> <span class="font-medium">${
+                  room.bedType
+                }</span></p>
+              </div>
+
+              <div class="flex items-center space-x-3">
+                <i class="fa-solid fa-maximize text-blue-500 w-5"></i>
+                <p><strong>Diện tích:</strong> <span class="font-medium">${
+                  room.size
+                } m²</span></p>
+              </div>
+              
+              <div class="flex items-center space-x-3">
+                <i class="fa-solid fa-users text-blue-500 w-5"></i>
+                <p><strong>Sức chứa:</strong> <span class="font-medium">${
+                  room.maxGuests
+                } khách</span></p>
+              </div>
+              
+              <div class="flex items-center space-x-3">
+                <i class="fa-solid fa-sack-dollar text-green-600 w-5"></i>
+                <p><strong>Giá:</strong> <span class="text-xl font-bold text-green-600">${room.price.toLocaleString(
+                  "vi-VN"
+                )} VNĐ</span>/đêm</p>
+              </div>
+              
+              <div class="flex items-center space-x-3">
+                <i class="fa-solid fa-layer-group text-blue-500 w-5"></i>
+                <p><strong>Tầng:</strong> <span class="font-medium">${
+                  room.floor
+                }</span></p>
+              </div>
+
+            </div>
+
+            <hr class="border-gray-200">
+
+            <div class="flex items-center justify-between">
+              <div>
+                <strong class="text-gray-700 block mb-1">Trạng thái:</strong>
+                ${getStatusBadge(room.status || "Trống")}
+              </div>
+              <div>
+                <strong class="text-gray-700 block mb-1">Hành động:</strong>
+                <button class="editBtn px-3 py-1 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition" data-id="${
+                  room.id
+                }">
+                    <i class="fa-solid fa-pen-to-square mr-1"></i> Sửa
+                </button>
+              </div>
+            </div>
+
+            <hr class="border-gray-200">
+            
+            <div>
+              <h3 class="text-lg font-bold text-gray-800 mb-2">Mô tả</h3>
+              <p class="text-gray-600 leading-relaxed">${room.description}</p>
+            </div>
+
+            <div>
+              <h3 class="text-lg font-bold text-gray-800 mb-2">Tiện nghi</h3>
+              <div class="flex flex-wrap gap-2">
+                ${room.features
+                  .map(
+                    (feature) =>
+                      `<span class="px-3 py-1 text-sm bg-indigo-50 text-indigo-700 rounded-full border border-indigo-200"><i class="fa-solid fa-check mr-1 text-xs"></i>${feature}</span>`
+                  )
+                  .join("")}
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  `;
+
+  // Cần thêm listeners cho nút Sửa nếu bạn muốn nó hoạt động
+  mainContent.querySelector(".editBtn")?.addEventListener("click", () => {
+    openRoomForm(id); // Giả sử openRoomForm có thể nhận id để chỉnh sửa
+  });
+}
+
+// ----------------- FORM THÊM/SỬA -----------------
+export function openRoomForm(room = null) {
+  if (roomForm) roomForm.reset();
+  if (room) {
     roomIdInput.value = room.id;
-    roomNameInput.value = room.name || '';
-    roomTypeInput.value = room.type || 'Phòng đơn';
-    roomBedTypeInput.value = room.bedType || '';
-    roomPriceInput.value = room.price || '';
-    roomSizeInput.value = room.size || '';
-    roomGuestsInput.value = room.maxGuests || '';
-    roomUrlInput.value = room.url || '';
-    roomDescInput.value = room.description || '';
-    roomFeaturesInput.value = (room.features || []).join(', ');
-    roomStatusInput.value = room.status || 'Trống';
-    roomFloorInput.value = room.floor || ''; // ĐỌC TRƯỜNG FLOOR
-
-    roomModal.classList.remove('hidden');
+    roomNameInput.value = room.name;
+    roomTypeInput.value = room.category;
+    roomBedInput.value = room.bedType;
+    roomPriceInput.value = room.price;
+    roomSizeInput.value = room.size;
+    roomGuestsInput.value = room.maxGuests;
+    roomUrlInput.value = room.url;
+    roomDescInput.value = room.description;
+    roomFeaturesInput.value = room.features.join(", ");
+    roomStatusInput.value = room.status;
+    const modalTitleEl = document.getElementById("modalTitle");
+    if (modalTitleEl) modalTitleEl.innerText = "Sửa phòng";
+  } else {
+    const modalTitleEl = document.getElementById("modalTitle");
+    if (modalTitleEl) modalTitleEl.innerText = "Thêm phòng";
+  }
+  if (roomModal) roomModal.classList.remove("hidden");
 }
-
-// Đóng modal
-function closeRoomModal() {
-    roomModal.classList.add('hidden');
-}
-
-// Lưu phòng (thêm / sửa) (Đã thêm lưu trường floor)
-function saveRoom(e) {
+if (roomForm) {
+  roomForm.addEventListener("submit", (e) => {
     e.preventDefault();
-
-    const id = roomIdInput.value || Date.now().toString();
-    const name = roomNameInput.value.trim();
-    if (!name) return alert('Tên phòng bắt buộc');
-
+    const id = roomIdInput.value;
     const newRoom = {
-        id,
-        name,
-        type: roomTypeInput.value,
-        bedType: roomBedTypeInput.value.trim() || '',
-        price: Number(roomPriceInput.value) || 0,
-        size: roomSizeInput.value ? Number(roomSizeInput.value) : null,
-        maxGuests: roomGuestsInput.value ? Number(roomGuestsInput.value) : null,
-        url: roomUrlInput.value.trim() || '',
-        description: roomDescInput.value.trim() || '',
-        features: roomFeaturesInput.value
-            ? roomFeaturesInput.value.split(',').map(f => f.trim()).filter(Boolean)
-            : [],
-        status: roomStatusInput.value || 'Trống',
-        floor: roomFloorInput.value || 'Chưa xác định' // LƯU TRƯỜNG FLOOR MỚI
+      id: id ? parseInt(id) : Date.now(),
+      name: roomNameInput.value,
+      category: roomTypeInput.value,
+      floor:
+        roomTypeInput.value === "Suite"
+          ? "Tầng 5"
+          : roomTypeInput.value === "Biệt Thự"
+          ? "Tầng Trệt"
+          : "Tầng 3",
+      bedType: roomBedInput.value,
+      price: parseFloat(roomPriceInput.value),
+      size: parseInt(roomSizeInput.value),
+      maxGuests: parseInt(roomGuestsInput.value),
+      url: roomUrlInput.value,
+      description: roomDescInput.value,
+      features: roomFeaturesInput.value.split(",").map((f) => f.trim()),
+      status: roomStatusInput.value,
+    };
+    if (id) {
+      const index =
+        typeof roomsData !== "undefined"
+          ? roomsData.findIndex((r) => r.id == id)
+          : -1;
+      if (index > -1) {
+        roomsData[index] = newRoom;
+      }
+    } else {
+      if (typeof roomsData !== "undefined") roomsData.push(newRoom);
+    }
+    if (roomModal) roomModal.classList.add("hidden");
+    if (mainContent) renderRoomTable();
+  });
+}
+
+if (closeModalBtn) {
+  closeModalBtn.addEventListener("click", () => {
+    if (roomModal) roomModal.classList.add("hidden");
+  });
+}
+if (cancelBtn) {
+  cancelBtn.addEventListener("click", () => {
+    if (roomModal) roomModal.classList.add("hidden");
+  });
+}
+
+// ----------------- CRUD BUTTON -----------------
+function attachCRUDButtons() {
+  mainContent.querySelectorAll(".editBtn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const room = roomsData.find((r) => r.id == btn.dataset.id);
+      if (room) openRoomForm(room);
+    });
+  });
+  mainContent.querySelectorAll(".deleteBtn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const index = roomsData.findIndex((r) => r.id == btn.dataset.id);
+      if (index > -1 && confirm("Bạn có chắc muốn xóa phòng này?")) {
+        roomsData.splice(index, 1);
+        renderRoomTable();
+      }
+    });
+  });
+}
+
+// ----------------- SIDEBAR -----------------
+export function createSidebar() {
+  // Lấy phần tử cha, nơi các menu con sẽ được chèn vào
+  const sidebarNav = document.getElementById("sidebarNav");
+  const roomsRootLink = document.getElementById("nav-rooms-root");
+
+  if (!sidebarNav || !roomsRootLink) {
+    console.error(
+      "Sidebar root elements (sidebarNav or nav-rooms-root) not found."
+    );
+    return;
+  } // Cập nhật CSS cho Menu GỐC "Phòng" (Cấp 1) - GIỮ LẠI W-FULL
+
+  roomsRootLink.classList.add(
+    "collapse-toggle",
+    "w-full",
+    "flex",
+    "items-center",
+    "justify-start",
+    "py-2",
+    "px-3",
+    "rounded-lg",
+    "text-sm",
+    "font-medium",
+    "text-gray-700",
+    "hover:bg-gray-100",
+    "transition",
+    "duration-150"
+  );
+  roomsRootLink.setAttribute("data-collapse", "#menu-rooms");
+  roomsRootLink.innerHTML = `
+      <i class="fa-regular fa-door-open w-4 text-[#11234B]"></i>
+      <span class="ml-3 truncate">Phòng</span>
+      <i class="fa-solid fa-chevron-down text-xs ml-auto text-gray-400 transform transition-transform duration-300"></i>
+    `; // 2. Tạo UL chứa tất cả các tầng (menu con của "Phòng")
+
+  const roomsUl = document.createElement("ul");
+  roomsUl.id = "menu-rooms";
+  roomsUl.classList.add("collapse-transition", "space-y-1", "ml-3", "pt-1"); // Thụt lề nhẹ hơn (ml-3) cho cấp 2
+  roomsRootLink.after(roomsUl); // 3. Xây dựng cấu trúc menu từ dữ liệu
+
+  const data = Array.isArray(roomsData) ? roomsData : [];
+  const floors = {};
+  data.forEach((r) => {
+    if (!floors[r.floor]) floors[r.floor] = {};
+    if (!floors[r.floor][r.category]) floors[r.floor][r.category] = [];
+    floors[r.floor][r.category].push(r);
+  });
+
+  for (const floorName of Object.keys(floors).sort()) {
+    const floorId = `floor-${floorName.replace(/\s/g, "")}`;
+    const floorLi = document.createElement("li");
+    floorLi.innerHTML = `
+      <button class="sidebar-menu-item collapse-toggle flex items-center justify-start py-2 px-3 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-100 transition duration-150" data-collapse="#${floorId}">
+        <i class="fa-solid fa-layer-group w-4 text-indigo-500"></i>
+        <span class="ml-3 truncate">${floorName}</span>
+        <i class="fa-solid fa-chevron-down text-xs ml-auto text-gray-400 transform transition-transform duration-300"></i>
+      </button>
+      <ul id="${floorId}" class="collapse-transition space-y-1 ml-3 pt-1"></ul>
+    `;
+    roomsUl.appendChild(floorLi);
+
+    const floorUl = floorLi.querySelector("ul");
+
+    for (const categoryName of Object.keys(floors[floorName])) {
+      const categoryId = `${floorId}-${categoryName.replace(/\s/g, "")}`;
+      const categoryLi = document.createElement("li");
+      categoryLi.innerHTML = `
+        <button class="sidebar-menu-item collapse-toggle flex items-center justify-start py-2 px-3 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-100 transition duration-150" data-collapse="#${categoryId}">
+          <i class="fa-solid fa-tag w-4 text-teal-500"></i>
+          <span class="ml-3 truncate">${categoryName}</span>
+          <i class="fa-solid fa-chevron-down text-xs ml-auto text-gray-400 transform transition-transform duration-300"></i>
+        </button>
+        <ul id="${categoryId}" class="collapse-transition space-y-1 ml-3 pt-1"></ul>
+      `;
+      floorUl.appendChild(categoryLi);
+
+      const categoryUl = categoryLi.querySelector("ul");
+
+      floors[floorName][categoryName].forEach((room) => {
+        const roomLi = document.createElement("li");
+        roomLi.innerHTML = `<a href="#" class="sidebar-menu-item nav-room-link flex items-center justify-start py-2 px-3 rounded-lg text-sm text-gray-600 hover:bg-gray-100 transition duration-150" data-id="${room.id}"><i class="fa-solid fa-bed w-4 text-gray-500"></i><span class="ml-3 truncate">${room.name}</span></a>`;
+        categoryUl.appendChild(roomLi);
+      });
+    }
+  } // 4. Collapse toggle (Không thay đổi)
+
+  sidebarNav.querySelectorAll(".collapse-toggle").forEach((toggle) => {
+    const existingListener = toggle.dataset.listener;
+    if (existingListener) {
+      toggle.removeEventListener("click", toggle.toggleHandler);
+    }
+
+    const toggleHandler = () => {
+      const target = document.querySelector(toggle.dataset.collapse);
+      const chevron = toggle.querySelector(".fa-chevron-down");
+      if (!target) return;
+      target.classList.toggle("open");
+      chevron?.classList.toggle("rotate-180");
     };
 
-    const idx = rooms.findIndex(r => String(r.id) === String(id));
-    if (idx > -1) {
-        rooms[idx] = newRoom;
-    } else {
-        rooms.push(newRoom);
-    }
+    toggle.toggleHandler = toggleHandler;
+    toggle.addEventListener("click", toggleHandler);
+  }); // 5. Click phòng (Không thay đổi)
 
-    localStorage.setItem('rooms', JSON.stringify(rooms));
+  sidebarNav
+    .querySelectorAll("a.sidebar-menu-item[data-id]")
+    .forEach((link) => {
+      link.addEventListener("click", (e) => {
+        e.preventDefault();
+        const id = parseInt(link.dataset.id);
 
-    // Cập nhật filteredRooms và render lại
-    filteredRooms = [...rooms];
-    renderRooms();
-    closeRoomModal();
+        // Nếu mainContent tồn tại (ở trang rooms), render chi tiết
+        // Nếu không, điều hướng đến trang rooms
+        if (mainContent && typeof openRoomDetail === "function") {
+          openRoomDetail(id);
+        } else {
+          window.location.href = `/admin/room-detail?room=${id}`;
+        }
+
+        let parent = link.closest(".collapse-transition");
+        while (parent && parent.id !== "sidebarNav") {
+          parent.classList.add("open");
+          const toggle = document.querySelector(
+            `[data-collapse="#${parent.id}"] .fa-chevron-down`
+          );
+          toggle?.classList.add("rotate-180");
+          if (parent.id === "menu-rooms") break;
+          parent = parent.parentElement.closest(".collapse-transition");
+        }
+      });
+    });
 }
 
-// Xóa phòng (Đã cập nhật filteredRooms sau khi xóa)
-function deleteRoom(id) {
-    if (!confirm('Bạn có chắc muốn xóa phòng này?')) return;
-    rooms = rooms.filter(r => String(r.id) !== String(id));
-    localStorage.setItem('rooms', JSON.stringify(rooms));
-
-    // Cập nhật filteredRooms và render lại
-    filteredRooms = [...rooms];
-    renderRooms();
-}
-
-/**
- * Lọc và hiển thị phòng theo tầng
- * @param {string} floorName - Tên tầng (ví dụ: 'Tầng 1') hoặc 'all'
- */
-function filterByFloor(floorName) {
-    // Đảm bảo lấy dữ liệu gốc mới nhất từ localStorage trước khi lọc
-    const allData = JSON.parse(localStorage.getItem("rooms") || "[]");
-
-    if (floorName === 'all') {
-        filteredRooms = allData;
-    } else {
-        // Lọc theo thuộc tính 'floor'
-        filteredRooms = allData.filter(room => room.floor === floorName);
+// ----------------- INITIAL -----------------
+document.addEventListener("DOMContentLoaded", () => {
+  if (mainContent) {
+    try {
+      renderRoomTable();
+    } catch (err) {
+      // If rendering table fails on a page without expected DOM, ignore so sidebar can still build
+      console.warn("renderRoomTable skipped:", err);
     }
+  }
 
-    // Gán tiêu đề cho bảng (Tùy chọn)
-    const tableTitle = document.getElementById('roomListTitle'); // Đảm bảo bạn có element này trong HTML
-    if (tableTitle) {
-        tableTitle.textContent = floorName === 'all' ? 'Danh sách tất cả phòng' : `Danh sách phòng - ${floorName}`;
+  // Create sidebar only when target container exists (so other pages still show menu)
+  if (document.getElementById("sidebarNav")) {
+    try {
+      createSidebar();
+    } catch (err) {
+      console.warn("createSidebar failed:", err);
     }
-
-    renderRooms();
-}
-
-// Events
-addRoomBtn.addEventListener('click', openAddRoom);
-closeModalBtn.addEventListener('click', closeRoomModal);
-cancelBtn.addEventListener('click', closeRoomModal);
-roomForm.addEventListener('submit', saveRoom);
-
-// Render ban đầu: Đảm bảo lần đầu tiên hiển thị toàn bộ dữ liệu
-renderRooms();
+  }
+});
