@@ -1,12 +1,13 @@
 // sidebar.js
-import { roomsData, openRoomDetail } from "./rooms.js";
+// roomsData được load từ data.js (global variable)
+// openRoomDetail được import từ rooms.js nếu cần
 
-// Hàm render menu phòng tự động
+// ====================== RENDER SIDEBAR ======================
 export function renderSidebarRooms() {
   const sidebarNav = document.querySelector("#sidebar nav");
   if (!sidebarNav) return;
 
-  // Kiểm tra nếu menu rooms đã tồn tại thì xóa
+  // Xóa menu cũ nếu tồn tại
   const existing = document.querySelector("#menu-rooms");
   if (existing) existing.remove();
 
@@ -14,12 +15,10 @@ export function renderSidebarRooms() {
   roomsMenu.id = "menu-rooms";
   roomsMenu.classList.add("collapse-transition", "space-y-1");
 
-  // Lấy danh sách tầng
   const floors = [...new Set(roomsData.map((r) => r.floor))];
 
   floors.forEach((floor) => {
     const liFloor = document.createElement("li");
-
     liFloor.innerHTML = `
       <button class="sidebar-menu-item collapse-toggle" data-collapse="#floor-${floor}">
         <span>${floor}</span>
@@ -30,7 +29,6 @@ export function renderSidebarRooms() {
 
     const ulFloor = liFloor.querySelector("ul");
 
-    // Lấy danh sách loại phòng trong tầng
     const types = [
       ...new Set(
         roomsData.filter((r) => r.floor === floor).map((r) => r.category)
@@ -39,7 +37,6 @@ export function renderSidebarRooms() {
 
     types.forEach((type) => {
       const liType = document.createElement("li");
-
       liType.innerHTML = `
         <button class="sidebar-menu-item collapse-toggle" data-collapse="#floor-${floor}-${type}">
           <span>${type}</span>
@@ -50,12 +47,14 @@ export function renderSidebarRooms() {
 
       const ulType = liType.querySelector("ul");
 
-      // Thêm các phòng vào loại phòng
       roomsData
         .filter((r) => r.floor === floor && r.category === type)
         .forEach((room) => {
           const liRoom = document.createElement("li");
-          liRoom.innerHTML = `<a href="#" class="sidebar-menu-item" data-id="${room.id}">${room.name}</a>`;
+          liRoom.innerHTML = `
+            <a href="#" class="sidebar-menu-item" data-id="${room.id}">
+              ${room.name}
+            </a>`;
           ulType.appendChild(liRoom);
         });
 
@@ -65,68 +64,74 @@ export function renderSidebarRooms() {
     roomsMenu.appendChild(liFloor);
   });
 
-  // Thêm nút "Thêm phòng" ở cuối menu
+  // nút Thêm phòng
   const addRoomLi = document.createElement("li");
-  addRoomLi.innerHTML = `<a href="/admin/rooms" class="sidebar-menu-item"><i class="fa-solid fa-plus"></i> Thêm phòng</a>`;
+  addRoomLi.innerHTML = `
+    <a href="/admin/rooms" class="sidebar-menu-item">
+      <i class="fa-solid fa-plus"></i> Thêm phòng
+    </a>`;
   roomsMenu.appendChild(addRoomLi);
 
   sidebarNav.appendChild(roomsMenu);
-
-  // Gắn sự kiện toggle collapse
-  attachSidebarToggles();
-
-  // Gắn sự kiện click vào phòng
-  attachSidebarRoomLinks();
 }
 
-// Toggle collapse tầng / loại
-function attachSidebarToggles() {
-  document.querySelectorAll(".collapse-toggle").forEach((toggle) => {
-    toggle.addEventListener("click", () => {
-      const target = document.querySelector(toggle.dataset.collapse);
-      const chevron = toggle.querySelector(".fa-chevron-down");
-      if (!target) return;
-      const isOpen = target.classList.contains("open");
-      if (isOpen) {
-        target.classList.remove("open");
-        chevron?.classList.remove("rotate-180");
-      } else {
-        target.classList.add("open");
-        chevron?.classList.add("rotate-180");
-      }
-    });
+// ====================== EVENT DELEGATION ======================
+function initSidebarEvents() {
+  // Collapse toggle
+  document.addEventListener("click", (e) => {
+    const btn = e.target.closest(".collapse-toggle");
+    if (!btn) return;
+
+    const target = document.querySelector(btn.dataset.collapse);
+    if (!target) return;
+
+    const chevron = btn.querySelector(".fa-chevron-down");
+
+    target.classList.toggle("open");
+    chevron?.classList.toggle("rotate-180");
+  });
+
+  // Click room → open detail
+  document.addEventListener("click", (e) => {
+    const link = e.target.closest("#menu-rooms a.sidebar-menu-item[data-id]");
+    if (!link) return;
+
+    e.preventDefault();
+    const id = Number(link.dataset.id);
+    const room = roomsData.find((r) => r.id === id);
+    if (!room) return;
+
+    // mở toàn bộ tầng / loại chứa room
+    let parent = link.closest(".collapse-transition");
+    while (parent && parent.id !== "menu-rooms") {
+      parent.classList.add("open");
+
+      const toggleIcon = document.querySelector(
+        `[data-collapse="#${parent.id}"] .fa-chevron-down`
+      );
+      toggleIcon?.classList.add("rotate-180");
+
+      parent = parent.parentElement.closest(".collapse-transition");
+    }
+
+    // Kiểm tra xem có đang ở trang rooms không (có mainContent)
+    const mainContent = document.getElementById("mainContent");
+    if (mainContent) {
+      // Nếu đang ở trang rooms, import và gọi openRoomDetail
+      import("./rooms.js").then((module) => {
+        if (module.openRoomDetail) {
+          module.openRoomDetail(room.id);
+        }
+      });
+    } else {
+      // Nếu không, điều hướng đến trang room-detail
+      window.location.href = `/admin/room-detail?room=${room.id}`;
+    }
   });
 }
 
-// Click vào phòng → mở chi tiết
-function attachSidebarRoomLinks() {
-  const roomLinks = document.querySelectorAll(
-    "#menu-rooms a.sidebar-menu-item[data-id]"
-  );
-  roomLinks.forEach((link) => {
-    link.addEventListener("click", (e) => {
-      e.preventDefault();
-      const id = parseInt(link.dataset.id);
-      const room = roomsData.find((r) => r.id === id);
-      if (!room) return;
-
-      // Mở đúng tầng và loại phòng
-      let parent = link.closest(".collapse-transition");
-      while (parent && parent.id !== "menu-rooms") {
-        parent.classList.add("open");
-        const toggle = document.querySelector(
-          `[data-collapse="#${parent.id}"] .fa-chevron-down`
-        );
-        toggle?.classList.add("rotate-180");
-        parent = parent.parentElement.closest(".collapse-transition");
-      }
-
-      openRoomDetail(room.id);
-    });
-  });
-}
-
-// Gọi hàm khi DOM loaded
+// ====================== INIT ======================
 document.addEventListener("DOMContentLoaded", () => {
   renderSidebarRooms();
+  initSidebarEvents(); // chỉ chạy 1 lần duy nhất
 });

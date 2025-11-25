@@ -44,10 +44,31 @@ const roomsData = [
     category: "Deluxe",
     floor: "Tầng 1",
   },
+  {
+    id: 3,
+    name: "Phòng Deluxe 102",
+    url: "/home/images/PhongDeluxe/611068706.jpg",
+    description:
+      "Phòng Deluxe hiện đại với ánh sáng tự nhiên, giường đôi và khu vực làm việc riêng. Phù hợp cho kỳ nghỉ ngắn ngày.",
+    price: 299,
+    size: 36,
+    maxGuests: 2,
+    bedType: "Queen",
+    features: [
+      "Giường Queen Size",
+      "View Thành Phố",
+      "WiFi Miễn Phí",
+      "Bàn Làm Việc",
+      "Mini Bar",
+      "Smart TV",
+    ],
+    category: "Deluxe",
+    floor: "Tầng 1",
+  },
 
   // --- Suite Rooms ---
   {
-    id: 3,
+    id: 4,
     name: "Phòng Superio 201",
     url: "/home/images/PhongSuperio/611068499.jpg",
     description:
@@ -68,8 +89,29 @@ const roomsData = [
     floor: "Tầng 2",
   },
   {
-    id: 4,
+    id: 5,
     name: "Phòng Superio 202",
+    url: "/home/images/PhongSuperio/611068510.jpg",
+    description:
+      "Phòng Suite hướng biển, nội thất hiện đại, không gian mở cùng dịch vụ riêng biệt mang đến trải nghiệm nghỉ dưỡng đẳng cấp.",
+    price: 499,
+    size: 58,
+    maxGuests: 3,
+    bedType: "King",
+    features: [
+      "View Biển",
+      "Ban Công Riêng",
+      "Phòng Khách Rộng",
+      "Bồn Tắm Lớn",
+      "Smart TV 65 inch",
+      "Điều Hòa Hai Chiều",
+    ],
+    category: "Superio",
+    floor: "Tầng 2",
+  },
+  {
+    id: 6,
+    name: "Phòng Superio 203",
     url: "/home/images/PhongSuperio/611068510.jpg",
     description:
       "Phòng Suite hướng biển, nội thất hiện đại, không gian mở cùng dịch vụ riêng biệt mang đến trải nghiệm nghỉ dưỡng đẳng cấp.",

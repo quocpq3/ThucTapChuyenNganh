@@ -6,7 +6,8 @@ router.use((req, res, next) => {
 });
 
 router.get("/", function (req, res) {
-  const roomId = req.query.id;
+  // Hỗ trợ cả 'id' và 'room' trong query parameter
+  const roomId = req.query.id || req.query.room;
   res.render("admin/room-detail", { title: "Room-detail", roomId: roomId });
 });
 

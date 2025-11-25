@@ -41,50 +41,73 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function renderRooms() {
     roomsGrid.innerHTML = "";
-    roomsData.forEach((r) => {
+
+    const maxVisible = 4; // Số phòng hiển thị ban đầu
+    roomsData.forEach((r, index) => {
+      const hiddenClass = index >= maxVisible ? "hidden extra-room" : "";
       const card = document.createElement("article");
-      card.className =
-        "rounded-lg border bg-card text-card-foreground shadow-sm overflow-hidden";
+      card.className = `rounded-lg border bg-card text-card-foreground shadow-sm overflow-hidden ${hiddenClass}`;
       card.innerHTML = `
-          <div style="height:220px; background: linear-gradient(135deg, rgba(34,57,89,.9), rgba(67,46,40,.6));" class="w-full">
-              <img src="${r.url}" alt="${
+        <div style="height:220px; background: linear-gradient(135deg, rgba(34,57,89,.9), rgba(67,46,40,.6));" class="w-full">
+            <img src="${r.url}" alt="${
         r.name
       }" class="w-full h-full object-cover object-center"/>
+        </div>
+        <div class="p-6 space-y-3">
+          <div class="flex items-center justify-between">
+            <h3 class="text-lg font-semibold">${r.name}</h3>
+            <div class="chip bg-gray-100 text-accent-foreground">${formatPrice(
+              r.price
+            )}/night</div>
           </div>
-          <div class="p-6 space-y-3">
-            <div class="flex items-center justify-between">
-              <h3 class="text-lg font-semibold">${r.name}</h3>
-              <div class="chip bg-gray-100 text-accent-foreground">${formatPrice(
-                r.price
-              )}/night</div>
-            </div>
-            <p class="text-sm text-muted-foreground">${r.description}</p>
-            <div class="flex flex-wrap gap-2 mt-2">
-              ${r.features
-                .slice(0, 4)
-                .map(
-                  (f) =>
-                    `<span class="inline-flex items-center gap-2 text-xs px-2 py-1 rounded-full border border-input bg-card">${f}</span>`
-                )
-                .join("")}
-            </div>
-            <div class="flex items-center justify-between pt-2">
-              <p class="text-sm text-muted-foreground">${r.size} m² • ${
+          <p class="text-sm text-muted-foreground">${r.description}</p>
+          <div class="flex flex-wrap gap-2 mt-2">
+            ${r.features
+              .slice(0, 4)
+              .map(
+                (f) =>
+                  `<span class="inline-flex items-center gap-2 text-xs px-2 py-1 rounded-full border border-input bg-card">${f}</span>`
+              )
+              .join("")}
+          </div>
+          <div class="flex items-center justify-between pt-2">
+            <p class="text-sm text-muted-foreground">${r.size} m² • ${
         r.bedType
       } • ${r.maxGuests} guests</p>
-              <div class="flex gap-2">
-                <a href="/room-detail?id=${
-                  r.id
-                }" class="rounded-md border border-input px-3 py-2 text-sm hover:bg-card/50">Chi tiết</a>
-                <a href="/booking?roomId=${
-                  r.id
-                }" class="rounded-md bg-[#11234B] text-white px-3 py-2">Đặt phòng</a>
-              </div>
+            <div class="flex gap-2">
+              <a href="/room-detail?id=${
+                r.id
+              }" class="rounded-md border border-input px-3 py-2 text-sm hover:bg-card/50">Chi tiết</a>
+              <a href="/booking?roomId=${
+                r.id
+              }" class="rounded-md bg-[#11234B] text-white px-3 py-2">Đặt phòng</a>
             </div>
           </div>
-        `;
+        </div>
+      `;
       roomsGrid.appendChild(card);
     });
+
+    // Nếu có nhiều hơn maxVisible phòng thì thêm nút xem thêm
+    if (roomsData.length > maxVisible) {
+      const btnWrapper = document.createElement("div");
+      btnWrapper.className = "flex justify-center mt-4"; // căn giữa
+      const showMoreBtn = document.createElement("button");
+      showMoreBtn.id = "showMoreRooms";
+      showMoreBtn.className =
+        "px-4 py-2 rounded border-[2px] border-black-700  bg-card/50 text-black hover:opacity-90";
+      showMoreBtn.innerText = "Xem thêm";
+
+      btnWrapper.appendChild(showMoreBtn);
+      roomsGrid.parentNode.appendChild(btnWrapper);
+
+      showMoreBtn.addEventListener("click", () => {
+        document
+          .querySelectorAll(".extra-room")
+          .forEach((el) => el.classList.remove("hidden"));
+        btnWrapper.style.display = "none"; // ẩn nút wrapper sau khi click
+      });
+    }
   }
 
   renderRooms();

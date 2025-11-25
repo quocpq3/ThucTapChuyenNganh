@@ -1,27 +1,29 @@
-export function openRoomDetail(id) {
-  const room = roomsData.find((r) => r.id == id);
-  if (!room) return;
+// roomDetail.js - Trang chi tiết phòng độc lập
 
-  // Hàm helper để tạo badge trạng thái (giả định đã tồn tại)
-  function getStatusBadge(status) {
-    switch (status) {
-      case "Đã đặt":
-        return '<span class="px-3 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800">Đã đặt</span>';
-      case "Bảo trì":
-        return '<span class="px-3 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-800">Bảo trì</span>';
-      case "Trống":
-      default:
-        return '<span class="px-3 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">Trống</span>';
-    }
+// Hàm helper để tạo badge trạng thái
+function getStatusBadge(status) {
+  switch (status) {
+    case "Đã đặt":
+      return '<span class="px-3 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800">Đã đặt</span>';
+    case "Bảo trì":
+      return '<span class="px-3 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-800">Bảo trì</span>';
+    case "Trống":
+    default:
+      return '<span class="px-3 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">Trống</span>';
   }
+}
+// Hàm render chi tiết phòng
+function renderRoomDetail(room) {
+  const container = document.getElementById("roomDetailContainer");
+  if (!container) return;
 
-  mainContent.innerHTML = `
-    <div class="space-y-6">
+  container.innerHTML = `
+    <div class="space-y-6 p-6">
       <div class="flex items-center justify-between">
         <h1 class="text-3xl font-extrabold text-gray-800">${room.name}</h1>
-        <button onclick="renderRoomTable()" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition duration-150 flex items-center gap-2">
+        <a href="/admin/rooms" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition duration-150 flex items-center gap-2">
           <i class="fa-solid fa-arrow-left"></i> Quay lại
-        </button>
+        </a>
       </div>
 
       <div class="bg-white rounded-xl shadow-lg border border-gray-100 p-6 lg:p-8">
@@ -90,14 +92,6 @@ export function openRoomDetail(id) {
                 <strong class="text-gray-700 block mb-1">Trạng thái:</strong>
                 ${getStatusBadge(room.status || "Trống")}
               </div>
-              <div>
-                <strong class="text-gray-700 block mb-1">Hành động:</strong>
-                <button class="editBtn px-3 py-1 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition" data-id="${
-                  room.id
-                }">
-                    <i class="fa-solid fa-pen-to-square mr-1"></i> Sửa
-                </button>
-              </div>
             </div>
 
             <hr class="border-gray-200">
@@ -125,9 +119,61 @@ export function openRoomDetail(id) {
       </div>
     </div>
   `;
-
-  // Cần thêm listeners cho nút Sửa nếu bạn muốn nó hoạt động
-  mainContent.querySelector(".editBtn")?.addEventListener("click", () => {
-    openRoomForm(id); // Giả sử openRoomForm có thể nhận id để chỉnh sửa
-  });
 }
+
+// Hàm lấy query parameter từ URL
+function getQueryParameter(name) {
+  const urlParams = new URLSearchParams(window.location.search);
+  return urlParams.get(name);
+}
+
+// Tự động load và render khi trang được mở
+document.addEventListener("DOMContentLoaded", () => {
+  // Đợi roomsData được load từ data.js
+  // Kiểm tra xem roomsData đã có chưa, nếu chưa thì đợi một chút
+  function checkAndRender() {
+    if (typeof roomsData === "undefined" || !Array.isArray(roomsData)) {
+      // Nếu chưa có roomsData, đợi thêm 100ms rồi thử lại
+      setTimeout(checkAndRender, 100);
+      return;
+    }
+
+    // Lấy roomId từ query parameter (có thể là 'id' hoặc 'room')
+    const roomId = getQueryParameter("id") || getQueryParameter("room");
+
+    if (!roomId) {
+      const container = document.getElementById("roomDetailContainer");
+      if (container) {
+        container.innerHTML = `
+          <div class="p-6 text-center">
+            <p class="text-lg text-gray-600 mb-4">Không tìm thấy ID phòng</p>
+            <a href="/admin/rooms" class="text-blue-600 hover:underline">Quay lại trang quản lý phòng</a>
+          </div>
+        `;
+      }
+      return;
+    }
+
+    // Tìm phòng theo ID
+    const room = roomsData.find((r) => r.id == roomId);
+
+    if (!room) {
+      const container = document.getElementById("roomDetailContainer");
+      if (container) {
+        container.innerHTML = `
+          <div class="p-6 text-center">
+            <p class="text-lg text-gray-600 mb-4">Không tìm thấy phòng với ID: ${roomId}</p>
+            <a href="/admin/rooms" class="text-blue-600 hover:underline">Quay lại trang quản lý phòng</a>
+          </div>
+        `;
+      }
+      return;
+    }
+
+    // Render chi tiết phòng
+    renderRoomDetail(room);
+  }
+
+  // Bắt đầu kiểm tra
+  checkAndRender();
+});

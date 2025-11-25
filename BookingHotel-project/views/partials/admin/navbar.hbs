@@ -12,19 +12,24 @@
       8px 12px; border-radius: 6px; transition: background-color 0.1s; display:
       flex; align-items: center; text-decoration: none; color: inherit;
       line-height: 1.5; font-size: 15px; cursor: pointer; }
-      .sidebar-menu-item:hover { background-color: #f3f4f6; }
+      .sidebar-menu-item:hover { background-color: #f3f4f6; } /* Active state -
+      màu xám để nhận biết trang hiện tại */ .sidebar-menu-item.active {
+      background-color: #e5e7eb; color: #374151; font-weight: 500; }
+      .sidebar-menu-item.active:hover { background-color: #d1d5db; }
       .sidebar-menu-item.collapse-toggle { justify-content: space-between; }
       .sidebar-menu-item i:not(.fa-chevron-down) { min-width: 20px;
-      margin-right: 10px; } /* Mục tiêu đề (vô hiệu hóa) */
-      .sidebar-menu-item.disabled { color: #9ca3af; font-weight: 600; cursor:
-      default; background-color: transparent !important; }
-      .sidebar-menu-item.disabled:hover { background-color: transparent
-      !important; } /* Thụt cấp cho menu phân cấp (cân đối) */ /* Level 2 (Tầng)
-      */ #menu-rooms > li > button.sidebar-menu-item, #menu-rooms > li > ul > li
-      > button.sidebar-menu-item { padding-left: 28px; } /* Level 3 (Loại phòng)
-      */ #menu-rooms > li > ul > li > ul > li > button.sidebar-menu-item {
-      padding-left: 36px; } /* Level 4 (Tên phòng/Links) */ #menu-rooms > li >
-      ul > li > ul > li > ul > li > a.sidebar-menu-item { padding-left: 44px; }
+      margin-right: 10px; } /* Đảm bảo chevron icon ở bên phải */
+      .sidebar-menu-item.collapse-toggle .fa-chevron-down { margin-left: auto; }
+      /* Mục tiêu đề (vô hiệu hóa) */ .sidebar-menu-item.disabled { color:
+      #9ca3af; font-weight: 600; cursor: default; background-color: transparent
+      !important; } .sidebar-menu-item.disabled:hover { background-color:
+      transparent !important; } /* Thụt cấp cho menu phân cấp (cân đối) */ /*
+      Level 2 (Tầng) */ #menu-rooms > li > button.sidebar-menu-item, #menu-rooms
+      > li > ul > li > button.sidebar-menu-item { padding-left: 28px; } /* Level
+      3 (Loại phòng) */ #menu-rooms > li > ul > li > ul > li >
+      button.sidebar-menu-item { padding-left: 36px; } /* Level 4 (Tên
+      phòng/Links) */ #menu-rooms > li > ul > li > ul > li > ul > li >
+      a.sidebar-menu-item { padding-left: 44px; }
     </style>
   </head>
   <body>
@@ -71,7 +76,7 @@
         <div id="sidebarNav" class="space-y-1 flex flex-col text-gray-700">
           <button class="sidebar-menu-item" id="nav-rooms-root">
             <i class="fa-regular fa-door-open"></i>
-            Phòng
+            <span>Phòng</span>
           </button>
         </div>
 
@@ -87,25 +92,12 @@
       </nav>
     </aside>
 
-    <script>
-      document.addEventListener("DOMContentLoaded", () => { const toggles =
-      document.querySelectorAll(".collapse-toggle"); toggles.forEach((toggle) =>
-      { toggle.addEventListener("click", () => { const targetId =
-      toggle.getAttribute("data-collapse"); const target =
-      document.querySelector(targetId); const chevron =
-      toggle.querySelector(".fa-chevron-down"); if (!target) return; const
-      isOpen = target.classList.contains("open"); if (isOpen) {
-      target.classList.remove("open"); chevron?.classList.remove("rotate-180");
-      } else { target.classList.add("open");
-      chevron?.classList.add("rotate-180"); } }); }); });
-    </script>
-
     <script
       src="https://kit.fontawesome.com/a2d9a64f8f.js"
       crossorigin="anonymous"
     ></script>
     <script src="/home/js/data.js"></script>
     <script type="module" src="/admin/js/rooms.js"></script>
-
+    <script src="/admin/js/sidebar-active.js"></script>
   </body>
 </html>
