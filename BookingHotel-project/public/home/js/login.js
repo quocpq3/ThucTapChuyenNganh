@@ -95,37 +95,46 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const emailEl = document.getElementById("loginEmail");
     const passwordEl = document.getElementById("loginPassword");
-
     if (!emailEl || !passwordEl) return;
 
     const email = emailEl.value.trim();
     const password = passwordEl.value;
 
-    // Check if user exists in localStorage
-    const users = JSON.parse(localStorage.getItem("users") || "[]");
-    const user = users.find(
-      (u) => u.email === email && u.password === password
-    );
-
-    if (user) {
-      setCurrentUser(user);
-      toast("success", "Đăng nhập thành công!", `Chào mừng, ${user.name}`);
-      // Redirect to home page
-      setTimeout(() => {
-        const returnUrl = getUrlParameter("return");
-        if (returnUrl === "booking") {
-          window.location.href = "/booking";
+    // send to server
+    fetch("/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    })
+      .then(async (res) => {
+        const data = await res.json();
+        if (res.ok && data.success) {
+          setCurrentUser(data.user);
+          toast(
+            "success",
+            "Đăng nhập thành công!",
+            `Chào mừng, ${data.user.name || data.user.email}`
+          );
+          setTimeout(() => {
+            const returnUrl = getUrlParameter("return");
+            if (returnUrl === "booking") {
+              window.location.href = "/booking";
+            } else {
+              window.location.href = "/";
+            }
+          }, 800);
         } else {
-          window.location.href = "/";
+          toast(
+            "error",
+            "Đăng nhập thất bại",
+            data.message || "Email hoặc mật khẩu không chính xác"
+          );
         }
-      }, 1000);
-    } else {
-      toast(
-        "error",
-        "Đăng nhập thất bại",
-        "Email hoặc mật khẩu không chính xác"
-      );
-    }
+      })
+      .catch((err) => {
+        console.error(err);
+        toast("error", "Lỗi server", "Không thể kết nối tới server");
+      });
   }
 
   // Register validation and submit
@@ -227,7 +236,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const emailEl = document.getElementById("registerEmail");
     const phoneEl = document.getElementById("registerPhone");
     const passwordEl = document.getElementById("registerPassword");
-
     if (!nameEl || !emailEl || !phoneEl || !passwordEl) return;
 
     const name = nameEl.value.trim();
@@ -235,37 +243,31 @@ document.addEventListener("DOMContentLoaded", () => {
     const phone = phoneEl.value.trim();
     const password = passwordEl.value;
 
-    // Check if email already exists
-    const users = JSON.parse(localStorage.getItem("users") || "[]");
-    if (users.find((u) => u.email === email)) {
-      const errEl = document.getElementById("err_registerEmail");
-      if (errEl) {
-        errEl.style.display = "block";
-        errEl.textContent = "Email này đã được sử dụng";
-      }
-      return;
-    }
-
-    // Create new user
-    const newUser = {
-      id: Date.now(),
-      name: name,
-      email: email,
-      phone: phone,
-      password: password,
-    };
-
-    users.push(newUser);
-    localStorage.setItem("users", JSON.stringify(users));
-
-    toast(
-      "success",
-      "Đăng ký thành công!",
-      "Bạn có thể đăng nhập ngay bây giờ"
-    );
-    showLoginTab();
-    const loginEmailEl = document.getElementById("loginEmail");
-    if (loginEmailEl) loginEmailEl.value = email;
+    fetch("/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, email, phone, password }),
+    })
+      .then(async (res) => {
+        const data = await res.json();
+        if (res.ok && data.success) {
+          toast(
+            "success",
+            "Đăng ký thành công!",
+            "Bạn có thể đăng nhập ngay bây giờ"
+          );
+          showLoginTab();
+          const loginEmailEl = document.getElementById("loginEmail");
+          if (loginEmailEl) loginEmailEl.value = email;
+        } else {
+          const msg = data && data.message ? data.message : "Đăng ký thất bại";
+          toast("error", "Đăng ký thất bại", msg);
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        toast("error", "Lỗi server", "Không thể kết nối tới server");
+      });
   }
 
   // Event listeners
