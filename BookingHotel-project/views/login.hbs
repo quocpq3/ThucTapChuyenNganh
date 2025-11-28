@@ -1,0 +1,175 @@
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Đăng nhập - Azure Ocean Resort</title>
+
+    <!-- Tailwind CDN -->
+    <script>
+      tailwind = { config: { theme: { extend: { colors: { primary:
+      "hsl(var(--primary))", "primary-foreground":
+      "hsl(var(--primary-foreground))", secondary: "hsl(var(--secondary))",
+      "secondary-foreground": "hsl(var(--secondary-foreground))", accent:
+      "hsl(var(--accent))", "accent-foreground":
+      "hsl(var(--accent-foreground))", background: "hsl(var(--background))",
+      foreground: "hsl(var(--foreground))", muted: "hsl(var(--muted))",
+      "muted-foreground": "hsl(var(--muted-foreground))", border:
+      "hsl(var(--border))", card: "hsl(var(--card))", "card-foreground":
+      "hsl(var(--card-foreground))", }, borderRadius: { lg: "0.75rem" }, }, },
+      }, };
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/home/css/styles.css" />
+  </head>
+  <body class="bg-background text-foreground antialiased">
+    <!-- Toasts -->
+    <div id="toasts" class="toast-wrap" aria-live="polite"></div>
+
+    <!-- Header -->
+
+    <!-- Page content -->
+    <main class="page-container">
+      <div class="form-container">
+        <div class="text-center mb-6">
+          <h1 class="text-2xl font-semibold mb-2">Đăng nhập hoặc Đăng ký</h1>
+          <p class="text-sm text-muted-foreground">
+            Đăng nhập để đặt phòng và quản lý đặt chỗ của bạn
+          </p>
+        </div>
+
+        <div class="tab-container">
+          <button id="showLoginTab" class="tab-button active">Đăng nhập</button>
+          <button id="showRegisterTab" class="tab-button">Đăng ký</button>
+        </div>
+
+        <!-- Login Form -->
+        <div id="loginForm">
+          <div class="space-y-4">
+            <div class="form-group">
+              <label for="loginEmail" class="form-label">Email</label>
+              <input
+                id="loginEmail"
+                type="email"
+                placeholder="email@example.com"
+                class="form-input"
+              />
+              <span
+                id="err_loginEmail"
+                class="form-error"
+                style="display: none"
+              ></span>
+            </div>
+            <div class="form-group">
+              <label for="loginPassword" class="form-label">Mật khẩu</label>
+              <input
+                id="loginPassword"
+                type="password"
+                placeholder="Nhập mật khẩu"
+                class="form-input"
+              />
+              <span
+                id="err_loginPassword"
+                class="form-error"
+                style="display: none"
+              ></span>
+            </div>
+            <button id="submitLogin" class="form-button form-button-primary">
+              Đăng nhập
+            </button>
+          </div>
+        </div>
+
+        <!-- Register Form -->
+        <div id="registerForm" style="display: none">
+          <div class="space-y-4">
+            <div class="form-group">
+              <label for="registerName" class="form-label">Họ và tên</label>
+              <input
+                id="registerName"
+                type="text"
+                placeholder="Nguyễn Văn A"
+                class="form-input"
+              />
+              <span
+                id="err_registerName"
+                class="form-error"
+                style="display: none"
+              ></span>
+            </div>
+            <div class="form-group">
+              <label for="registerEmail" class="form-label">Email</label>
+              <input
+                id="registerEmail"
+                type="email"
+                placeholder="email@example.com"
+                class="form-input"
+              />
+              <span
+                id="err_registerEmail"
+                class="form-error"
+                style="display: none"
+              ></span>
+            </div>
+            <div class="form-group">
+              <label for="registerPhone" class="form-label">Số điện thoại</label>
+              <input
+                id="registerPhone"
+                type="tel"
+                placeholder="0123456789"
+                class="form-input"
+              />
+              <span
+                id="err_registerPhone"
+                class="form-error"
+                style="display: none"
+              ></span>
+            </div>
+            <div class="form-group">
+              <label for="registerPassword" class="form-label">Mật khẩu</label>
+              <input
+                id="registerPassword"
+                type="password"
+                placeholder="Tối thiểu 6 ký tự"
+                class="form-input"
+              />
+              <span
+                id="err_registerPassword"
+                class="form-error"
+                style="display: none"
+              ></span>
+            </div>
+            <div class="form-group">
+              <label for="registerConfirmPassword" class="form-label">Xác nhận
+                mật khẩu</label>
+              <input
+                id="registerConfirmPassword"
+                type="password"
+                placeholder="Nhập lại mật khẩu"
+                class="form-input"
+              />
+              <span
+                id="err_registerConfirmPassword"
+                class="form-error"
+                style="display: none"
+              ></span>
+            </div>
+            <button id="submitRegister" class="form-button form-button-primary">
+              Đăng ký
+            </button>
+          </div>
+        </div>
+
+        <div class="mt-6 text-center">
+          <a
+            href="/"
+            class="text-sm text-muted-foreground hover:text-foreground"
+          >← Quay lại trang chủ</a>
+        </div>
+      </div>
+    </main>
+
+    <script src="/home/js/data.js"></script>
+    <script src="/home/js/utils.js"></script>
+    <script src="/home/js/login.js"></script>
+  </body>
+</html>

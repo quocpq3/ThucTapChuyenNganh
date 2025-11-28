@@ -1,3 +1,6 @@
+require("dotenv").config();
+console.log("JWT_SECRET = ", process.env.JWT_SECRET);
+
 var createError = require("http-errors");
 var express = require("express");
 var exphbs = require("express-handlebars");
@@ -10,6 +13,7 @@ var loginRouter = require("./routes/home/login");
 var bookingRouter = require("./routes/home/booking");
 var roomDetailRouter = require("./routes/home/roomDetail");
 var testRouter = require("./routes/home/test");
+var authApiRouter = require("./routes/auth");
 
 var adminRouter = require("./routes/admin/admin");
 var roomAdminRouter = require("./routes/admin/rooms");
@@ -17,6 +21,8 @@ var orderAdminRouter = require("./routes/admin/order");
 var servicesAdminRouter = require("./routes/admin/services");
 var usersAdminRouter = require("./routes/admin/user");
 var roomDetailAdminRouter = require("./routes/admin/room-detail");
+var authMiddleware = require("./middleware/auth");
+var isAdmin = require("./middleware/isAdmin");
 
 var app = express();
 
@@ -45,19 +51,22 @@ app.use(cookieParser());
 app.use("/home", express.static(path.join(__dirname, "public/home")));
 app.use("/admin", express.static(path.join(__dirname, "public/admin")));
 
-// Routes
+// Routes home
 app.use("/", indexRouter);
-app.use("/login", loginRouter);
 app.use("/booking", bookingRouter);
 app.use("/room-detail", roomDetailRouter);
 app.use("/test", testRouter);
 
-app.use("/admin", adminRouter);
-app.use("/admin/rooms", roomAdminRouter);
-app.use("/admin/order", orderAdminRouter);
-app.use("/admin/services", servicesAdminRouter);
-app.use("/admin/user", usersAdminRouter);
-app.use("/admin/room-detail", roomDetailAdminRouter);
+//Route auth login
+app.use("/login", loginRouter);
+
+//Routes admin
+app.use("/admin", authMiddleware, isAdmin, adminRouter);
+app.use("/admin/rooms", authMiddleware, isAdmin, roomAdminRouter);
+app.use("/admin/order", authMiddleware, isAdmin, orderAdminRouter);
+app.use("/admin/services", authMiddleware, isAdmin, servicesAdminRouter);
+app.use("/admin/user", authMiddleware, isAdmin, usersAdminRouter);
+app.use("/admin/room-detail", authMiddleware, isAdmin, roomDetailAdminRouter);
 
 // Error handler
 app.use(function (err, req, res, next) {
@@ -78,111 +87,11 @@ mongoose
     console.log("MongoDB Connected successfully.");
   })
   .catch((err) => {
-    console.error("MongoDB Connected failed: " + err);
+    console.error("MongoDB Connected failed:" + err);
   });
 
-//api
-const User = require("./models/User");
-const bcryptjs = require("bcryptjs");
-app.post("/login", (req, res) => {
-  const { email, password } = req.body;
-  if (!email || !password) {
-    return res
-      .status(400)
-      .json({ success: false, message: "Missing email or password" });
-  }
-
-  User.findOne({ email })
-    .then((user) => {
-      if (!user)
-        return res
-          .status(401)
-          .json({ success: false, message: "Invalid email or password" });
-      bcryptjs.compare(password, user.password, (err, matched) => {
-        if (err)
-          return res
-            .status(500)
-            .json({ success: false, message: "Server error" });
-        if (matched) {
-          return res.json({
-            success: true,
-            user: {
-              id: user._id,
-              email: user.email,
-              role: user.role,
-              name: user.name,
-              phone: user.phone,
-            },
-          });
-        } else {
-          return res
-            .status(401)
-            .json({ success: false, message: "Invalid email or password" });
-        }
-      });
-    })
-    .catch((err) =>
-      res
-        .status(500)
-        .json({ success: false, message: "Server error", error: err })
-    );
-});
-app.post("/register", (req, res) => {
-  const { name, email, phone, password } = req.body;
-  if (!name || !email || !password) {
-    return res
-      .status(400)
-      .json({ success: false, message: "Missing required fields" });
-  }
-
-  // check existing
-  User.findOne({ email })
-    .then((existing) => {
-      if (existing) {
-        return res
-          .status(409)
-          .json({ success: false, message: "Email already in use" });
-      }
-
-      const newUser = new User({ name, email, phone, role: "user" });
-      bcryptjs.genSalt(10, function (err, salt) {
-        if (err)
-          return res
-            .status(500)
-            .json({ success: false, message: "Server error" });
-        bcryptjs.hash(password, salt, function (err, hash) {
-          if (err)
-            return res
-              .status(500)
-              .json({ success: false, message: "Server error" });
-          newUser.password = hash;
-          newUser
-            .save()
-            .then((userSave) =>
-              res.status(201).json({
-                success: true,
-                message: "User created",
-                user: {
-                  id: userSave._id,
-                  email: userSave.email,
-                  name: userSave.name,
-                },
-              })
-            )
-            .catch((err) =>
-              res
-                .status(500)
-                .json({ success: false, message: "Database error", error: err })
-            );
-        });
-      });
-    })
-    .catch((err) =>
-      res
-        .status(500)
-        .json({ success: false, message: "Server error", error: err })
-    );
-});
+// Auth API routes
+app.use("/auth", authApiRouter);
 
 // 404
 app.use(function (req, res, next) {
