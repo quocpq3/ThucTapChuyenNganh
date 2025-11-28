@@ -101,7 +101,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const password = passwordEl.value;
 
     // send to server
-    fetch("/login", {
+    fetch("/auth/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),
@@ -243,7 +243,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const phone = phoneEl.value.trim();
     const password = passwordEl.value;
 
-    fetch("/register", {
+    fetch("/auth/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name, email, phone, password }),
