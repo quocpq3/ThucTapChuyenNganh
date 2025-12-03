@@ -37,41 +37,60 @@ function getUrlParameter(name) {
   return urlParams.get(name);
 }
 
-// Auth management
-let currentUser = null;
-
-function getCurrentUser() {
-  if (!currentUser) {
-    const savedUser = localStorage.getItem("currentUser");
-    if (savedUser) {
-      currentUser = JSON.parse(savedUser);
-    }
-  }
-  return currentUser;
-}
-
-function setCurrentUser(user) {
-  currentUser = user;
-  if (user) {
-    localStorage.setItem("currentUser", JSON.stringify(user));
+// Auth helpers (token-based)
+function setAuthToken(token) {
+  if (token) {
+    localStorage.setItem("authToken", token);
   } else {
-    localStorage.removeItem("currentUser");
+    localStorage.removeItem("authToken");
   }
 }
 
-function logoutUser() {
-  currentUser = null;
-  localStorage.removeItem("currentUser");
+function getAuthToken() {
+  return localStorage.getItem("authToken");
+}
+
+function clearAuth() {
+  localStorage.removeItem("authToken");
+  // remove any stored display user
+  try {
+    sessionStorage.removeItem("authUser");
+  } catch (e) {}
   if (typeof toast !== "undefined") {
     toast("info", "Đã đăng xuất", "Bạn cần đăng nhập để đặt phòng");
   }
   window.location.href = "/";
 }
 
-// Check if user is logged in (redirect if not)
+// Store a minimal user object (name/email) for header display only. Uses sessionStorage.
+function setAuthUser(user) {
+  try {
+    if (user)
+      sessionStorage.setItem(
+        "authUser",
+        JSON.stringify({
+          name: user.name,
+          email: user.email,
+          phone: user.phone || user.phoneNumber || "",
+        })
+      );
+    else sessionStorage.removeItem("authUser");
+  } catch (e) {}
+}
+
+function getAuthUser() {
+  try {
+    const s = sessionStorage.getItem("authUser");
+    return s ? JSON.parse(s) : null;
+  } catch (e) {
+    return null;
+  }
+}
+
+// Check if user has token (redirect if not)
 function requireAuth(redirectTo = "/login") {
-  const user = getCurrentUser();
-  if (!user) {
+  const token = getAuthToken();
+  if (!token) {
     window.location.href = redirectTo;
     return false;
   }

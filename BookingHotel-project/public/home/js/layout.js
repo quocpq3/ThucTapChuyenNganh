@@ -49,8 +49,8 @@ function initializeHeader() {
   // Navigation buttons
   if (mobileBook) {
     mobileBook.addEventListener("click", () => {
-      const user = getCurrentUser();
-      if (user) {
+      const token = getAuthToken();
+      if (token) {
         window.location.href = "/booking";
       } else {
         window.location.href = "/login";
@@ -78,7 +78,7 @@ function initializeHeader() {
 
   if (mobileLogoutBtn) {
     mobileLogoutBtn.addEventListener("click", () => {
-      logoutUser();
+      clearAuth();
     });
   }
 
@@ -96,7 +96,7 @@ function initializeHeader() {
 
   if (logoutBtn) {
     logoutBtn.addEventListener("click", () => {
-      logoutUser();
+      clearAuth();
     });
   }
 
@@ -105,8 +105,8 @@ function initializeHeader() {
     bookNowHeader.setAttribute("data-initialized", "true");
 
     bookNowHeader.addEventListener("click", () => {
-      const user = getCurrentUser();
-      if (user) {
+      const token = getAuthToken();
+      if (token) {
         window.location.href = "/booking";
       } else {
         window.location.href = "/login";
@@ -154,8 +154,24 @@ function getInitialFromName(name) {
   return name[0].toUpperCase();
 }
 
+function parseJwt(token) {
+  try {
+    const payload = token.split(".")[1];
+    const json = atob(payload.replace(/-/g, "+").replace(/_/g, "/"));
+    const obj = JSON.parse(decodeURIComponent(escape(json)));
+    // If the token payload wraps the user object (e.g. { user: { name, email } }) return it
+    return obj.user || obj;
+  } catch (e) {
+    return null;
+  }
+}
+
 function updateUserInfo() {
-  const user = getCurrentUser();
+  const token = getAuthToken();
+  // Prefer session-stored user (set immediately after login). Fallback to token payload.
+  const userFromSession =
+    typeof getAuthUser === "function" ? getAuthUser() : null;
+  const user = userFromSession || (token ? parseJwt(token) : null);
   const userInfo = document.getElementById("userInfo");
   const userNameDisplay = document.getElementById("userNameDisplay");
   const userAvatarInitial = document.getElementById("userAvatarInitial");
@@ -198,6 +214,39 @@ function updateUserInfo() {
   }
 }
 
+// Apply given user object to header UI (used when server returns user alongside token)
+function applyUserToHeader(user) {
+  const userInfo = document.getElementById("userInfo");
+  const userNameDisplay = document.getElementById("userNameDisplay");
+  const userAvatarInitial = document.getElementById("userAvatarInitial");
+  const loginBtn = document.getElementById("loginBtn");
+  const mobileUserInfo = document.getElementById("mobileUserInfo");
+  const mobileUserName = document.getElementById("mobileUserName");
+  const mobileUserAvatarInitial = document.getElementById(
+    "mobileUserAvatarInitial"
+  );
+  const mobileLoginBtn = document.getElementById("mobileLoginBtn");
+
+  if (user) {
+    const initial = getInitialFromName(user.name || user.email);
+    if (userInfo) userInfo.style.display = "flex";
+    if (userNameDisplay) userNameDisplay.textContent = user.name || user.email;
+    if (userAvatarInitial) userAvatarInitial.textContent = initial;
+    if (loginBtn) loginBtn.style.display = "none";
+
+    if (mobileUserInfo) mobileUserInfo.style.display = "flex";
+    if (mobileUserName) mobileUserName.textContent = user.name || user.email;
+    if (mobileUserAvatarInitial) mobileUserAvatarInitial.textContent = initial;
+    if (mobileLoginBtn) mobileLoginBtn.style.display = "none";
+  } else {
+    if (userInfo) userInfo.style.display = "none";
+    if (loginBtn) loginBtn.style.display = "inline-flex";
+
+    if (mobileUserInfo) mobileUserInfo.style.display = "none";
+    if (mobileLoginBtn) mobileLoginBtn.style.display = "inline-flex";
+  }
+}
+
 // Auto-load partials when DOM is ready
 document.addEventListener("DOMContentLoaded", () => {
   // Determine base path based on current page location
@@ -232,8 +281,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Update user info periodically (in case user logs in on another tab)
-  if (typeof getCurrentUser === "function") {
-    setInterval(updateUserInfo, 1000);
-  }
+  // Update user info periodically (in case token changes in another tab)
+  setInterval(updateUserInfo, 1000);
 });
