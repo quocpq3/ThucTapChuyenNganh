@@ -1,19 +1,23 @@
 const jwt = require("jsonwebtoken");
 
 function authMiddleware(req, res, next) {
-  const authHeader = req.headers.authorization;
+  // Lấy token từ header hoặc cookie
+  const token = req.headers.authorization?.split(" ")[1] || req.cookies.token;
 
-  if (!authHeader) {
-    return res.status(401).json({ message: "Thiếu token" });
+  if (!token) {
+    return res
+      .status(401)
+      .json({ success: false, message: "Token không tìm thấy" });
   }
-  const token = authHeader.split(" ")[1];
 
   try {
-    const user = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = user; // lưu thông tin user vào request
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = decoded;
     next();
   } catch (err) {
-    return res.status(401).json({ message: "Token không hợp lệ" });
+    return res
+      .status(401)
+      .json({ success: false, message: "Token không hợp lệ" });
   }
 }
 

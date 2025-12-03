@@ -109,7 +109,20 @@ document.addEventListener("DOMContentLoaded", () => {
       .then(async (res) => {
         const data = await res.json();
         if (res.ok && data.success) {
-          setCurrentUser(data.user);
+          // lưu token (không lưu toàn bộ user vào localStorage)
+          if (data.token) {
+            setAuthToken(data.token);
+            // store minimal user info for header display (session only)
+            if (data.user && typeof setAuthUser === "function") {
+              setAuthUser(data.user);
+            }
+            // Update header UI immediately
+            if (typeof updateUserInfo === "function") updateUserInfo();
+            // If server returned user object, apply it to header right away
+            if (data.user && typeof applyUserToHeader === "function") {
+              applyUserToHeader(data.user);
+            }
+          }
           toast(
             "success",
             "Đăng nhập thành công!",

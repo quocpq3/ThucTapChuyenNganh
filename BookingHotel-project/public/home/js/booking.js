@@ -16,13 +16,56 @@ document.addEventListener("DOMContentLoaded", () => {
   const emailEl = document.getElementById("b_email");
   const phoneEl = document.getElementById("b_phone");
 
-  // Initialize form with user data
-  const user = getCurrentUser();
-  if (user) {
-    if (nameEl) nameEl.value = user.name || "";
-    if (emailEl) emailEl.value = user.email || "";
-    if (phoneEl) phoneEl.value = user.phone || "";
+  // Prefill form with basic user info (session, token payload, or /auth/me)
+  function fillUserFields(user) {
+    if (!user) return;
+    if (nameEl && !nameEl.value) nameEl.value = user.name || "";
+    if (emailEl && !emailEl.value) emailEl.value = user.email || "";
+    if (phoneEl && !phoneEl.value) phoneEl.value = user.phone || "";
   }
+
+  (function prefillUserInfo() {
+    // Prefer session-stored minimal user
+    let user = typeof getAuthUser === "function" ? getAuthUser() : null;
+
+    // Fallback: try parseJwt if available
+    if (!user) {
+      const token = typeof getAuthToken === "function" ? getAuthToken() : null;
+      if (token && typeof parseJwt === "function") {
+        user = parseJwt(token);
+      }
+    }
+
+    if (user) {
+      fillUserFields(user);
+      return;
+    }
+
+    // Last resort: ask server for current user
+    const token = typeof getAuthToken === "function" ? getAuthToken() : null;
+    if (!token) return; // nothing we can do
+
+    fetch("/auth/me", {
+      headers: { Authorization: "Bearer " + token },
+    })
+      .then((res) => {
+        if (!res.ok) return null;
+        return res.json();
+      })
+      .then((data) => {
+        if (!data) return;
+        const u = data.user || data;
+        if (u) {
+          // store minimal user in session for UI persistence
+          if (typeof setAuthUser === "function") setAuthUser(u);
+          if (typeof applyUserToHeader === "function") applyUserToHeader(u);
+          fillUserFields(u);
+        }
+      })
+      .catch((err) => {
+        console.error("Failed to fetch /auth/me:", err);
+      });
+  })();
 
   // Set minimum date to today
   const today = new Date().toISOString().split("T")[0];

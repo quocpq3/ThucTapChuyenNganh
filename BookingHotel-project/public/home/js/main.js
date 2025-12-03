@@ -8,8 +8,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const heroBookBtn = document.getElementById("heroBook");
   if (heroBookBtn) {
     heroBookBtn.addEventListener("click", () => {
-      const user = getCurrentUser();
-      if (user) {
+      const token =
+        typeof getAuthToken === "function"
+          ? getAuthToken()
+          : localStorage.getItem("authToken");
+      if (token) {
         window.location.href = "/booking";
       } else {
         window.location.href = "/login?return=booking";
