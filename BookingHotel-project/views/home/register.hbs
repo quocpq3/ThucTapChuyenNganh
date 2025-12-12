@@ -1,0 +1,139 @@
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Đăng ký - Azure Ocean Resort</title>
+
+    <!-- Tailwind CDN -->
+    <script>
+      tailwind = { config: { theme: { extend: { colors: { primary:
+      "hsl(var(--primary))", "primary-foreground":
+      "hsl(var(--primary-foreground))", secondary: "hsl(var(--secondary))",
+      "secondary-foreground": "hsl(var(--secondary-foreground))", accent:
+      "hsl(var(--accent))", "accent-foreground":
+      "hsl(var(--accent-foreground))", background: "hsl(var(--background))",
+      foreground: "hsl(var(--foreground))", muted: "hsl(var(--muted))",
+      "muted-foreground": "hsl(var(--muted-foreground))", border:
+      "hsl(var(--border))", card: "hsl(var(--card))", "card-foreground":
+      "hsl(var(--card-foreground))", }, borderRadius: { lg: "0.75rem" }, }, },
+      }, };
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/home/css/styles.css" />
+
+  </head>
+  <body class="bg-background text-foreground antialiased">
+    <!-- Toasts -->
+    <div id="toasts" class="toast-wrap" aria-live="polite"></div>
+
+    <!-- Header -->
+
+    <!-- Page content -->
+    <main class="page-container">
+      <div class="form-container">
+        <div class="text-center mb-6">
+
+          <h1 class="text-2xl font-semibold mb-2">Đăng ký</h1>
+          <p class="text-sm text-muted-foreground">
+            Tạo tài khoản để đặt phòng và quản lý đặt chỗ của bạn
+          </p>
+
+        </div>
+        {{#if error_message}}
+          <div
+            class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4"
+          >
+            {{error_message}}
+          </div>
+        {{/if}}
+        {{#if errors}}
+          {{#each errors}}
+            <div
+              class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4"
+            >
+              {{message}}
+            </div>
+          {{/each}}
+        {{/if}}
+
+        <!-- Register Form -->
+        <form id="registerForm" action="/register" method="POST">
+          <div class="space-y-4">
+            <div class="form-group">
+              <label for="registerName" class="form-label">Họ và tên</label>
+              <input
+                value="{{name}}"
+                name="name"
+                id="registerName"
+                type="text"
+                placeholder="Nguyễn Văn A"
+                class="form-input"
+              />
+            </div>
+            <div class="form-group">
+              <label for="registerEmail" class="form-label">Email</label>
+              <input
+                value="{{email}}"
+                name="email"
+                id="registerEmail"
+                type="email"
+                placeholder="email@example.com"
+                class="form-input"
+              />
+            </div>
+            <div class="form-group">
+              <label for="registerPhone" class="form-label">Số điện thoại</label>
+              <input
+                value="{{phone}}"
+                name="phone"
+                id="registerPhone"
+                type="tel"
+                placeholder="0123456789"
+                class="form-input"
+              />
+            </div>
+            <div class="form-group">
+              <label for="registerPassword" class="form-label">Mật khẩu</label>
+              <input
+                value="{{password}}"
+                name="password"
+                id="registerPassword"
+                type="password"
+                placeholder="Tối thiểu 6 ký tự"
+                class="form-input"
+              />
+            </div>
+            <div class="form-group">
+              <label for="registerConfirmPassword" class="form-label">Xác nhận
+                mật khẩu</label>
+              <input
+                name="password1"
+                id="registerConfirmPassword"
+                type="password"
+                placeholder="Nhập lại mật khẩu"
+                class="form-input"
+              />
+
+            </div>
+            <button
+              type="submit"
+              id="submitRegister"
+              class="form-button form-button-primary"
+            >Đăng ký</button>
+          </div>
+        </form>
+
+        <div class="mt-6 text-center">
+          <a
+            href="/"
+            class="text-sm text-muted-foreground hover:text-foreground"
+          >← Quay lại trang chủ</a>
+        </div>
+      </div>
+    </main>
+
+    <script src="/home/js/data.js"></script>
+    <script src="/home/js/utils.js"></script>
+    <script src="/home/js/login.js"></script>
+  </body>
+</html>

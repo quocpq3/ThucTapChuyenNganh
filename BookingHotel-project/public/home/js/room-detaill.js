@@ -105,7 +105,7 @@ function renderRoomDetail() {
             Đặt phòng ngay
           </a>
           <a
-            href="/public#rooms"
+            href="/#rooms"
             class="rounded-md border border-input px-6 py-3 font-medium hover:bg-card/50 transition-colors"
           >
             Xem phòng khác
