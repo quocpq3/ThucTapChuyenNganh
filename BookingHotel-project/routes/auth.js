@@ -27,11 +27,52 @@ passport.use(
     });
   })
 );
+// router.post("/login", (req, res, next) => {
+//   let errors = [];
+//   if (!req.body.email) {
+//     errors.push({ message: "Please enter email" });
+//   }
+//   if (!req.body.password) {
+//     errors.push({ message: "Please enter password" });
+//   }
+//   if (errors.length > 0) {
+//     return res.render("home/login", {
+//       title: "Login",
+//       errors: errors,
+//       email: req.body.email,
+//       password: req.body.password,
+//     });
+//   }
+//   passport.authenticate("local", {
+//     successRedirect: "/admin",
+//     failureRedirect: "/login",
+//     failureFlash: true,
+//   })(req, res, next);
+// });
+
+// check role
 router.post("/login", (req, res, next) => {
-  passport.authenticate("local", {
-    successRedirect: "/admin",
-    failureRedirect: "/login",
-    failureFlash: true,
+  let errors = [];
+  if (!req.body.email) {
+    errors.push({ message: "Please enter email" });
+  }
+  if (!req.body.password) {
+    errors.push({ message: "Please enter password" });
+  }
+  if (errors.length > 0) {
+    return res.render("home/login", {
+      title: "Login",
+      errors: errors,
+      email: req.body.email,
+      password: req.body.password,
+    });
+  }
+  passport.authenticate("local", (err, user) => {
+    if (!user) return res.redirect("/login");
+
+    req.logIn(user, () => {
+      res.redirect(user.role === "admin" ? "/admin" : "/");
+    });
   })(req, res, next);
 });
 
@@ -72,12 +113,12 @@ router.post("/register", (req, res, next) => {
             newUser.password = hash;
             newUser.save().then((saveUser) => {
               req.flash("success_message", "Successfully registered!");
-              res.redirect("/login"); //or /login
+              res.redirect("/login");
             });
           });
         });
       } else {
-        req.flash("error_message", "E-mail is exist!");
+        req.flash("error_message", "E-mail already exist!");
         res.redirect("/login");
       }
     });
