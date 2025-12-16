@@ -1,0 +1,38 @@
+<div class="container-fluid">
+  <div class="card shadow-lg rounded-4">
+    <div class="card-header bg-primary text-white text-center">
+      <h4>Add Room Type</h4>
+    </div>
+
+    <div class="card-body">
+      <form action="/admin/roomtype/create" method="POST">
+
+        <!-- Name -->
+        <div class="mb-3">
+          <label class="form-label">Name</label>
+          <input name="name" type="text" class="form-control" required />
+        </div>
+
+        <!-- Description -->
+        <div class="mb-3">
+          <label class="form-label">Description</label>
+          <textarea name="description" class="form-control" rows="3"></textarea>
+        </div>
+
+        <!-- Status -->
+        <div class="mb-3">
+          <label class="form-label">Status</label>
+          <select name="status" class="form-control">
+            <option value="true" selected>Active</option>
+            <option value="false">Inactive</option>
+          </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+          Add Room Type
+        </button>
+
+      </form>
+    </div>
+  </div>
+</div>

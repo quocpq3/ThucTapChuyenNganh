@@ -7,6 +7,7 @@ const session = require("express-session");
 const flash = require("connect-flash");
 const passport = require("passport");
 var createError = require("http-errors");
+const methodOverride = require("method-override");
 
 var indexRouter = require("./routes/home");
 var loginRouter = require("./routes/home/login");
@@ -21,6 +22,7 @@ var orderAdminRouter = require("./routes/admin/order");
 var servicesAdminRouter = require("./routes/admin/services");
 var usersAdminRouter = require("./routes/admin/user");
 var roomDetailAdminRouter = require("./routes/admin/room-detail");
+var roomtypeAdminRouter = require("./routes/admin/roomtype");
 
 var authRouter = require("./routes/auth");
 
@@ -44,6 +46,8 @@ app.use(
     saveUninitialized: true,
   })
 );
+//method override
+app.use(methodOverride("_method"));
 app.use(flash());
 // Passport
 app.use(passport.initialize());
@@ -87,6 +91,7 @@ app.use("/admin/order", orderAdminRouter);
 app.use("/admin/services", servicesAdminRouter);
 app.use("/admin/user", usersAdminRouter);
 app.use("/admin/room-detail", roomDetailAdminRouter);
+app.use("/admin/roomtype", roomtypeAdminRouter);
 
 app.use("/", authRouter);
 

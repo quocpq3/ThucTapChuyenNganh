@@ -3,94 +3,264 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Sidebar Quản lý phòng</title>
-    <style>
-      /* Hiệu ứng mở/đóng */ .collapse-transition { overflow: hidden;
-      transition: max-height 300ms ease-in-out, visibility 300ms ease-in-out;
-      max-height: 0; visibility: hidden; padding-left: 0 !important; }
-      .collapse-transition.open { max-height: 600px; visibility: visible; } /*
-      Menu item */ .sidebar-menu-item { width: 100%; text-align: left; padding:
-      8px 12px; border-radius: 6px; transition: background-color 0.1s; display:
-      flex; align-items: center; text-decoration: none; color: inherit;
-      line-height: 1.5; font-size: 15px; cursor: pointer; }
-      .sidebar-menu-item:hover { background-color: #f3f4f6; } /* Active state -
-      màu xám để nhận biết trang hiện tại */ .sidebar-menu-item.active {
-      background-color: #e5e7eb; color: #374151; font-weight: 500; }
-      .sidebar-menu-item.active:hover { background-color: #d1d5db; }
-      .sidebar-menu-item.collapse-toggle { justify-content: space-between; }
-      .sidebar-menu-item i:not(.fa-chevron-down) { min-width: 20px;
-      margin-right: 10px; } /* Đảm bảo chevron icon ở bên phải */
-      .sidebar-menu-item.collapse-toggle .fa-chevron-down { margin-left: auto; }
-      /* Mục tiêu đề (vô hiệu hóa) */ .sidebar-menu-item.disabled { color:
-      #9ca3af; font-weight: 600; cursor: default; background-color: transparent
-      !important; } .sidebar-menu-item.disabled:hover { background-color:
-      transparent !important; } /* Thụt cấp cho menu phân cấp (cân đối) */ /*
-      Level 2 (Tầng) */ #menu-rooms > li > button.sidebar-menu-item, #menu-rooms
-      > li > ul > li > button.sidebar-menu-item { padding-left: 28px; } /* Level
-      3 (Loại phòng) */ #menu-rooms > li > ul > li > ul > li >
-      button.sidebar-menu-item { padding-left: 36px; } /* Level 4 (Tên
-      phòng/Links) */ #menu-rooms > li > ul > li > ul > li > ul > li >
-      a.sidebar-menu-item { padding-left: 44px; }
-    </style>
+
   </head>
   <body>
-    <aside
-      id="sidebar"
-      class="border-r bg-white p-3 lg:sticky lg:top-0 lg:h-screen lg:overflow-y-auto fixed inset-y-0 left-0 z-40 w-[260px] -translate-x-full lg:translate-x-0 transition-transform duration-300"
-    >
-      <div class="flex items-center justify-between mb-6">
-        <a href="/">
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-md bg-[#11234B]"></div>
-            <div>
-              <div class="font-semibold">Emerald Hotel</div>
-              <div class="text-xs text-muted">Quản trị</div>
-            </div>
-          </div>
-        </a>
-        <button
-          id="closeSidebar"
-          class="lg:hidden text-slate-600 hover:text-slate-900 text-xl"
+    <div class="bg-gray-200 min-h-screen font-sans">
+      <div class="flex">
+
+        <!-- SIDEBAR -->
+        <aside
+          class="fixed inset-y-0 left-0 w-64 bg-white shadow-lg flex flex-col"
         >
-          ✕
-        </button>
+          <!-- LOGO -->
+          <div class="flex items-center justify-center h-16 border-b">
+            <span class="font-bold text-lg text-[#11234B]">Azure Ocean Admin</span>
+          </div>
+
+          <!-- MENU -->
+          <nav class="flex-1 overflow-y-auto py-4">
+
+            <!-- TỔNG QUAN -->
+            <a
+              href="/admin"
+              class="w-full flex items-center gap-3 py-3 px-6 text-gray-700 hover:bg-gray-100"
+            >
+              <svg
+                class="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M3 12l2-2 4 4 8-8 4 4v6H3z"
+                />
+              </svg>
+              <span class="font-medium">Tổng quan</span>
+            </a>
+
+            <!-- QUẢN LÝ PHÒNG -->
+            <div x-data="{ open: false }">
+              <button
+                @click="open = !open"
+                class="w-full flex justify-between items-center py-3 px-6 text-gray-700 hover:bg-gray-100"
+              >
+                <span class="flex items-center gap-3">
+                  <svg
+                    class="h-5 w-5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M3 10l9-7 9 7v10a2 2 0 01-2 2h-4v-6H9v6H5a2 2 0 01-2-2V10z"
+                    />
+                  </svg>
+                  <span class="font-medium">Quản lý phòng</span>
+                </span>
+
+                <svg
+                  class="h-4 w-4 transform transition-transform"
+                  :class="{ 'rotate-90': open }"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M9 5l7 7-7 7"
+                  />
+                </svg>
+              </button>
+
+              <div x-show="open" x-collapse class="bg-gray-50">
+
+                <!-- LOẠI PHÒNG -->
+                <div class="py-1">
+                  <a
+                    href="/admin/roomtype"
+                    class="block py-2 pl-14 text-sm text-gray-600 hover:bg-blue-500 hover:text-white"
+                  >
+                    Loại phòng
+                  </a>
+                </div>
+
+                <!-- PHÒNG -->
+                <div class="py-1">
+                  <a
+                    href="/admin/rooms"
+                    class="block py-2 pl-14 text-sm text-gray-600 hover:bg-blue-500 hover:text-white"
+                  >
+                    Phòng
+                  </a>
+                </div>
+
+                <!-- TIỆN ÍCH -->
+                <div class="py-1">
+                  <a
+                    href="/admin/amenities"
+                    class="block py-2 pl-14 text-sm text-gray-600 hover:bg-blue-500 hover:text-white"
+                  >
+                    Tiện ích
+                  </a>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- ĐẶT PHÒNG -->
+            <div x-data="{ open: false }">
+              <button
+                @click="open = !open"
+                class="w-full flex justify-between items-center py-3 px-6 text-gray-700 hover:bg-gray-100"
+              >
+                <span class="flex items-center gap-3">
+                  <svg
+                    class="h-5 w-5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M8 7V3m8 4V3M3 11h18M5 21h14a2 2 0 002-2v-8H3v8a2 2 0 002 2z"
+                    />
+                  </svg>
+                  <span class="font-medium">Đặt phòng</span>
+                </span>
+
+                <svg
+                  class="h-4 w-4 transform transition-transform"
+                  :class="{ 'rotate-90': open }"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M9 5l7 7-7 7"
+                  />
+                </svg>
+              </button>
+
+              <div x-show="open" x-collapse class="bg-gray-50">
+                <a
+                  href="/admin/order"
+                  class="block py-2 pl-14 text-sm text-gray-600 hover:bg-blue-500 hover:text-white"
+                >
+                  Danh sách đặt phòng
+                </a>
+              </div>
+            </div>
+
+            <!-- KHÁCH HÀNG -->
+            <a
+              href="/admin/customers"
+              class="w-full flex items-center gap-3 py-3 px-6 text-gray-700 hover:bg-gray-100"
+            >
+              <svg
+                class="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14c-4 0-7 3-7 7h14c0-4-3-7-7-7z"
+                />
+              </svg>
+              <span class="font-medium">Khách hàng</span>
+            </a>
+
+            <!-- DOANH THU -->
+            <div x-data="{ open: false }">
+              <button
+                @click="open = !open"
+                class="w-full flex justify-between items-center py-3 px-6 text-gray-700 hover:bg-gray-100"
+              >
+                <span class="flex items-center gap-3">
+                  <svg
+                    class="h-5 w-5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8V6m0 12v-2"
+                    />
+                  </svg>
+                  <span class="font-medium">Doanh thu</span>
+                </span>
+
+                <svg
+                  class="h-4 w-4 transform transition-transform"
+                  :class="{ 'rotate-90': open }"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M9 5l7 7-7 7"
+                  />
+                </svg>
+              </button>
+
+              <div x-show="open" x-collapse class="bg-gray-50">
+                <a
+                  href="/admin/revenue"
+                  class="block py-2 pl-14 text-sm text-gray-600 hover:bg-blue-500 hover:text-white"
+                >
+                  Tổng quan
+                </a>
+              </div>
+            </div>
+
+            <!-- CÀI ĐẶT -->
+            <a
+              href="/admin/settings"
+              class="w-full flex items-center gap-3 py-3 px-6 text-gray-700 hover:bg-gray-100"
+            >
+              <svg
+                class="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z"
+                />
+              </svg>
+              <span class="font-medium">Cài đặt</span>
+            </a>
+
+          </nav>
+        </aside>
+
       </div>
-
-      <nav class="space-y-1 flex flex-col text-gray-700">
-        <a href="/admin" class="sidebar-menu-item">
-          <i class="fa-solid fa-chart-line"></i>
-          Bảng điều khiển
-        </a>
-
-        <a href="/admin/order" class="sidebar-menu-item">
-          <i class="fa-regular fa-calendar"></i>
-          Đặt phòng
-        </a>
-
-        <!-- Rooms menu (static top-level item) -->
-        <a href="/admin/rooms" class="sidebar-menu-item">
-          <i class="fa-regular fa-clone"></i>
-          Quản lý phòng
-        </a>
-
-        {{! Rooms sub-menu (dynamically populated) }}
-        <div id="sidebarNav" class="space-y-1 flex flex-col text-gray-700">
-          <button class="sidebar-menu-item" id="nav-rooms-root">
-            <i class="fa-regular fa-door-open"></i>
-            <span>Phòng</span>
-          </button>
-        </div>
-
-        <a href="/admin/user" class="sidebar-menu-item">
-          <i class="fa-regular fa-user"></i>
-          Khách
-        </a>
-
-        <a href="/admin/services" class="sidebar-menu-item">
-          <i class="fa-regular fa-face-smile"></i>
-          Tiện ích
-        </a>
-      </nav>
-    </aside>
+    </div>
 
     <script
       src="https://kit.fontawesome.com/a2d9a64f8f.js"
@@ -98,6 +268,9 @@
     ></script>
     <script src="/home/js/data.js"></script>
     <script type="module" src="/admin/js/rooms.js"></script>
-    <script src="/admin/js/sidebar-active.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"
+      defer
+    ></script>
   </body>
 </html>

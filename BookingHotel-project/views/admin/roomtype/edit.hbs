@@ -1,0 +1,61 @@
+<div class="container-fluid">
+  <div class="card-body">
+    <div class="col-md-0">
+      <div class="card shadow-lg rounded-4">
+        <div class="card-header bg-primary text-white text-center">
+          <h4>Edit Room Type</h4>
+        </div>
+
+        <div class="card-body border-0">
+          <form
+            action="/admin/roomtype/edit/{{roomtype._id}}?_method=PUT"
+            method="POST"
+          >
+
+            <!-- Name -->
+            <div class="mb-3">
+              <label class="form-label">Name</label>
+              <input
+                type="text"
+                name="name"
+                class="form-control"
+                value="{{roomtype.name}}"
+                required
+              />
+            </div>
+
+            <!-- Description -->
+            <div class="mb-3">
+              <label class="form-label">Description</label>
+              <textarea
+                name="description"
+                class="form-control"
+                rows="3"
+              >{{roomtype.description}}</textarea>
+            </div>
+
+            <!-- Status -->
+            <div class="mb-3">
+              <label class="form-label">Status</label>
+              <select name="status" class="form-control">
+                {{#if roomtype.status}}
+                  <option value="true" selected>Active</option>
+                  <option value="false">Inactive</option>
+                {{else}}
+                  <option value="true">Active</option>
+                  <option value="false" selected>Inactive</option>
+                {{/if}}
+              </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+              Update Room Type
+            </button>
+
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
