@@ -1,0 +1,93 @@
+<a
+  href="/admin/rooms/create"
+  class="inline-block mb-4 rounded bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700"
+>
+  Add Room
+</a>
+
+<div class="overflow-hidden rounded-lg border border-gray-200 shadow-md">
+  <table
+    class="w-full border-collapse bg-white text-left text-sm text-gray-500"
+  >
+    <thead class="bg-gray-50">
+      <tr>
+        <th class="px-6 py-4 font-medium text-gray-900">#</th>
+        <th class="px-6 py-4 font-medium text-gray-900">Room Number</th>
+        <th class="px-6 py-4 font-medium text-gray-900">Room Type</th>
+        <th class="px-6 py-4 font-medium text-gray-900">Floor</th>
+        <th class="px-6 py-4 font-medium text-gray-900">Image</th>
+        <th class="px-6 py-4 font-medium text-gray-900">Status</th>
+        <th class="px-6 py-4 font-medium text-gray-900">Notes</th>
+        <th class="px-6 py-4 font-medium text-gray-900 text-right">Actions</th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-gray-100 border-t border-gray-100">
+      {{#each rooms}}
+        <tr class="hover:bg-gray-50">
+          <td class="px-6 py-4">{{stt}}</td>
+          <td class="px-6 py-4 font-medium text-gray-900">{{roomNumber}}</td>
+          <td class="px-6 py-4 text-gray-700">
+            {{roomType.name}}
+          </td>
+          <td class="px-6 py-4 text-gray-700">{{floor}}</td>
+          <td class="px-6 py-4">
+            <img
+              src="{{image}}"
+              alt="Room Image"
+              class="h-12 w-12 object-cover rounded"
+            />
+          </td>
+          <td class="px-6 py-4">
+            {{#if isAvailable}}
+              <span
+                class="inline-flex items-center gap-1 rounded-full bg-green-50 px-2 py-1 text-xs font-semibold text-green-600"
+              >
+                <span class="h-1.5 w-1.5 rounded-full bg-green-600"></span>
+                Available
+              </span>
+            {{else if isOccupied}}
+              <span
+                class="inline-flex items-center gap-1 rounded-full bg-red-50 px-2 py-1 text-xs font-semibold text-red-600"
+              >
+                <span class="h-1.5 w-1.5 rounded-full bg-red-600"></span>
+                Occupied
+              </span>
+            {{else if isMaintenance}}
+              <span
+                class="inline-flex items-center gap-1 rounded-full bg-yellow-50 px-2 py-1 text-xs font-semibold text-yellow-600"
+              >
+                <span class="h-1.5 w-1.5 rounded-full bg-yellow-600"></span>
+                Maintenance
+              </span>
+            {{/if}}
+          </td>
+
+          <td class="px-6 py-4 text-gray-700">{{notes}}</td>
+          <td class="px-6 py-4">
+            <div class="flex justify-end gap-4">
+              <!-- Delete -->
+              <form action="/admin/rooms/{{_id}}?_method=DELETE" method="POST">
+                <button
+                  type="submit"
+                  class="text-red-600 hover:text-red-800"
+                  title="Delete"
+                >
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              </form>
+
+              <!-- Edit -->
+              <a
+                href="/admin/rooms/edit/{{_id}}"
+                class="text-yellow-500 hover:text-yellow-700"
+                title="Edit"
+              >
+                <i class="fa-solid fa-pen-to-square"></i>
+              </a>
+            </div>
+          </td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>

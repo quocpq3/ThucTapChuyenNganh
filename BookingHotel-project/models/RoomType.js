@@ -17,6 +17,20 @@ const RoomTypeSchema = new Schema({
     type: Boolean,
     default: true,
   },
+  basePrice: {
+    type: Number,
+    required: true,
+  },
+  maxGuests: {
+    type: Number,
+    required: true,
+  },
+  amenities: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Amenity",
+    },
+  ],
 });
 
 module.exports = mongoose.model("RoomType", RoomTypeSchema);

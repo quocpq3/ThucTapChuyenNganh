@@ -9,21 +9,28 @@ const RoomSchema = new Schema(
       unique: true,
       trim: true,
     },
-
-    floor: {
-      type: Number,
-    },
-
     roomType: {
       type: Schema.Types.ObjectId,
       ref: "RoomType",
       required: true,
     },
+    floor: {
+      type: String,
+      required: true,
+    },
+    image: {
+      type: String,
+      default: "",
+    },
 
     status: {
       type: String,
-      enum: ["available", "occupied", "cleaning", "maintenance"],
-      default: "available",
+      enum: ["Available", "Occupied", "Maintenance"],
+      default: "Available",
+    },
+    notes: {
+      type: String,
+      default: "",
     },
   },
   {
@@ -31,4 +38,4 @@ const RoomSchema = new Schema(
   }
 );
 
-module.exports = mongoose.model("Room", RoomSchema);
+module.exports = mongoose.model("Rooms", RoomSchema);

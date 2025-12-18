@@ -27,6 +27,8 @@ passport.use(
     });
   })
 );
+
+// check role
 router.post("/login", (req, res, next) => {
   let errors = [];
   if (!req.body.email) {
@@ -43,38 +45,14 @@ router.post("/login", (req, res, next) => {
       password: req.body.password,
     });
   }
-  passport.authenticate("local", {
-    successRedirect: "/admin",
-    failureRedirect: "/login",
-    failureFlash: true,
+  passport.authenticate("local", (err, user, info) => {
+    if (!user) return res.redirect("/login");
+
+    req.logIn(user, () => {
+      res.redirect(user.role === "admin" ? "/admin" : "/");
+    });
   })(req, res, next);
 });
-
-// check role
-// router.post("/login", (req, res, next) => {
-//   let errors = [];
-//   if (!req.body.email) {
-//     errors.push({ message: "Please enter email" });
-//   }
-//   if (!req.body.password) {
-//     errors.push({ message: "Please enter password" });
-//   }
-//   if (errors.length > 0) {
-//     return res.render("home/login", {
-//       title: "Login",
-//       errors: errors,
-//       email: req.body.email,
-//       password: req.body.password,
-//     });
-//   }
-//   passport.authenticate("local", (user) => {
-//     if (!user) return res.redirect("/login");
-
-//     req.logIn(user, () => {
-//       res.redirect(user.role === "admin" ? "/admin" : "/");
-//     });
-//   })(req, res, next);
-// });
 
 //app register
 router.post("/register", (req, res, next) => {

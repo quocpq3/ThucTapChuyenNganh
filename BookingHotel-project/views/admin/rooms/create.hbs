@@ -1,0 +1,96 @@
+<div class="max-w-3xl mx-auto">
+  <div
+    class="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-md"
+  >
+
+    <!-- Header -->
+    <div class="border-b bg-gray-50 px-6 py-4">
+      <h2 class="text-lg font-semibold text-gray-900">Add Room</h2>
+      <p class="text-sm text-gray-500">Create a new room for your hotel</p>
+    </div>
+
+    <!-- Form -->
+    <form action="/admin/rooms/create" method="POST" class="p-6 space-y-6">
+
+      <!-- Room Number -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Room Number</label>
+        <input
+          type="text"
+          name="roomNumber"
+          required
+          class="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+          placeholder="101"
+        />
+      </div>
+
+      <!-- Room Type -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Room Type</label>
+        <select
+          name="roomType"
+          required
+          class="mt-1 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+        >
+          {{#each roomtypes}}
+            <option value="{{_id}}">{{name}}</option>
+          {{/each}}
+        </select>
+      </div>
+
+      <!-- Floor -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Floor</label>
+        <input
+          type="text"
+          name="floor"
+          required
+          class="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+          placeholder="1st Floor"
+        />
+      </div>
+
+      <!-- Status -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Status</label>
+        <select
+          name="status"
+          class="mt-1 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+        >
+          <option value="Available">Available</option>
+          <option value="Occupied">Occupied</option>
+          <option value="Maintenance">Maintenance</option>
+        </select>
+      </div>
+
+      <!-- Notes -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Notes</label>
+        <textarea
+          name="notes"
+          rows="2"
+          class="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+          placeholder="Optional notes about this room"
+        ></textarea>
+      </div>
+
+      <!-- Actions -->
+      <div class="flex justify-end gap-3 border-t pt-4">
+        <a
+          href="/admin/rooms"
+          class="inline-flex items-center rounded-md border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100"
+        >
+          Cancel
+        </a>
+
+        <button
+          type="submit"
+          class="inline-flex items-center rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700"
+        >
+          Add Room
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>
