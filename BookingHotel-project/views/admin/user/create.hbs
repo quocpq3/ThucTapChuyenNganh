@@ -6,15 +6,15 @@
     <!-- Header -->
     <div class="border-b bg-gray-50 px-6 py-4">
       <h2 class="text-lg font-semibold text-gray-900">
-        Add Amenity
+        Add User
       </h2>
       <p class="text-sm text-gray-500">
-        Create a new amenity for your hotel
+        Create a new user
       </p>
     </div>
 
     <!-- Form -->
-    <form action="/admin/amenity/create" method="POST" class="p-6 space-y-6">
+    <form action="/admin/user/create" method="POST" class="p-6 space-y-6">
 
       <!-- Name -->
       <div>
@@ -26,47 +26,55 @@
           name="name"
           required
           class="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-          placeholder="Amenity"
+          placeholder="Name"
         />
       </div>
 
-      <!-- Description -->
+      <!-- Email -->
       <div>
         <label class="block text-sm font-medium text-gray-700">
-          Description
+          Email
         </label>
-        <textarea
-          name="description"
-          rows="3"
+        <input
+          type="text"
+          name="email"
+          required
           class="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-          placeholder="Spacious room with sea view..."
-        ></textarea>
+          placeholder="Email"
+        />
       </div>
-
-      <!-- Grid: Price + Guests -->
-      <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
-
-      </div>
-
-      <!-- Status -->
+      <!-- Phone -->
       <div>
         <label class="block text-sm font-medium text-gray-700">
-          Status
+          Phone
         </label>
-        <select
-          name="status"
-          class="mt-1 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-        >
-          <option value="true">Active</option>
-          <option value="false">Inactive</option>
-        </select>
+        <input
+          type="text"
+          name="phone"
+          required
+          class="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+          placeholder="Phone"
+        />
+      </div>
+      <!-- Phone -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700">
+          Password
+        </label>
+        <input
+          type="text"
+          name="password"
+          required
+          class="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+          placeholder="password"
+        />
       </div>
 
       <!-- Actions -->
       <div class="flex justify-end gap-3 border-t pt-4">
 
         <a
-          href="/admin/amenity"
+          href="/admin/user"
           class="inline-flex items-center rounded-md border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100"
         >
           Cancel
@@ -76,7 +84,7 @@
           type="submit"
           class="inline-flex items-center rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700"
         >
-          Add Amenity
+          Add User
         </button>
 
       </div>

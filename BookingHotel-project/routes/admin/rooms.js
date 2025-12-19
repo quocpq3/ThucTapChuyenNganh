@@ -52,6 +52,11 @@ router.get("/edit/:id", async (req, res) => {
   const room = await Rooms.findById(req.params.id).lean();
   const roomtypes = await RoomType.find({ status: true }).lean();
 
+  //đánh dấu roomType đang được chọn
+  roomtypes.forEach((rt) => {
+    rt.selected = rt._id.toString() === room.roomType.toString();
+  });
+
   res.render("admin/rooms/edit", {
     room,
     roomtypes,

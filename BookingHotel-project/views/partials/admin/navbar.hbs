@@ -167,27 +167,6 @@
             </div>
 
             <!-- KHÁCH HÀNG -->
-            <a
-              href="/admin/customers"
-              class="w-full flex items-center gap-3 py-3 px-6 text-gray-700 hover:bg-gray-100"
-            >
-              <svg
-                class="h-5 w-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14c-4 0-7 3-7 7h14c0-4-3-7-7-7z"
-                />
-              </svg>
-              <span class="font-medium">Khách hàng</span>
-            </a>
-
-            <!-- DOANH THU -->
             <div x-data="{ open: false }">
               <button
                 @click="open = !open"
@@ -204,10 +183,10 @@
                       stroke-width="2"
                       stroke-linecap="round"
                       stroke-linejoin="round"
-                      d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8V6m0 12v-2"
+                      d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14c-4 0-7 3-7 7h14c0-4-3-7-7-7z"
                     />
                   </svg>
-                  <span class="font-medium">Doanh thu</span>
+                  <span class="font-medium">Người dùng</span>
                 </span>
 
                 <svg
@@ -227,35 +206,19 @@
               </button>
 
               <div x-show="open" x-collapse class="bg-gray-50">
-                <a
-                  href="/admin/revenue"
-                  class="block py-2 pl-14 text-sm text-gray-600 hover:bg-blue-500 hover:text-white"
-                >
-                  Tổng quan
-                </a>
+
+                <!-- LOẠI PHÒNG -->
+                <div class="py-1">
+                  <a
+                    href="/admin/user"
+                    class="block py-2 pl-14 text-sm text-gray-600 hover:bg-blue-500 hover:text-white"
+                  >
+                    Danh sách người dùng
+                  </a>
+                </div>
+
               </div>
             </div>
-
-            <!-- CÀI ĐẶT -->
-            <a
-              href="/admin/settings"
-              class="w-full flex items-center gap-3 py-3 px-6 text-gray-700 hover:bg-gray-100"
-            >
-              <svg
-                class="h-5 w-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z"
-                />
-              </svg>
-              <span class="font-medium">Cài đặt</span>
-            </a>
 
           </nav>
         </aside>
