@@ -16,8 +16,7 @@ var indexRouter = require("./routes/home");
 var loginRouter = require("./routes/home/login");
 var registerRouter = require("./routes/home/register");
 var bookingRouter = require("./routes/home/booking");
-var roomDetailRouter = require("./routes/home/roomDetail");
-var testRouter = require("./routes/home/test");
+var roomsRouter = require("./routes/home/rooms");
 
 var adminRouter = require("./routes/admin/admin");
 var roomAdminRouter = require("./routes/admin/rooms");
@@ -85,8 +84,7 @@ app.use("/", indexRouter);
 app.use("/login", loginRouter);
 app.use("/register", registerRouter);
 app.use("/booking", bookingRouter);
-app.use("/room-detail", roomDetailRouter);
-app.use("/test", testRouter);
+app.use("/rooms", roomsRouter);
 
 app.use("/admin", adminRouter);
 app.use("/admin/rooms", roomAdminRouter);

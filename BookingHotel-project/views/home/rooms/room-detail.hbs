@@ -1,0 +1,130 @@
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Chi tiết phòng - Azure Ocean Resort</title>
+
+    <!-- Tailwind CDN -->
+    <script>
+      tailwind = { config: { theme: { extend: { colors: { primary:
+      "hsl(var(--primary))", "primary-foreground":
+      "hsl(var(--primary-foreground))", secondary: "hsl(var(--secondary))",
+      "secondary-foreground": "hsl(var(--secondary-foreground))", accent:
+      "hsl(var(--accent))", "accent-foreground":
+      "hsl(var(--accent-foreground))", background: "hsl(var(--background))",
+      foreground: "hsl(var(--foreground))", muted: "hsl(var(--muted))",
+      "muted-foreground": "hsl(var(--muted-foreground))", border:
+      "hsl(var(--border))", card: "hsl(var(--card))", "card-foreground":
+      "hsl(var(--card-foreground))", }, borderRadius: { lg: "0.75rem" }, }, },
+      }, };
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/home/css/styles.css" />
+  </head>
+  <body class="bg-background text-foreground antialiased">
+    <main class="pt-6 pb-6">
+
+<section class="mt-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+
+  <!-- Back link -->
+  <div class="mb-6">
+    <a href="/rooms/room-list" class="text-sm font-medium text-muted-foreground hover:text-foreground flex items-center gap-1">
+      <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none">
+        <path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
+      </svg>
+      Quay lại danh sách phòng
+    </a>
+  </div>
+
+  {{#if room}}
+    <div class="grid md:grid-cols-2 gap-8">
+
+      <!-- Left: Hình ảnh + thông tin nhanh -->
+      <div class="flex flex-col gap-6">
+
+        <div class="rounded-lg overflow-hidden shadow-lg">
+          <img src="{{#if room.image}}{{room.image}}{{else}}/home/images/placeholder.jpg{{/if}}" 
+               alt="Phòng {{room.roomNumber}}" 
+               class="w-full h-[360px] object-cover"/>
+        </div>
+
+        <div class="p-6 rounded-lg border bg-muted/30">
+          <h3 class="font-semibold mb-4">Thông tin phòng</h3>
+          <div class="space-y-3 text-sm text-gray-700">
+            <div class="flex justify-between">
+              <span class="text-muted-foreground">Sức chứa:</span>
+              <span class="font-medium">Tối đa {{room.roomType.maxGuests}} người</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-muted-foreground">Giá mỗi đêm:</span>
+              <span class="text-accent font-semibold text-lg">{{room.roomType.basePrice}} đ</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-muted-foreground">Tầng:</span>
+              <span class="font-medium">{{room.floor}}</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Right: Thông tin chi tiết + tiện ích -->
+      <div class="flex flex-col gap-6">
+
+        <h1 class="text-3xl font-bold">{{room.roomNumber}} – {{room.roomType.name}}</h1>
+
+        <div>
+          <h3 class="font-semibold mb-2">Mô tả</h3>
+          <p class="text-muted-foreground leading-relaxed">{{room.roomType.description}}</p>
+        </div>
+
+        {{#if room.roomType.amenities}}
+          <div>
+            <h3 class="font-semibold mb-2">Tiện ích phòng</h3>
+            <div class="grid grid-cols-1 gap-3">
+              {{#each room.roomType.amenities}}
+                {{#if status}}
+                  <div class="flex items-center gap-3 p-3 rounded-lg border bg-card">
+                    <svg class="w-5 h-5 text-accent flex-shrink-0" viewBox="0 0 24 24" fill="none">
+                      <path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    <span class="text-sm">{{name}}</span>
+                  </div>
+                {{/if}}
+              {{/each}}
+            </div>
+          </div>
+        {{/if}}
+
+        {{#if room.notes}}
+          <div class="p-4 bg-muted/20 rounded-lg border">
+            <h3 class="font-semibold mb-2">Ghi chú</h3>
+            <p class="text-sm text-gray-500 italic">{{room.notes}}</p>
+          </div>
+        {{/if}}
+
+        <!-- Nút đặt phòng + xem phòng khác -->
+        <div class="flex gap-3 mt-4">
+          <a href="/booking?roomId={{room._id}}" 
+             class="flex-1 text-center rounded-md bg-[#11234B] text-white px-6 py-3 font-semibold hover:opacity-90 transition-opacity">
+            Đặt phòng ngay
+          </a>
+          <a href="/rooms/room-list" 
+             class="rounded-md border border-input px-6 py-3 font-medium hover:bg-card/50 transition-colors">
+            Xem phòng khác
+          </a>
+        </div>
+
+      </div>
+
+    </div>
+  {{else}}
+    <div class="text-center py-12">
+      <p class="text-lg text-muted-foreground mb-4">Phòng không tồn tại</p>
+      <a href="/rooms/room-list" class="text-primary hover:underline font-medium text-sm">Quay lại danh sách phòng</a>
+    </div>
+  {{/if}}
+</section>
+    </main>
+  </body>
+</html>

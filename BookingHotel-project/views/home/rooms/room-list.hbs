@@ -1,0 +1,119 @@
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Chi tiết phòng - Azure Ocean Resort</title>
+
+    <!-- Tailwind CDN -->
+    <script>
+      tailwind = { config: { theme: { extend: { colors: { primary:
+      "hsl(var(--primary))", "primary-foreground":
+      "hsl(var(--primary-foreground))", secondary: "hsl(var(--secondary))",
+      "secondary-foreground": "hsl(var(--secondary-foreground))", accent:
+      "hsl(var(--accent))", "accent-foreground":
+      "hsl(var(--accent-foreground))", background: "hsl(var(--background))",
+      foreground: "hsl(var(--foreground))", muted: "hsl(var(--muted))",
+      "muted-foreground": "hsl(var(--muted-foreground))", border:
+      "hsl(var(--border))", card: "hsl(var(--card))", "card-foreground":
+      "hsl(var(--card-foreground))", }, borderRadius: { lg: "0.75rem" }, }, },
+      }, };
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/home/css/styles.css" />
+  </head>
+  <body class="bg-background text-foreground antialiased">
+    <main class="pt-6 pb-6">
+
+      <section class="mt-16">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+
+          <!-- Header -->
+          <div class="mb-8">
+            <h1 class="text-3xl font-semibold">Danh sách phòng</h1>
+            <p class="text-muted-foreground mt-2">
+              Khám phá tất cả các phòng & suite của khách sạn
+            </p>
+          </div>
+
+          <!-- Grid rooms -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {{#each rooms}}
+              <div
+                class="rounded-xl overflow-hidden border border-gray-200 bg-white shadow hover:shadow-xl transition flex flex-col h-full"
+              >
+
+                <!-- Hình ảnh -->
+                <div class="relative h-[220px] w-full shrink-0">
+                  <div
+                    class="absolute inset-0 z-10"
+                    style="background: linear-gradient(135deg, rgba(34,57,89,.9), rgba(67,46,40,.6));"
+                  >
+                  </div>
+                  <img
+                    src="{{image}}"
+                    alt="Room {{roomNumber}}"
+                    class="absolute inset-0 w-full h-full object-cover object-center"
+                  />
+                </div>
+
+                <!-- Nội dung ngắn gọn -->
+                <div class="p-4 flex flex-col flex-grow justify-between">
+
+                  <div>
+                    <h3 class="text-lg font-semibold text-gray-800">
+                      Phòng
+                      {{roomNumber}}
+                      –
+                      {{roomType.name}}
+                    </h3>
+
+                    <div class="text-sm font-medium mt-1 text-gray-700">
+                      {{roomType.basePrice}}
+                      đ / đêm
+                    </div>
+                  </div>
+
+                  <!-- Footer: nút chi tiết + đặt phòng -->
+                  <div class="mt-4 flex gap-2">
+                    <a
+                      href="/rooms/room-detail/{{_id}}"
+                      class="flex-1 text-center rounded-md border border-gray-300 px-4 py-2 text-sm hover:bg-gray-50 transition"
+                    >
+                      Chi tiết
+                    </a>
+
+                    <a
+                      href="/booking?roomId={{_id}}"
+                      class="flex-1 text-center rounded-md bg-[#11234B] text-white px-4 py-2 text-sm hover:bg-[#0d1c3a] transition"
+                    >
+                      Đặt phòng
+                    </a>
+                  </div>
+
+                </div>
+              </div>
+            {{/each}}
+          </div>
+
+        </div>
+      </section>
+      <div class="mt-12 flex justify-center">
+        <a
+          href="/"
+          class="inline-flex items-center gap-2 rounded-full border border-gray-300 bg-white px-8 py-3 text-sm font-medium text-gray-800 hover:bg-gray-100 hover:shadow transition"
+        >
+          Quay lại trang chủ
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none">
+            <path
+              d="M9 18l6-6-6-6"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </a>
+      </div>
+    </main>
+  </body>
+</html>
