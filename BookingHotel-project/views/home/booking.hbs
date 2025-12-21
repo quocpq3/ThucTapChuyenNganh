@@ -30,187 +30,97 @@
     <!-- Page content -->
     <main class="page-container">
       <div class="max-w-4xl mx-auto">
-        <div class="mb-6">
-          <h1 class="text-2xl font-semibold mb-2">Đặt Phòng</h1>
-          <p class="text-sm text-muted-foreground">
-            Hoàn tất đặt phòng của bạn
-          </p>
-        </div>
+        <div class="max-w-3xl mx-auto">
+          <div
+            class="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-md"
+          >
 
-        <div class="grid md:grid-cols-2 gap-6">
-          <!-- Left column: Guest info -->
-          <div class="space-y-4">
-            <div class="p-6 rounded-lg border bg-card">
-              <h3 class="font-semibold mb-4">Thông tin khách hàng</h3>
+            <!-- Header -->
+            <div class="border-b bg-gray-50 px-6 py-4">
+              <h2 class="text-lg font-semibold text-gray-900">Đặt phòng</h2>
+              <p class="text-sm text-gray-500">Chọn phòng và thời gian lưu trú</p>
+            </div>
 
-              <div class="form-group">
-                <label for="b_name" class="form-label">Họ và tên</label>
-                <input id="b_name" type="text" class="form-input" required />
-                <span
-                  id="err_name"
-                  class="form-error"
-                  style="display: none"
-                ></span>
+            <!-- Form -->
+            <form action="/booking" method="POST" class="p-6 space-y-6">
+
+              <!-- Room -->
+              <div>
+                <label
+                  class="block text-sm font-medium text-gray-700"
+                >Phòng</label>
+                <select
+                  name="room"
+                  required
+                  class="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
+                >
+                  {{#each rooms}}
+                    <option value="{{_id}}">
+                      Phòng
+                      {{roomNumber}}
+                      –
+                      {{roomType.name}}
+                    </option>
+                  {{/each}}
+                </select>
               </div>
 
-              <div class="form-group">
-                <label for="b_email" class="form-label">Email</label>
-                <input id="b_email" type="email" class="form-input" required />
-                <span
-                  id="err_email"
-                  class="form-error"
-                  style="display: none"
-                ></span>
-              </div>
-
-              <div class="form-group">
-                <label for="b_phone" class="form-label">Số điện thoại</label>
-                <input id="b_phone" type="tel" class="form-input" required />
-                <span
-                  id="err_phone"
-                  class="form-error"
-                  style="display: none"
-                ></span>
-              </div>
-
-              <div class="form-group">
-                <label for="b_country" class="form-label">Quốc gia</label>
+              <!-- Check In -->
+              <div>
+                <label class="block text-sm font-medium text-gray-700">Check In</label>
                 <input
-                  id="b_country"
-                  type="text"
-                  class="form-input"
-                  placeholder="Việt Nam"
+                  type="date"
+                  name="checkIn"
+                  required
+                  class="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
                 />
               </div>
-            </div>
-          </div>
 
-          <!-- Right column: Booking details -->
-          <div class="space-y-4">
-            <div class="p-6 rounded-lg border bg-card">
-              <h3 class="font-semibold mb-4">Chi tiết đặt phòng</h3>
-
-              <div class="form-group">
-                <label for="b_roomType" class="form-label">Loại phòng</label>
-                <select id="b_roomType" class="form-input" required>
-                  <option value="">Chọn loại phòng</option>
-                  <option value="deluxe">Phòng Deluxe — $299</option>
-                  <option value="suite">Suite Cao Cấp — $499</option>
-                  <option value="penthouse">Suite Penthouse — $899</option>
-                  <option value="villa">Biệt Thự Biển — $1,299</option>
-                </select>
-                <span
-                  id="err_roomType"
-                  class="form-error"
-                  style="display: none"
-                ></span>
+              <!-- Check Out -->
+              <div>
+                <label class="block text-sm font-medium text-gray-700">Check Out</label>
+                <input
+                  type="date"
+                  name="checkOut"
+                  required
+                  class="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
+                />
               </div>
 
-              <div class="grid grid-cols-2 gap-3">
-                <div class="form-group">
-                  <label for="b_checkIn" class="form-label">Ngày đến</label>
-                  <input
-                    id="b_checkIn"
-                    type="date"
-                    class="form-input"
-                    required
-                  />
-                  <span
-                    id="err_checkIn"
-                    class="form-error"
-                    style="display: none"
-                  ></span>
-                </div>
-                <div class="form-group">
-                  <label for="b_checkOut" class="form-label">Ngày đi</label>
-                  <input
-                    id="b_checkOut"
-                    type="date"
-                    class="form-input"
-                    required
-                  />
-                  <span
-                    id="err_checkOut"
-                    class="form-error"
-                    style="display: none"
-                  ></span>
-                </div>
+              <!-- Guests -->
+              <div>
+                <label class="block text-sm font-medium text-gray-700">Số khách</label>
+                <input
+                  type="number"
+                  name="guests"
+                  min="1"
+                  value="1"
+                  required
+                  class="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
+                />
               </div>
 
-              <div class="grid grid-cols-2 gap-3">
-                <div class="form-group">
-                  <label for="b_adults" class="form-label">Người lớn</label>
-                  <input
-                    id="b_adults"
-                    type="number"
-                    min="1"
-                    value="2"
-                    class="form-input"
-                  />
-                </div>
-                <div class="form-group">
-                  <label for="b_children" class="form-label">Trẻ em</label>
-                  <input
-                    id="b_children"
-                    type="number"
-                    min="0"
-                    value="0"
-                    class="form-input"
-                  />
-                </div>
+              <!-- Actions -->
+              <div class="flex justify-end gap-3 border-t pt-4">
+                <a
+                  href="/"
+                  class="rounded-md border border-gray-300 px-4 py-2 text-sm"
+                >
+                  Huỷ
+                </a>
+
+                <button
+                  type="submit"
+                  class="rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white"
+                >
+                  Đặt phòng
+                </button>
               </div>
 
-              <div class="form-group">
-                <label for="b_special" class="form-label">Yêu cầu đặc biệt</label>
-                <textarea
-                  id="b_special"
-                  rows="3"
-                  class="form-input"
-                  placeholder="Ghi chú, yêu cầu đặc biệt..."
-                ></textarea>
-              </div>
-            </div>
-
-            <!-- Price summary -->
-            <div class="p-6 rounded-lg border bg-muted/30">
-              <h3 class="font-semibold mb-4">Tóm tắt đặt phòng</h3>
-              <div class="space-y-2 text-sm">
-                <div class="flex justify-between">
-                  <span class="text-muted-foreground">Số đêm:</span>
-                  <span id="calcNights" class="font-medium">0</span>
-                </div>
-                <div class="flex justify-between">
-                  <span class="text-muted-foreground">Giá mỗi đêm:</span>
-                  <span id="calcPrice" class="font-medium">$0</span>
-                </div>
-                <hr class="my-3 border-t border-border" />
-                <div class="flex justify-between">
-                  <span class="font-semibold">Tổng cộng:</span>
-                  <span
-                    id="calcTotal"
-                    class="text-2xl font-semibold text-primary"
-                  >$0</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Action buttons -->
-            <div class="flex gap-3">
-              <a
-                href="/"
-                class="flex-1 text-center form-button form-button-secondary"
-              >
-                Hủy
-              </a>
-              <button
-                id="confirmBooking"
-                class="flex-1 form-button form-button-primary"
-              >
-                Xác nhận đặt phòng
-              </button>
-            </div>
+            </form>
           </div>
         </div>
+
       </div>
     </main>
 

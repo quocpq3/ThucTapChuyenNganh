@@ -20,7 +20,7 @@ var roomsRouter = require("./routes/home/rooms");
 
 var adminRouter = require("./routes/admin/admin");
 var roomAdminRouter = require("./routes/admin/rooms");
-var orderAdminRouter = require("./routes/admin/order");
+var bookingAdminRouter = require("./routes/admin/booking");
 var usersAdminRouter = require("./routes/admin/user");
 var roomDetailAdminRouter = require("./routes/admin/room-detail");
 var roomtypeAdminRouter = require("./routes/admin/roomtype");
@@ -88,7 +88,7 @@ app.use("/rooms", roomsRouter);
 
 app.use("/admin", adminRouter);
 app.use("/admin/rooms", roomAdminRouter);
-app.use("/admin/order", orderAdminRouter);
+app.use("/admin/bookings", bookingAdminRouter);
 app.use("/admin/user", usersAdminRouter);
 app.use("/admin/room-detail", roomDetailAdminRouter);
 app.use("/admin/roomtype", roomtypeAdminRouter);

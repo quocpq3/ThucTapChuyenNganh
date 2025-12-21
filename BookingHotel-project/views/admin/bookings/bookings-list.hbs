@@ -1,0 +1,135 @@
+<div class="flex items-center mb-4 justify-between">
+  <h2 class="text-lg font-semibold text-gray-700 mr-4">Quản lý Booking</h2>
+  <a
+    href="/admin/bookings/create"
+    class="inline-block mb-4 rounded bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700"
+  >
+    Add Booking
+  </a>
+</div>
+
+<div class="overflow-hidden rounded-lg border border-gray-200 shadow-md">
+  <table
+    class="w-full border-collapse bg-white text-left text-sm text-gray-500"
+  >
+    <thead class="bg-gray-50">
+      <tr>
+        <th class="px-6 py-4 font-medium text-gray-900">#</th>
+        <th class="px-6 py-4 font-medium text-gray-900">Customer</th>
+        <th class="px-6 py-4 font-medium text-gray-900">Phone</th>
+        <th class="px-6 py-4 font-medium text-gray-900">Room</th>
+        <th class="px-6 py-4 font-medium text-gray-900">Room Type</th>
+        <th class="px-6 py-4 font-medium text-gray-900">Check In</th>
+        <th class="px-6 py-4 font-medium text-gray-900">Check Out</th>
+        <th class="px-6 py-4 font-medium text-gray-900">Guests</th>
+        <th class="px-6 py-4 font-medium text-gray-900">Total Price</th>
+        <th class="px-6 py-4 font-medium text-gray-900">Status</th>
+        <th class="px-6 py-4 font-medium text-gray-900 text-right">
+          Actions
+        </th>
+      </tr>
+    </thead>
+
+    <tbody class="divide-y divide-gray-100 border-t border-gray-100">
+      {{#each bookings}}
+        <tr class="hover:bg-gray-50">
+          <td class="px-6 py-4">{{stt}}</td>
+
+          <td>
+            {{#if user}}
+              {{user.name}}
+            {{else}}
+              {{guestName}}
+            {{/if}}
+          </td>
+
+          <td>
+            {{#if user}}
+              {{user.phone}}
+            {{else}}
+              {{guestPhone}}
+            {{/if}}
+          </td>
+
+          <td class="px-6 py-4 text-gray-700">
+            {{#if room.roomNumber}}{{room.roomNumber}}{{else}}N/A{{/if}}
+          </td>
+
+          <td class="px-6 py-4 text-gray-700">
+            {{#if room.roomType.name}}{{room.roomType.name}}{{else}}N/A{{/if}}
+          </td>
+
+          <td class="px-6 py-4">{{checkInFormatted}}</td>
+          <td class="px-6 py-4">{{checkOutFormatted}}</td>
+
+          <td class="px-6 py-4 text-gray-700">{{guests}}</td>
+
+          <td class="px-6 py-4 font-semibold text-gray-900">
+            {{#if totalPriceFormatted}}{{totalPriceFormatted}}{{else}}0 ₫{{/if}}
+          </td>
+
+          <td class="px-6 py-4">
+            {{#if isPending}}
+              <span
+                class="inline-flex items-center gap-1 rounded-full bg-gray-100 px-2 py-1 text-xs font-semibold text-gray-600"
+              >
+                Pending
+              </span>
+            {{else if isConfirmed}}
+              <span
+                class="inline-flex items-center gap-1 rounded-full bg-green-50 px-2 py-1 text-xs font-semibold text-green-600"
+              >
+                Confirmed
+              </span>
+            {{else if isCancelled}}
+              <span
+                class="inline-flex items-center gap-1 rounded-full bg-red-50 px-2 py-1 text-xs font-semibold text-red-600"
+              >
+                Cancelled
+              </span>
+            {{else if isCheckedIn}}
+              <span
+                class="inline-flex items-center gap-1 rounded-full bg-blue-50 px-2 py-1 text-xs font-semibold text-blue-600"
+              >
+                Checked In
+              </span>
+            {{else if isCheckedOut}}
+              <span
+                class="inline-flex items-center gap-1 rounded-full bg-purple-50 px-2 py-1 text-xs font-semibold text-purple-600"
+              >
+                Checked Out
+              </span>
+            {{/if}}
+          </td>
+
+          <td class="px-6 py-4">
+            <div class="flex justify-end gap-4">
+              <!-- Delete -->
+              <form
+                action="/admin/bookings/{{_id}}?_method=DELETE"
+                method="POST"
+              >
+                <button
+                  type="submit"
+                  class="text-red-600 hover:text-red-800"
+                  title="Delete"
+                >
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              </form>
+
+              <!-- Edit -->
+              <a
+                href="/admin/bookings/edit/{{_id}}"
+                class="text-yellow-500 hover:text-yellow-700"
+                title="Edit"
+              >
+                <i class="fa-solid fa-pen-to-square"></i>
+              </a>
+            </div>
+          </td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>

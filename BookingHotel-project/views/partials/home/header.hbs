@@ -20,7 +20,7 @@
 
         <nav class="hidden md:flex items-center gap-8 text-sm">
         <a
-            href="/room-list"
+            href="/rooms/room-list"
             class="text-foreground/80 hover:text-foreground"
           >Phòng</a>
           <a
@@ -68,25 +68,30 @@
               </a>
             {{/if}}
 
-            <button
-              id="bookNowHeader"
-              class="inline-flex items-center gap-2 rounded-md bg-[#11234B] text-white px-4 py-2 text-sm font-medium shadow hover:opacity-95"
-            >
-              <svg
-                class="size-4"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-              >
-                <path
-                  d="M7 10h10M7 14h4"
-                  stroke-width="1.6"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
-              Đặt Ngay
-            </button>
+          <a
+  href="/booking"
+  class="group inline-flex items-center gap-2
+         rounded-md bg-[#11234B]
+         px-4 py-2 text-sm font-semibold text-white
+         shadow-md transition-all duration-200
+         hover:bg-[#1E3A8A] hover:shadow-lg"
+>
+  <svg
+    class="size-4 transition-transform duration-200 group-hover:translate-x-0.5"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+  >
+    <path
+      d="M7 10h10M7 14h4"
+      stroke-width="1.6"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </svg>
+  <span>Đặt ngay</span>
+</a>
+
           </div>
         </nav>
 
