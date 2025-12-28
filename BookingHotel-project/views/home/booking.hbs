@@ -34,17 +34,22 @@
           <div
             class="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-md"
           >
+            {{#if success_message}}
+              <div class="mb-4 rounded bg-green-100 px-4 py-2 text-green-800">
+                {{success_message}}
+              </div>
+            {{/if}}
 
-            <!-- Header -->
+            {{#if error_message}}
+              <div class="mb-4 rounded bg-red-100 px-4 py-2 text-red-800">
+                {{error_message}}
+              </div>
+            {{/if}}
             <div class="border-b bg-gray-50 px-6 py-4">
               <h2 class="text-lg font-semibold text-gray-900">Đặt phòng</h2>
               <p class="text-sm text-gray-500">Chọn phòng và thời gian lưu trú</p>
             </div>
-
-            <!-- Form -->
             <form action="/booking" method="POST" class="p-6 space-y-6">
-
-              <!-- Room -->
               <div>
                 <label
                   class="block text-sm font-medium text-gray-700"
@@ -64,8 +69,6 @@
                   {{/each}}
                 </select>
               </div>
-
-              <!-- Check In -->
               <div>
                 <label class="block text-sm font-medium text-gray-700">Check In</label>
                 <input
@@ -75,8 +78,6 @@
                   class="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
                 />
               </div>
-
-              <!-- Check Out -->
               <div>
                 <label class="block text-sm font-medium text-gray-700">Check Out</label>
                 <input
@@ -86,8 +87,6 @@
                   class="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
                 />
               </div>
-
-              <!-- Guests -->
               <div>
                 <label class="block text-sm font-medium text-gray-700">Số khách</label>
                 <input
@@ -99,8 +98,6 @@
                   class="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
                 />
               </div>
-
-              <!-- Actions -->
               <div class="flex justify-end gap-3 border-t pt-4">
                 <a
                   href="/"

@@ -1,0 +1,81 @@
+<div class="max-w-3xl mx-auto">
+  <div
+    class="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-md"
+  >
+
+    <!-- Header -->
+    <div class="border-b bg-gray-50 px-6 py-4">
+      <h2 class="text-lg font-semibold text-gray-900">
+        Sửa Quyền riêng tư
+      </h2>
+      <p class="text-sm text-gray-500">
+        Cập nhật nội dung chính sách quyền riêng tư
+      </p>
+    </div>
+
+    <!-- Form -->
+    <form
+      action="/admin/privacy/edit/{{privacy._id}}?_method=PUT"
+      method="POST"
+      class="p-6 space-y-6"
+    >
+
+      <!-- Number -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700">
+          Số thứ tự
+        </label>
+        <input
+          type="number"
+          name="number"
+          value="{{privacy.number}}"
+          class="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+        />
+      </div>
+
+      <!-- Title -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700">
+          Tiêu đề
+        </label>
+        <input
+          type="text"
+          name="title"
+          value="{{privacy.title}}"
+          required
+          class="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+        />
+      </div>
+
+      <!-- Description -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700">
+          Nội dung
+        </label>
+        <textarea
+          name="description"
+          rows="6"
+          class="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+        >{{privacy.description}}</textarea>
+      </div>
+
+      <!-- Actions -->
+      <div class="flex justify-end gap-3 border-t pt-4">
+        <a
+          href="/admin/privacy"
+          class="inline-flex items-center rounded-md border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100"
+        >
+          Huỷ
+        </a>
+
+        <button
+          type="submit"
+          class="inline-flex items-center rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700"
+        >
+          Cập nhật
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>

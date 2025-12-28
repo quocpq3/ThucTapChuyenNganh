@@ -39,7 +39,7 @@
               class="size-8 rounded-lg bg-gradient-to-br from-primary to-primary/80"
             ></div>
             <div class="font-semibold">Khu Nghỉ Dưỡng Azure</div>
-          </div>
+          </div>div>
           <button id="mobileClose" aria-label="Đóng" class="p-2 rounded-md">
             <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none">
               <path
@@ -262,7 +262,7 @@
                     </a>
 
                     <a
-                      href="/rooms/booking/{{_id}}"
+                      href="/booking"
                       class="flex-1 text-center rounded-md bg-[#11234B] text-white px-4 py-2 text-sm hover:bg-[#0d1c3a] transition"
                     >
                       Đặt phòng
@@ -298,13 +298,70 @@
       <section id="offers" class="mt-16">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <h2 class="text-2xl font-semibold">Ưu Đãi Đặc Biệt</h2>
-          <p class="text-muted-foreground mt-2">Tạo nên kỳ nghỉ đáng nhớ</p>
-
+          <p class="mt-2 text-sm text-gray-500">Tạo nên kỳ nghỉ đáng nhớ</p>
           <div
-            class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6"
             id="offersGrid"
+            class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
           >
-            <!-- Rendered by JS -->
+            {{#each endows}}
+              {{#if status}}
+                <div
+                  class="flex h-full flex-col rounded-xl border border-gray-200 bg-white p-6 shadow-sm"
+                >
+                  <div
+                    class="flex min-h-[56px] items-start justify-between gap-3"
+                  >
+                    <h3
+                      class="text-lg font-semibold leading-snug text-gray-900"
+                    >
+                      {{name}}
+                    </h3>
+
+                    {{#if isPercent}}
+                      <span
+                        class="shrink-0 rounded-full bg-amber-100 px-3 py-1 text-xs font-semibold text-amber-700"
+                      >
+                        {{value}}% OFF
+                      </span>
+                    {{/if}}
+
+                    {{#if isAmount}}
+                      <span
+                        class="shrink-0 rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-700"
+                      >
+                        {{value}}đ OFF
+                      </span>
+                    {{/if}}
+
+                    {{#if isCombo}}
+                      <span
+                        class="shrink-0 rounded-full bg-blue-100 px-3 py-1 text-xs font-semibold text-blue-700"
+                      >
+                        COMBO
+                      </span>
+                    {{/if}}
+                  </div>
+                  <p class="mt-3 min-h-[48px] text-sm text-gray-600">
+                    {{description}}
+                  </p>
+
+                  <div class="flex-1"></div>
+
+                  {{#if amenityList.length}}
+                    <hr class="my-4 border-gray-200" />
+                    <ul class="space-y-2 text-sm text-gray-700">
+                      {{#each amenityList}}
+                        <li class="flex items-center gap-2">
+                          <span class="text-green-600">✓</span>
+                          {{this}}
+                        </li>
+                      {{/each}}
+                    </ul>
+                  {{/if}}
+
+                </div>
+              {{/if}}
+            {{/each}}
           </div>
         </div>
       </section>
@@ -317,11 +374,96 @@
             Được tin tưởng bởi du khách toàn cầu
           </p>
 
-          <div
-            class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6"
-            id="testimonialsGrid"
-          >
-            <!-- Rendered by JS -->
+          <!-- Grid đánh giá -->
+          <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+            {{#each reviews}}
+              <div
+                class="rounded-lg border bg-card p-6 shadow hover:shadow-lg transition flex flex-col"
+              >
+                <!-- Header: avatar + tên -->
+                <div class="flex items-center gap-3 mb-4">
+                  <div
+                    class="w-10 h-10 rounded-full bg-gray-200 flex-shrink-0"
+                  ></div>
+                  <div>
+                    <p class="font-medium text-gray-800">{{user.name}}</p>
+                    <!-- Nếu muốn hiển thị ngày đánh giá, bỏ comment ở dưới -->
+                    <!-- <p class="text-xs text-muted-foreground">{{createdAtFormatted}}</p> -->
+                  </div>
+                </div>
+
+                <!-- Nội dung đánh giá -->
+                <p
+                  class="text-sm text-muted-foreground flex-1"
+                >"{{comment}}"</p>
+
+                <!-- Star rating -->
+                <div class="mt-3 flex items-center gap-1">
+                  {{#each stars}}
+                    <svg class="w-4 h-4 fill-amber-400" viewBox="0 0 24 24">
+                      <path
+                        d="M12 .587l3.668 7.431L24 9.748l-6 5.85L19.335 24 12 20.201 4.665 24 6 15.598 0 9.748l8.332-1.73z"
+                      />
+                    </svg>
+                  {{/each}}
+                </div>
+              </div>
+            {{/each}}
+          </div>
+
+          <!-- Form gửi đánh giá -->
+          <div class="mt-8 max-w-3xl">
+            {{#if user}}
+              <form
+                action="/reviews"
+                method="POST"
+                class="space-y-4 bg-card p-6 rounded-lg shadow-md"
+              >
+                <h3 class="text-lg font-semibold text-gray-800">Viết đánh giá
+                  của bạn</h3>
+
+                <div>
+                  <label
+                    class="block text-sm font-medium text-gray-700 mb-1"
+                  >Nhận xét</label>
+                  <textarea
+                    name="comment"
+                    rows="3"
+                    required
+                    class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:ring-2 focus:ring-amber-300 focus:border-amber-400"
+                    placeholder="Viết nhận xét của bạn..."
+                  ></textarea>
+                </div>
+
+                <div class="flex items-center gap-3">
+                  <label class="text-sm text-gray-700">Số sao:</label>
+                  <select
+                    name="rating"
+                    class="rounded-md border px-2 py-1 text-sm focus:ring-2 focus:ring-amber-300 focus:border-amber-400"
+                  >
+                    <option value="5">5</option>
+                    <option value="4">4</option>
+                    <option value="3">3</option>
+                    <option value="2">2</option>
+                    <option value="1">1</option>
+                  </select>
+
+                  <button
+                    type="submit"
+                    class="ml-auto rounded-md bg-[#11234B] hover:bg-[#0d1a35] px-4 py-2 text-sm font-semibold text-white transition"
+                  >
+                    Gửi đánh giá
+                  </button>
+                </div>
+              </form>
+            {{else}}
+              <div class="mt-4">
+                <a
+                  href="/login"
+                  class="rounded-md bg-[#11234B] hover:bg-[#0d1a35] px-4 py-2 text-sm font-semibold text-white transition"
+                >Đăng nhập để viết đánh giá</a>
+              </div>
+            {{/if}}
           </div>
         </div>
       </section>

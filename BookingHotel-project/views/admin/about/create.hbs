@@ -1,0 +1,53 @@
+<div class="max-w-3xl mx-auto">
+  <div
+    class="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-md"
+  >
+    <!-- Header -->
+    <div class="border-b bg-gray-50 px-6 py-4">
+      <h2 class="text-lg font-semibold text-gray-900">Thêm Mục Về Chúng Tôi</h2>
+      <p class="text-sm text-gray-500">
+        Tạo nội dung mới cho trang About
+      </p>
+    </div>
+
+    <!-- Form -->
+    <form action="/admin/about/create" method="POST" class="p-6 space-y-6">
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Tiêu đề</label>
+        <input
+          type="text"
+          name="title"
+          required
+          placeholder="Về chúng tôi"
+          class="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+        />
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Mô tả</label>
+        <textarea
+          name="description"
+          rows="6"
+          placeholder="Nhập nội dung chi tiết về khách sạn..."
+          class="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+        ></textarea>
+      </div>
+
+      <div class="flex justify-end gap-3 border-t pt-4">
+        <a
+          href="/admin/about"
+          class="inline-flex items-center rounded-md border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100"
+        >
+          Huỷ
+        </a>
+
+        <button
+          type="submit"
+          class="inline-flex items-center rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700"
+        >
+          Lưu
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

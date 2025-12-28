@@ -4,7 +4,7 @@
     href="/admin/bookings/create"
     class="inline-block mb-4 rounded bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700"
   >
-    Add Booking
+    Thêm đặt phòng
   </a>
 </div>
 
@@ -15,14 +15,14 @@
     <thead class="bg-gray-50">
       <tr>
         <th class="px-6 py-4 font-medium text-gray-900">#</th>
-        <th class="px-6 py-4 font-medium text-gray-900">Customer</th>
-        <th class="px-6 py-4 font-medium text-gray-900">Phone</th>
+        <th class="px-6 py-4 font-medium text-gray-900">Khách hàng</th>
+        <th class="px-6 py-4 font-medium text-gray-900">Điện thoại</th>
         <th class="px-6 py-4 font-medium text-gray-900">Room</th>
         <th class="px-6 py-4 font-medium text-gray-900">Room Type</th>
-        <th class="px-6 py-4 font-medium text-gray-900">Check In</th>
-        <th class="px-6 py-4 font-medium text-gray-900">Check Out</th>
-        <th class="px-6 py-4 font-medium text-gray-900">Guests</th>
-        <th class="px-6 py-4 font-medium text-gray-900">Total Price</th>
+        <th class="px-6 py-4 font-medium text-gray-900">Ngày nhận</th>
+        <th class="px-6 py-4 font-medium text-gray-900">Ngày trả</th>
+        <th class="px-6 py-4 font-medium text-gray-900">Số khách</th>
+        <th class="px-6 py-4 font-medium text-gray-900">Tổng tiền</th>
         <th class="px-6 py-4 font-medium text-gray-900">Status</th>
         <th class="px-6 py-4 font-medium text-gray-900 text-right">
           Actions
@@ -104,7 +104,6 @@
 
           <td class="px-6 py-4">
             <div class="flex justify-end gap-4">
-              <!-- Delete -->
               <form
                 action="/admin/bookings/{{_id}}?_method=DELETE"
                 method="POST"
@@ -112,17 +111,15 @@
                 <button
                   type="submit"
                   class="text-red-600 hover:text-red-800"
-                  title="Delete"
+                  title="Xoá"
                 >
                   <i class="fa-solid fa-trash"></i>
                 </button>
               </form>
-
-              <!-- Edit -->
               <a
                 href="/admin/bookings/edit/{{_id}}"
                 class="text-yellow-500 hover:text-yellow-700"
-                title="Edit"
+                title="Sửa"
               >
                 <i class="fa-solid fa-pen-to-square"></i>
               </a>

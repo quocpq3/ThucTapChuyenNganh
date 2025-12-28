@@ -1,0 +1,56 @@
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{{title}} - Azure Ocean Resort</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/home/css/styles.css" />
+  </head>
+
+  <body class="bg-gray-50 text-gray-800 antialiased">
+    <main class="py-12">
+      <div
+        class="mx-auto max-w-4xl rounded-lg border border-gray-200 bg-white p-8 shadow-sm"
+      >
+        <!-- Title -->
+        <h1 class="mb-6 text-center text-2xl font-semibold uppercase">
+          {{title}}
+        </h1>
+
+        <!-- Intro -->
+        <div class="mb-8 text-sm leading-relaxed text-gray-600">
+          <p>
+            Văn bản này quy định các điều khoản và điều kiện áp dụng đối với
+            việc sử dụng dịch vụ và đặt phòng tại khách sạn. Khi khách hàng thực
+            hiện đặt phòng hoặc sử dụng dịch vụ, đồng nghĩa với việc khách hàng
+            đã đọc, hiểu và đồng ý chịu sự ràng buộc bởi các điều khoản dưới
+            đây.
+          </p>
+        </div>
+        <!-- Clauses -->
+        {{#if clauses.length}}
+          <div class="space-y-6 text-sm leading-relaxed">
+            {{#each clauses}}
+              <section>
+                <h3 class="mb-2 text-base font-semibold text-gray-900">
+                  Điều
+                  {{number}}.
+                  {{title}}
+                </h3>
+
+                <div class="pl-4 text-gray-700">
+                  {{{description}}}
+                </div>
+              </section>
+            {{/each}}
+          </div>
+        {{else}}
+          <p class="text-sm italic text-gray-500">
+            Hiện tại chưa có điều khoản nào được thiết lập.
+          </p>
+        {{/if}}
+      </div>
+    </main>
+  </body>
+</html>

@@ -3,23 +3,15 @@
     class="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-md"
   >
 
-    <!-- Header -->
     <div class="border-b bg-gray-50 px-6 py-4">
-      <h2 class="text-lg font-semibold text-gray-900">Add Booking</h2>
-      <p class="text-sm text-gray-500">
-        Create a new booking for your hotel
-      </p>
+      <h2 class="text-lg font-semibold text-gray-900">Thêm đặt phòng</h2>
+      <p class="text-sm text-gray-500">Tạo đặt phòng mới cho khách sạn</p>
     </div>
 
-    <!-- Form -->
     <form action="/admin/bookings/create" method="POST" class="p-6 space-y-6">
-
-      <!-- Customer -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-          <label class="block text-sm font-medium text-gray-700">
-            Customer Name
-          </label>
+          <label class="block text-sm font-medium text-gray-700">Tên khách</label>
           <input
             type="text"
             name="guestName"
@@ -30,9 +22,7 @@
         </div>
 
         <div>
-          <label class="block text-sm font-medium text-gray-700">
-            Phone
-          </label>
+          <label class="block text-sm font-medium text-gray-700">Điện thoại</label>
           <input
             type="tel"
             name="guestPhone"
@@ -54,27 +44,18 @@
           />
         </div>
       </div>
-
-      <!-- Room -->
       <div>
-        <label class="block text-sm font-medium text-gray-700">
-          Room
-        </label>
+        <label class="block text-sm font-medium text-gray-700">Phòng</label>
         <select
           name="room"
           required
           class="mt-1 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
         >
           {{#each rooms}}
-            <option value="{{_id}}">
-              Room
-              {{roomNumber}}
-            </option>
+            <option value="{{_id}}">Phòng {{roomNumber}}</option>
           {{/each}}
         </select>
       </div>
-
-      <!-- Check In -->
       <div>
         <label class="block text-sm font-medium text-gray-700">
           Check In
@@ -86,8 +67,6 @@
           class="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
         />
       </div>
-
-      <!-- Check Out -->
       <div>
         <label class="block text-sm font-medium text-gray-700">
           Check Out
@@ -99,8 +78,6 @@
           class="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
         />
       </div>
-
-      <!-- Guests -->
       <div>
         <label class="block text-sm font-medium text-gray-700">
           Guests
@@ -128,38 +105,32 @@
           placeholder="1000000"
         />
       </div> }}
-
-      <!-- Status -->
       <div>
-        <label class="block text-sm font-medium text-gray-700">
-          Status
-        </label>
+        <label class="block text-sm font-medium text-gray-700">Trạng thái</label>
         <select
           name="status"
           class="mt-1 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
         >
-          <option value="pending">Pending</option>
-          <option value="confirmed">Confirmed</option>
-          <option value="checked_in">Checked In</option>
-          <option value="checked_out">Checked Out</option>
-          <option value="cancelled">Cancelled</option>
+          <option value="pending">Đang chờ</option>
+          <option value="confirmed">Đã xác nhận</option>
+          <option value="checked_in">Đã nhận phòng</option>
+          <option value="checked_out">Đã trả phòng</option>
+          <option value="cancelled">Đã hủy</option>
         </select>
       </div>
-
-      <!-- Actions -->
       <div class="flex justify-end gap-3 border-t pt-4">
         <a
           href="/admin/bookings"
           class="inline-flex items-center rounded-md border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100"
         >
-          Cancel
+          Huỷ
         </a>
 
         <button
           type="submit"
           class="inline-flex items-center rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700"
         >
-          Add Booking
+          Thêm đặt phòng
         </button>
       </div>
 

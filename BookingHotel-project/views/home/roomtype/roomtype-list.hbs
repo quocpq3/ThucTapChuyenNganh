@@ -1,0 +1,110 @@
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>{{title}} - Azure Ocean Resort</title>
+
+    <script>
+      tailwind = { config: { theme: { extend: { colors: { primary:
+      "hsl(var(--primary))", "primary-foreground":
+      "hsl(var(--primary-foreground))", secondary: "hsl(var(--secondary))",
+      "secondary-foreground": "hsl(var(--secondary-foreground))", accent:
+      "hsl(var(--accent))", "accent-foreground":
+      "hsl(var(--accent-foreground))", background: "hsl(var(--background))",
+      foreground: "hsl(var(--foreground))", muted: "hsl(var(--muted))",
+      "muted-foreground": "hsl(var(--muted-foreground))", border:
+      "hsl(var(--border))", card: "hsl(var(--card))", "card-foreground":
+      "hsl(var(--card-foreground))", }, borderRadius: { lg: "0.75rem" }, }, },
+      }, };
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/home/css/styles.css" />
+  </head>
+  <body class="bg-background text-foreground antialiased">
+    <main class="pt-6 pb-6">
+      <section class="mt-16">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+
+          <!-- Header -->
+          <div class="mb-8">
+            <h1 class="text-3xl font-semibold">Danh sách loại phòng</h1>
+            <p class="text-muted-foreground mt-2">
+              Chọn loại phòng phù hợp với nhu cầu của bạn
+            </p>
+          </div>
+
+          <!-- Grid room types -->
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {{#each roomtypes}}
+              <div
+                class="rounded-xl overflow-hidden border border-gray-200 bg-white shadow hover:shadow-xl transition flex flex-col h-full"
+              >
+
+                <div class="p-4 flex flex-col flex-grow">
+                  <div class="flex items-start justify-between">
+                    <h3
+                      class="text-lg font-semibold text-gray-800"
+                    >{{name}}</h3>
+                    <div class="text-sm font-medium text-gray-700">{{basePrice}}
+                      đ</div>
+                  </div>
+
+                  <div
+                    class="text-sm text-gray-600 mt-2 line-clamp-3"
+                  >{{description}}</div>
+
+                  <div class="mt-3 text-sm text-gray-600">
+                    <span class="font-medium">Tối đa:</span>
+                    {{maxGuests}}
+                    người
+                  </div>
+
+                  {{#if amenities}}
+                    <div class="mt-3 text-sm text-gray-600">
+                      <span class="font-medium">Tiện ích:</span>
+                      {{#each amenities}}
+                        <span
+                          class="inline-block mr-2 text-muted-foreground"
+                        >{{this.name}}</span>
+                      {{/each}}
+                    </div>
+                  {{/if}}
+
+                  <div class="mt-6 flex gap-2">
+                    <a
+                      href="/rooms/room-list?type={{_id}}"
+                      class="flex-1 text-center rounded-md border border-gray-300 px-4 py-2 text-sm hover:bg-gray-50 transition"
+                    >Xem phòng</a>
+                    <a
+                      href="/booking?roomType={{_id}}"
+                      class="flex-1 text-center rounded-md bg-[#11234B] text-white px-4 py-2 text-sm hover:bg-[#0d1c3a] transition"
+                    >Đặt ngay</a>
+                  </div>
+                </div>
+              </div>
+            {{/each}}
+          </div>
+
+        </div>
+      </section>
+
+      <div class="mt-12 flex justify-center">
+        <a
+          href="/"
+          class="inline-flex items-center gap-2 rounded-full border border-gray-300 bg-white px-8 py-3 text-sm font-medium text-gray-800 hover:bg-gray-100 hover:shadow transition"
+        >
+          Quay lại trang chủ
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none">
+            <path
+              d="M9 18l6-6-6-6"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </a>
+      </div>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,77 @@
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>{{title}} - Azure Ocean Resort</title>
+    <script>
+      tailwind = { config: { theme: { extend: { colors: { primary:
+      "hsl(var(--primary))" } } } } };
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/home/css/styles.css" />
+  </head>
+  <body class="bg-background text-foreground antialiased">
+    <main class="page-container py-12">
+      <div class="max-w-6xl mx-auto grid lg:grid-cols-2 gap-8 items-start">
+
+        <!-- Thông tin liên hệ -->
+        <div class="bg-white rounded-lg border shadow-sm p-8">
+          <h1 class="text-3xl font-bold mb-4">{{title}}</h1>
+
+          <div class="prose max-w-none text-sm text-gray-700">
+            {{{description}}}
+          </div>
+
+          <div class="mt-6 space-y-3 text-sm">
+            {{#if email}}
+              <div>Email:
+                <a
+                  href="mailto:{{email}}"
+                  class="text-primary font-medium"
+                >{{email}}</a>
+              </div>
+            {{/if}}
+
+            {{#if phone}}
+              <div>Điện thoại:
+                <a
+                  href="tel:{{phone}}"
+                  class="text-primary font-medium"
+                >{{phone}}</a>
+              </div>
+            {{/if}}
+
+            {{#if address}}
+              <div>Địa chỉ: <span class="font-medium">{{address}}</span></div>
+            {{/if}}
+          </div>
+        </div>
+
+        <!-- Card chào đón + nút đặt phòng -->
+        <div
+          class="bg-gradient-to-br from-blue-600 to-indigo-600 text-white rounded-lg shadow-lg p-8 flex flex-col justify-between h-full"
+        >
+          <div>
+            <h2 class="text-2xl font-semibold mb-4">Chào mừng đến với Azure
+              Ocean Resort!</h2>
+            <p class="text-sm mb-6">
+              Trải nghiệm sự sang trọng và tiện nghi đẳng cấp ven biển. Hãy để
+              chúng tôi chăm sóc kỳ nghỉ của bạn.
+            </p>
+          </div>
+          <div>
+            <a
+              href="/booking"
+              class="inline-block w-full text-center bg-white text-blue-700 font-semibold rounded-md px-6 py-3 shadow hover:bg-gray-100 transition"
+            >
+              Đặt phòng ngay
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </main>
+
+    <script src="/home/js/data.js"></script>
+  </body>
+</html>

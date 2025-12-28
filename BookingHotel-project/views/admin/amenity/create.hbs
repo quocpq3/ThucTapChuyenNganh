@@ -2,25 +2,15 @@
   <div
     class="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-md"
   >
-
-    <!-- Header -->
     <div class="border-b bg-gray-50 px-6 py-4">
       <h2 class="text-lg font-semibold text-gray-900">
-        Add Amenity
+        Thêm tiện ích
       </h2>
-      <p class="text-sm text-gray-500">
-        Create a new amenity for your hotel
-      </p>
+      <p class="text-sm text-gray-500">Tạo tiện ích mới cho khách sạn</p>
     </div>
-
-    <!-- Form -->
     <form action="/admin/amenity/create" method="POST" class="p-6 space-y-6">
-
-      <!-- Name -->
       <div>
-        <label class="block text-sm font-medium text-gray-700">
-          Name
-        </label>
+        <label class="block text-sm font-medium text-gray-700">Tên</label>
         <input
           type="text"
           name="name"
@@ -29,12 +19,8 @@
           placeholder="Amenity"
         />
       </div>
-
-      <!-- Description -->
       <div>
-        <label class="block text-sm font-medium text-gray-700">
-          Description
-        </label>
+        <label class="block text-sm font-medium text-gray-700">Mô tả</label>
         <textarea
           name="description"
           rows="3"
@@ -42,41 +28,33 @@
           placeholder="Spacious room with sea view..."
         ></textarea>
       </div>
-
-      <!-- Grid: Price + Guests -->
       <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
 
       </div>
-
-      <!-- Status -->
       <div>
-        <label class="block text-sm font-medium text-gray-700">
-          Status
-        </label>
+        <label class="block text-sm font-medium text-gray-700">Trạng thái</label>
         <select
           name="status"
           class="mt-1 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
         >
-          <option value="true">Active</option>
-          <option value="false">Inactive</option>
+          <option value="true">Hoạt động</option>
+          <option value="false">Không hoạt động</option>
         </select>
       </div>
-
-      <!-- Actions -->
       <div class="flex justify-end gap-3 border-t pt-4">
 
         <a
           href="/admin/amenity"
           class="inline-flex items-center rounded-md border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100"
         >
-          Cancel
+          Huỷ
         </a>
 
         <button
           type="submit"
           class="inline-flex items-center rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700"
         >
-          Add Amenity
+          Thêm tiện ích
         </button>
 
       </div>

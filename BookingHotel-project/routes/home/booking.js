@@ -12,7 +12,6 @@ function useAuthenticated(req, res, next) {
   next();
 }
 
-// ===================== GET BOOKING PAGE =====================
 router.get("/", useAuthenticated, (req, res) => {
   Rooms.find({ status: "Available" })
     .populate("roomType")
@@ -28,19 +27,24 @@ router.get("/", useAuthenticated, (req, res) => {
     });
 });
 
-// ===================== POST CREATE BOOKING =====================
 router.post("/", useAuthenticated, (req, res) => {
   Rooms.findById(req.body.room)
     .populate("roomType")
     .then((room) => {
-      if (!room) return res.send("Room not found");
+      if (!room) {
+        req.flash("error_message", "Phòng không tồn tại.");
+        return res.redirect("/booking");
+      }
 
       const checkIn = new Date(req.body.checkIn);
       const checkOut = new Date(req.body.checkOut);
       const nights =
         (checkOut.getTime() - checkIn.getTime()) / (1000 * 60 * 60 * 24);
 
-      if (nights <= 0) return res.send("Ngày trả phải lớn hơn ngày nhận");
+      if (nights <= 0) {
+        req.flash("error_message", "Ngày trả phải lớn hơn ngày nhận.");
+        return res.redirect("/booking");
+      }
 
       const pricePerNight = room.roomType?.basePrice || room.basePrice || 0;
       const totalPrice = nights * pricePerNight;
@@ -59,12 +63,16 @@ router.post("/", useAuthenticated, (req, res) => {
 
       return booking
         .save()
-        .then(() => Rooms.findByIdAndUpdate(room._id, { status: "Occupied" }));
+        .then(() => Rooms.findByIdAndUpdate(room._id, { status: "Occupied" }))
+        .then(() => {
+          req.flash("success_message", "Đặt phòng thành công!");
+          res.redirect("/booking");
+        });
     })
-    .then(() => res.redirect("/booking"))
     .catch((err) => {
       console.error(err);
-      res.send("Booking failed");
+      req.flash("error_message", "Đặt phòng thất bại, thử lại sau.");
+      res.redirect("/booking");
     });
 });
 

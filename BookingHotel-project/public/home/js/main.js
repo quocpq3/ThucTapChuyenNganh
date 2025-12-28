@@ -31,55 +31,69 @@ document.addEventListener("DOMContentLoaded", () => {
   /* Populate Offers */
   const offersGrid = document.getElementById("offersGrid");
 
-  function renderOffers() {
-    offersGrid.innerHTML = "";
-    offersData.forEach((o) => {
-      const el = document.createElement("div");
-      el.className = "rounded-lg border bg-card p-6";
-      el.innerHTML = `
-        <div class="flex items-center justify-between">
-          <h3 class="text-lg font-semibold">${o.title}</h3>
-          <div class="chip bg-amber-400 text-accent-foreground">
-            ${o.discount}
-          </div>
-        </div>
-        <p class="mt-2 text-sm text-muted-foreground">${o.description}</p>
-        <hr class="my-4 border-t border-border/60" />
-        <ul class="space-y-2 text-sm">
-          ${o.features
-            .map((f) => `<li class="flex items-center gap-2">✓ ${f}</li>`)
-            .join("")}
-        </ul>
-      `;
-      offersGrid.appendChild(el);
-    });
-  }
+  // function renderOffers() {
+  //   offersGrid.innerHTML = "";
+  //   offersData.forEach((o) => {
+  //     const el = document.createElement("div");
+  //     el.className = "rounded-lg border bg-card p-6";
+  //     el.innerHTML = `
+  //       <div class="flex items-center justify-between">
+  //         <h3 class="text-lg font-semibold">${o.title}</h3>
+  //         <div class="chip bg-amber-400 text-accent-foreground">
+  //           ${o.discount}
+  //         </div>
+  //       </div>
+  //       <p class="mt-2 text-sm text-muted-foreground">${o.description}</p>
+  //       <hr class="my-4 border-t border-border/60" />
+  //       <ul class="space-y-2 text-sm">
+  //         ${o.features
+  //           .map((f) => `<li class="flex items-center gap-2">✓ ${f}</li>`)
+  //           .join("")}
+  //       </ul>
+  //     `;
+  //     offersGrid.appendChild(el);
+  //   });
+  // }
 
-  renderOffers();
+  // renderOffers();
 
-  /* Populate Testimonials */
+  /* Populate Testimonials (load from server) */
   const testimonialsGrid = document.getElementById("testimonialsGrid");
 
-  function renderTestimonials() {
-    testimonialsGrid.innerHTML = "";
-    testimonialsData.forEach((t) => {
-      const el = document.createElement("div");
-      el.className = "rounded-lg border bg-card p-6";
-      el.innerHTML = `
-        <div class="flex items-center gap-3">
-          <div class="size-10 rounded-full bg-gray-200"></div>
-          <div>
-            <p class="font-medium">${t.name}</p>
-            <p class="text-xs text-muted-foreground">${t.location}</p>
-          </div>
-        </div>
-        <p class="mt-4 text-sm text-muted-foreground">"${t.review}"</p>
-      `;
-      testimonialsGrid.appendChild(el);
-    });
+  // function renderTestimonialsFromArray(arr) {
+  //   testimonialsGrid.innerHTML = "";
+  //   arr.forEach((t) => {
+  //     const el = document.createElement("div");
+  //     el.className = "rounded-lg border bg-card p-6";
+  //     const author = t.user && t.user.name ? t.user.name : "Khách hàng";
+  //     el.innerHTML = `
+  //       <div class="flex items-center gap-3">
+  //         <div class="size-10 rounded-full bg-gray-200"></div>
+  //         <div>
+  //           <p class="font-medium">${author}</p>
+  //           <p class="text-xs text-muted-foreground">${new Date(
+  //             t.createdAt
+  //           ).toLocaleDateString()}</p>
+  //         </div>
+  //       </div>
+  //       <p class="mt-4 text-sm text-muted-foreground">"${(
+  //         t.comment || ""
+  //       ).replace(/</g, "&lt;")}"</p>
+  //     `;
+  //     testimonialsGrid.appendChild(el);
+  //   });
+  // }
+
+  function loadTestimonials() {
+    fetch("/reviews")
+      .then((res) => res.json())
+      .then((json) => {
+        if (json && json.success) renderTestimonialsFromArray(json.reviews);
+      })
+      .catch((err) => console.error("Failed to load reviews", err));
   }
 
-  renderTestimonials();
+  loadTestimonials();
 
   /* Scroll to rooms */
   function scrollToRooms() {

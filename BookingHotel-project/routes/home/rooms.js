@@ -7,7 +7,7 @@ router.get("/room-list", function (req, res) {
   //dùng promise để lấy dữ liệu của nhiều collection cùng lúc
   Promise.all([
     Amenity.find({}).lean(),
-    Rooms.find({})
+    Rooms.find({ status: "Available" })
       .populate({
         path: "roomType",
         populate: {

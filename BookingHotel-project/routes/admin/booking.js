@@ -8,8 +8,6 @@ router.use((req, res, next) => {
   res.locals.layout = "admin";
   next();
 });
-
-/* ===================== LIST ===================== */
 router.get("/", function (req, res) {
   Booking.find({})
     .populate("user", "name phone")
@@ -45,8 +43,6 @@ router.get("/", function (req, res) {
       res.send("Error loading bookings list");
     });
 });
-
-/* ===================== CREATE ===================== */
 router.get("/create", function (req, res) {
   Rooms.find({ status: "Available" })
     .populate("roomType")
@@ -102,16 +98,26 @@ router.post("/create", function (req, res) {
       res.send("Create booking failed");
     });
 });
-
-/* ===================== EDIT ===================== */
 router.get("/edit/:id", function (req, res) {
   Promise.all([
-    Booking.findById(req.params.id),
+    Booking.findById(req.params.id)
+      .populate("user", "name phone email")
+      .populate({
+        path: "room",
+        populate: { path: "roomType", select: "name basePrice" },
+      }),
     Rooms.find({}).populate("roomType"),
   ])
     .then(([booking, rooms]) => {
-      rooms.forEach((r) => {
-        r.selected = r._id.toString() === booking.room.toString();
+      const bookingRoomId =
+        booking.room && booking.room._id
+          ? booking.room._id.toString()
+          : booking.room?.toString();
+
+      const roomsData = rooms.map((r) => {
+        const obj = r.toObject();
+        obj.selected = obj._id.toString() === bookingRoomId;
+        return obj;
       });
 
       res.render("admin/bookings/edit", {
@@ -130,7 +136,7 @@ router.get("/edit/:id", function (req, res) {
           isCheckedIn: booking.status === "checked_in",
           isCheckedOut: booking.status === "checked_out",
         },
-        rooms: rooms.map((r) => r.toObject()),
+        rooms: roomsData,
       });
     })
     .catch((err) => {
@@ -175,8 +181,6 @@ router.put("/edit/:id", function (req, res) {
       res.send("Update booking failed");
     });
 });
-
-/* ===================== DELETE ===================== */
 router.delete("/:id", function (req, res) {
   Booking.findById(req.params.id)
     .then((booking) => {

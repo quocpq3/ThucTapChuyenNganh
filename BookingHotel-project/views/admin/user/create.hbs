@@ -2,24 +2,18 @@
   <div
     class="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-md"
   >
-
-    <!-- Header -->
     <div class="border-b bg-gray-50 px-6 py-4">
       <h2 class="text-lg font-semibold text-gray-900">
-        Add User
+        Thêm người dùng
       </h2>
       <p class="text-sm text-gray-500">
-        Create a new user
+        Tạo người dùng mới
       </p>
     </div>
-
-    <!-- Form -->
     <form action="/admin/user/create" method="POST" class="p-6 space-y-6">
-
-      <!-- Name -->
       <div>
         <label class="block text-sm font-medium text-gray-700">
-          Name
+          Tên
         </label>
         <input
           type="text"
@@ -29,8 +23,6 @@
           placeholder="Name"
         />
       </div>
-
-      <!-- Email -->
       <div>
         <label class="block text-sm font-medium text-gray-700">
           Email
@@ -43,10 +35,9 @@
           placeholder="Email"
         />
       </div>
-      <!-- Phone -->
       <div>
         <label class="block text-sm font-medium text-gray-700">
-          Phone
+          Số điện thoại
         </label>
         <input
           type="text"
@@ -56,10 +47,9 @@
           placeholder="Phone"
         />
       </div>
-      <!-- Phone -->
       <div>
         <label class="block text-sm font-medium text-gray-700">
-          Password
+          Mật khẩu
         </label>
         <input
           type="text"
@@ -69,22 +59,20 @@
           placeholder="password"
         />
       </div>
-
-      <!-- Actions -->
       <div class="flex justify-end gap-3 border-t pt-4">
 
         <a
           href="/admin/user"
           class="inline-flex items-center rounded-md border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100"
         >
-          Cancel
+          Huỷ
         </a>
 
         <button
           type="submit"
           class="inline-flex items-center rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700"
         >
-          Add User
+          Thêm người dùng
         </button>
 
       </div>

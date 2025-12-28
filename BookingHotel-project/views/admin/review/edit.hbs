@@ -1,0 +1,37 @@
+<div class="max-w-4xl mx-auto">
+  <div class="rounded-lg border border-gray-200 bg-white shadow-md">
+    <div class="border-b border-gray-200 px-6 py-4">
+      <h3 class="text-lg font-semibold text-gray-900">Chỉnh trạng thái đánh giá</h3>
+    </div>
+
+    <form action="/admin/review/edit/{{review._id}}?_method=PUT" method="POST" class="px-6 py-6 space-y-6">
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Người dùng</label>
+        <input type="text" value="{{review.user.name}}" disabled class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm bg-gray-100"/>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Nội dung</label>
+        <textarea rows="3" disabled class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm bg-gray-100">{{review.comment}}</textarea>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Sao</label>
+        <input type="number" value="{{review.rating}}" disabled class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm bg-gray-100"/>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Trạng thái</label>
+        <select name="status" class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500">
+          <option value="approved" {{#if (eq review.status "approved")}}selected{{/if}}>Approved</option>
+          <option value="rejected" {{#if (eq review.status "rejected")}}selected{{/if}}>Rejected</option>
+        </select>
+      </div>
+
+      <div class="flex justify-end gap-3 pt-4 border-t border-gray-200">
+        <a href="/admin/review" class="rounded-md border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100">Cancel</a>
+        <button type="submit" class="rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700">Cập nhật</button>
+      </div>
+    </form>
+  </div>
+</div>

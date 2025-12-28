@@ -1,24 +1,19 @@
 <div class="max-w-4xl mx-auto">
   <div class="rounded-lg border border-gray-200 bg-white shadow-md">
 
-    <!-- Header -->
     <div class="border-b border-gray-200 px-6 py-4">
       <h3 class="text-lg font-semibold text-gray-900">
-        Edit Room
+        Sửa phòng
       </h3>
     </div>
-
-    <!-- Form -->
     <form
       action="/admin/rooms/edit/{{room._id}}?_method=PUT"
       method="POST"
       class="px-6 py-6 space-y-6"
     >
-
-      <!-- Room Number -->
       <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">
-          Room Number
+          <label class="block text-sm font-medium text-gray-700 mb-1">
+          Số phòng
         </label>
         <input
           type="text"
@@ -29,11 +24,9 @@
                  focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
         />
       </div>
-
-      <!-- Room Type -->
       <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">
-          Room Type
+          <label class="block text-sm font-medium text-gray-700 mb-1">
+          Loại phòng
         </label>
         <select
           name="roomType"
@@ -51,11 +44,9 @@
           {{/each}}
         </select>
       </div>
-
-      <!-- Floor -->
       <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">
-          Floor
+          <label class="block text-sm font-medium text-gray-700 mb-1">
+          Tầng
         </label>
         <input
           type="text"
@@ -66,11 +57,9 @@
                  focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
         />
       </div>
-
-      <!-- Status -->
       <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">
-          Status
+          <label class="block text-sm font-medium text-gray-700 mb-1">
+          Trạng thái
         </label>
         <select
           name="status"
@@ -78,18 +67,16 @@
                  focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
         >
           <option value="Available" {{#if room.isAvailable}}selected{{/if}}>
-            Available
+            Có sẵn
           </option>
           <option value="Occupied" {{#if room.isOccupied}}selected{{/if}}>
-            Occupied
+            Đang sử dụng
           </option>
           <option value="Maintenance" {{#if room.isMaintenance}}selected{{/if}}>
-            Maintenance
+            Bảo trì
           </option>
         </select>
       </div>
-
-      <!-- Notes -->
       <div>
         <label class="block text-sm font-medium text-gray-700 mb-1">
           Notes
@@ -101,15 +88,13 @@
                  focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
         >{{room.notes}}</textarea>
       </div>
-
-      <!-- Actions -->
       <div class="flex justify-end gap-3 pt-4 border-t border-gray-200">
         <a
           href="/admin/rooms"
           class="rounded-md border border-gray-300 px-4 py-2 text-sm font-medium
                  text-gray-700 hover:bg-gray-100"
         >
-          Cancel
+          Huỷ
         </a>
 
         <button
@@ -117,7 +102,7 @@
           class="rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold
                  text-white hover:bg-blue-700"
         >
-          Update Room
+          Cập nhật phòng
         </button>
       </div>
 

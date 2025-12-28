@@ -1,0 +1,114 @@
+<div class="max-w-3xl mx-auto">
+  <div
+    class="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-md"
+  >
+    <div class="border-b bg-gray-50 px-6 py-4">
+      <h2 class="text-lg font-semibold text-gray-900">Thêm khuyến mãi</h2>
+      <p class="text-sm text-gray-500">Tạo khuyến mãi mới</p>
+    </div>
+
+    <form action="/admin/endow/create" method="POST" class="p-6 space-y-6">
+
+      <!-- Name -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Tên</label>
+        <input
+          type="text"
+          name="name"
+          required
+          class="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+          placeholder="Giảm giá mùa hè"
+        />
+      </div>
+
+      <!-- Description -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Mô tả</label>
+        <textarea
+          name="description"
+          rows="3"
+          class="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+          placeholder="Áp dụng cho tất cả phòng trong tháng 6"
+        ></textarea>
+      </div>
+
+      <!-- Type + Value -->
+      <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+
+        <!-- Type -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Loại khuyến mãi</label>
+          <select
+            name="type"
+            id="type"
+            class="mt-1 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+            onchange="toggleValue()"
+          >
+            <option value="percent">Giảm theo %</option>
+            <option value="amount">Giảm theo tiền</option>
+            <option value="combo">Combo</option>
+          </select>
+        </div>
+
+        <!-- Value -->
+        <div id="valueBox">
+          <label class="block text-sm font-medium text-gray-700">Giá trị</label>
+          <input
+            type="number"
+            name="value"
+            min="0"
+            class="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+            placeholder="20 hoặc 100000"
+          />
+        </div>
+
+      </div>
+
+      <!-- Amenity -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Tiện ích / Chi
+          tiết combo</label>
+        <textarea
+          name="amenity"
+          rows="2"
+          class="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+          placeholder="Free breakfast, spa voucher..."
+        ></textarea>
+      </div>
+
+      <!-- Status -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Trạng thái</label>
+        <select
+          name="status"
+          class="mt-1 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+        >
+          <option value="true">Hoạt động</option>
+          <option value="false">Không hoạt động</option>
+        </select>
+      </div>
+
+      <!-- Actions -->
+      <div class="flex justify-end gap-3 border-t pt-4">
+        <a
+          href="/admin/endow"
+          class="rounded-md border border-gray-300 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+        >Huỷ</a>
+        <button
+          type="submit"
+          class="rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700"
+        >
+          Thêm khuyến mãi
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>
+
+<script>
+  function toggleValue() { const type = document.getElementById("type").value;
+  const valueBox = document.getElementById("valueBox"); if (type === "combo") {
+  valueBox.style.display = "none"; } else { valueBox.style.display = "block"; }
+  }
+</script>

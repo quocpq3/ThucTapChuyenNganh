@@ -2,21 +2,15 @@
   <div
     class="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-md"
   >
-
-    <!-- Header -->
     <div class="border-b bg-gray-50 px-6 py-4">
       <h2 class="text-lg font-semibold text-gray-900">
-        Add Room Type
+        Thêm loại phòng
       </h2>
       <p class="text-sm text-gray-500">
-        Create a new room type for your hotel
+        Tạo loại phòng mới cho khách sạn
       </p>
     </div>
-
-    <!-- Form -->
     <form action="/admin/roomtype/create" method="POST" class="p-6 space-y-6">
-
-      <!-- Name -->
       <div>
         <label class="block text-sm font-medium text-gray-700">
           Name
@@ -29,11 +23,9 @@
           placeholder="Deluxe Room"
         />
       </div>
-
-      <!-- Description -->
       <div>
         <label class="block text-sm font-medium text-gray-700">
-          Description
+          Mô tả
         </label>
         <textarea
           name="description"
@@ -42,15 +34,11 @@
           placeholder="Spacious room with sea view..."
         ></textarea>
       </div>
-
-      <!-- Grid: Price + Guests -->
       <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
-
-        <!-- Base Price -->
         <div>
           <label class="block text-sm font-medium text-gray-700">
-            Base Price (VNĐ)
-          </label>
+              Giá cơ bản (VNĐ)
+            </label>
           <input
             type="number"
             name="basePrice"
@@ -60,12 +48,10 @@
             placeholder="1000000"
           />
         </div>
-
-        <!-- Max Guests -->
         <div>
           <label class="block text-sm font-medium text-gray-700">
-            Max Guests
-          </label>
+              Số khách tối đa
+            </label>
           <input
             type="number"
             name="maxGuests"
@@ -75,10 +61,8 @@
             placeholder="2"
           />
         </div>
-
-     <!-- Amenities -->
 <div>
-  <label class="font-semibold">Amenities</label>
+  <label class="font-semibold">Tiện ích</label>
 
   {{#each amenities}}
     <label class="flex items-center gap-2">
@@ -91,37 +75,32 @@
     </label>
   {{/each}}
 </div>
-
-
-      <!-- Status -->
       <div>
         <label class="block text-sm font-medium text-gray-700">
-          Status
+          Trạng thái
         </label>
         <select
           name="status"
           class="mt-1 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
         >
-          <option value="true">Active</option>
-          <option value="false">Inactive</option>
+          <option value="true">Hoạt động</option>
+          <option value="false">Không hoạt động</option>
         </select>
       </div>
-
-      <!-- Actions -->
       <div class="flex justify-end gap-3 border-t pt-4">
 
         <a
           href="/admin/roomtype"
           class="inline-flex items-center rounded-md border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100"
         >
-          Cancel
+          Huỷ
         </a>
 
         <button
           type="submit"
           class="inline-flex items-center rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700"
         >
-          Add Room Type
+          Thêm loại phòng
         </button>
 
       </div>

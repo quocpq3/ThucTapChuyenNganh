@@ -1,0 +1,76 @@
+<div class="max-w-3xl mx-auto">
+  <div
+    class="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-md"
+  >
+    <div class="border-b bg-gray-50 px-6 py-4">
+      <h2 class="text-lg font-semibold text-gray-900">
+        Sửa Điều Khoản
+      </h2>
+      <p class="text-sm text-gray-500">
+        Cập nhật nội dung điều khoản sử dụng
+      </p>
+    </div>
+
+    <form
+      action="/admin/term/edit/{{term._id}}?_method=PUT"
+      method="POST"
+      class="p-6 space-y-6"
+    >
+      <!-- Số điều -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700">
+          Số điều
+        </label>
+        <input
+          type="number"
+          name="number"
+          value="{{term.number}}"
+          class="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+        />
+      </div>
+
+      <!-- Tiêu đề -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700">
+          Tiêu đề
+        </label>
+        <input
+          type="text"
+          name="title"
+          value="{{term.title}}"
+          required
+          class="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+        />
+      </div>
+
+      <!-- Mô tả -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700">
+          Nội dung điều khoản
+        </label>
+        <textarea
+          name="description"
+          rows="6"
+          class="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+        >{{term.description}}</textarea>
+      </div>
+
+      <!-- Actions -->
+      <div class="flex justify-end gap-3 border-t pt-4">
+        <a
+          href="/admin/term"
+          class="inline-flex items-center rounded-md border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100"
+        >
+          Huỷ
+        </a>
+
+        <button
+          type="submit"
+          class="inline-flex items-center rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700"
+        >
+          Lưu thay đổi
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

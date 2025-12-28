@@ -3,14 +3,12 @@ const Schema = mongoose.Schema;
 
 const BookingSchema = new Schema(
   {
-    // 🔹 User đặt phòng (nullable cho admin)
     user: {
       type: Schema.Types.ObjectId,
-      ref: "user", // ✅ ĐÚNG tên model
-      default: null, // admin tạo thì null
+      ref: "user",
+      default: null,
     },
 
-    // 🔹 Thông tin khách (user lấy tự động, admin tự nhập)
     guestName: {
       type: String,
       required: true,
@@ -26,7 +24,7 @@ const BookingSchema = new Schema(
     // 🔹 Phòng
     room: {
       type: Schema.Types.ObjectId,
-      ref: "Rooms", // ✅ trùng model Rooms
+      ref: "Rooms",
       required: true,
     },
 

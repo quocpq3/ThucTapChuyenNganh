@@ -4,7 +4,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Sidebar Quản lý phòng</title>
 
+    <!-- Font Awesome -->
+    <script
+      src="https://kit.fontawesome.com/a2d9a64f8f.js"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- AlpineJS -->
+    <script
+      src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"
+      defer
+    ></script>
   </head>
+
   <body>
     <div class="bg-gray-200 min-h-screen font-sans">
       <div class="flex">
@@ -13,10 +25,12 @@
         <aside
           class="fixed inset-y-0 left-0 w-64 bg-white shadow-lg flex flex-col"
         >
+
           <!-- LOGO -->
           <div class="flex items-center justify-center h-16 border-b">
-            <a href="/" class="font-bold text-lg text-[#11234B]">Azure Ocean
-              Admin</a>
+            <a href="/" class="font-bold text-lg text-[#11234B]">
+              Azure Ocean Admin
+            </a>
           </div>
 
           <!-- MENU -->
@@ -25,95 +39,44 @@
             <!-- TỔNG QUAN -->
             <a
               href="/admin"
-              class="w-full flex items-center gap-3 py-3 px-6 text-gray-700 hover:bg-gray-100"
+              class="flex items-center gap-3 py-3 px-6 text-gray-700 hover:bg-gray-100"
             >
-              <svg
-                class="h-5 w-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M3 12l2-2 4 4 8-8 4 4v6H3z"
-                />
-              </svg>
+              <i class="fa-solid fa-chart-line w-5"></i>
               <span class="font-medium">Tổng quan</span>
             </a>
 
-            <!-- QUẢN LÝ PHÒNG -->
+            <!-- PHÒNG -->
             <div x-data="{ open: false }">
               <button
                 @click="open = !open"
                 class="w-full flex justify-between items-center py-3 px-6 text-gray-700 hover:bg-gray-100"
               >
                 <span class="flex items-center gap-3">
-                  <svg
-                    class="h-5 w-5"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M3 10l9-7 9 7v10a2 2 0 01-2 2h-4v-6H9v6H5a2 2 0 01-2-2V10z"
-                    />
-                  </svg>
-                  <span class="font-medium">Quản lý phòng</span>
+                  <i class="fa-solid fa-bed w-5"></i>
+                  <span class="font-medium">Phòng</span>
                 </span>
-
-                <svg
-                  class="h-4 w-4 transform transition-transform"
+                <i
+                  class="fa-solid fa-chevron-right transition-transform"
                   :class="{ 'rotate-90': open }"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M9 5l7 7-7 7"
-                  />
-                </svg>
+                ></i>
               </button>
 
               <div x-show="open" x-collapse class="bg-gray-50">
+                <a
+                  href="/admin/roomtype"
+                  class="block py-2 pl-14 text-sm text-gray-600 hover:bg-blue-500 hover:text-white"
+                >
+                  <i class="fa-solid fa-layer-group mr-2"></i>
+                  Loại phòng
+                </a>
 
-                <!-- LOẠI PHÒNG -->
-                <div class="py-1">
-                  <a
-                    href="/admin/roomtype"
-                    class="block py-2 pl-14 text-sm text-gray-600 hover:bg-blue-500 hover:text-white"
-                  >
-                    Loại phòng
-                  </a>
-                </div>
-
-                <!-- PHÒNG -->
-                <div class="py-1">
-                  <a
-                    href="/admin/rooms"
-                    class="block py-2 pl-14 text-sm text-gray-600 hover:bg-blue-500 hover:text-white"
-                  >
-                    Phòng
-                  </a>
-                </div>
-
-                <!-- TIỆN ÍCH -->
-                <div class="py-1">
-                  <a
-                    href="/admin/amenity"
-                    class="block py-2 pl-14 text-sm text-gray-600 hover:bg-blue-500 hover:text-white"
-                  >
-                    Tiện ích
-                  </a>
-                </div>
-
+                <a
+                  href="/admin/rooms"
+                  class="block py-2 pl-14 text-sm text-gray-600 hover:bg-blue-500 hover:text-white"
+                >
+                  <i class="fa-solid fa-door-open mr-2"></i>
+                  Phòng
+                </a>
               </div>
             </div>
 
@@ -124,36 +87,13 @@
                 class="w-full flex justify-between items-center py-3 px-6 text-gray-700 hover:bg-gray-100"
               >
                 <span class="flex items-center gap-3">
-                  <svg
-                    class="h-5 w-5"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M8 7V3m8 4V3M3 11h18M5 21h14a2 2 0 002-2v-8H3v8a2 2 0 002 2z"
-                    />
-                  </svg>
+                  <i class="fa-solid fa-calendar-check w-5"></i>
                   <span class="font-medium">Đặt phòng</span>
                 </span>
-
-                <svg
-                  class="h-4 w-4 transform transition-transform"
+                <i
+                  class="fa-solid fa-chevron-right transition-transform"
                   :class="{ 'rotate-90': open }"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M9 5l7 7-7 7"
-                  />
-                </svg>
+                ></i>
               </button>
 
               <div x-show="open" x-collapse class="bg-gray-50">
@@ -161,80 +101,127 @@
                   href="/admin/bookings"
                   class="block py-2 pl-14 text-sm text-gray-600 hover:bg-blue-500 hover:text-white"
                 >
+                  <i class="fa-solid fa-list mr-2"></i>
                   Danh sách đặt phòng
                 </a>
               </div>
             </div>
 
-            <!-- KHÁCH HÀNG -->
+            <!-- DỊCH VỤ -->
             <div x-data="{ open: false }">
               <button
                 @click="open = !open"
                 class="w-full flex justify-between items-center py-3 px-6 text-gray-700 hover:bg-gray-100"
               >
                 <span class="flex items-center gap-3">
-                  <svg
-                    class="h-5 w-5"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14c-4 0-7 3-7 7h14c0-4-3-7-7-7z"
-                    />
-                  </svg>
-                  <span class="font-medium">Người dùng</span>
+                  <i class="fa-solid fa-concierge-bell w-5"></i>
+                  <span class="font-medium">Dịch vụ</span>
                 </span>
-
-                <svg
-                  class="h-4 w-4 transform transition-transform"
+                <i
+                  class="fa-solid fa-chevron-right transition-transform"
                   :class="{ 'rotate-90': open }"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M9 5l7 7-7 7"
-                  />
-                </svg>
+                ></i>
               </button>
 
               <div x-show="open" x-collapse class="bg-gray-50">
+                <a
+                  href="/admin/amenity"
+                  class="block py-2 pl-14 text-sm text-gray-600 hover:bg-blue-500 hover:text-white"
+                >
+                  <i class="fa-solid fa-wifi mr-2"></i>
+                  Tiện ích
+                </a>
 
-                <!-- LOẠI PHÒNG -->
-                <div class="py-1">
-                  <a
-                    href="/admin/user"
-                    class="block py-2 pl-14 text-sm text-gray-600 hover:bg-blue-500 hover:text-white"
-                  >
-                    Danh sách người dùng
-                  </a>
-                </div>
-
+                <a
+                  href="/admin/endow"
+                  class="block py-2 pl-14 text-sm text-gray-600 hover:bg-blue-500 hover:text-white"
+                >
+                  <i class="fa-solid fa-tags mr-2"></i>
+                  Ưu đãi
+                </a>
               </div>
             </div>
 
+            <!-- NGƯỜI DÙNG -->
+            <div x-data="{ open: false }">
+              <button
+                @click="open = !open"
+                class="w-full flex justify-between items-center py-3 px-6 text-gray-700 hover:bg-gray-100"
+              >
+                <span class="flex items-center gap-3">
+                  <i class="fa-solid fa-users w-5"></i>
+                  <span class="font-medium">Người dùng</span>
+                </span>
+                <i
+                  class="fa-solid fa-chevron-right transition-transform"
+                  :class="{ 'rotate-90': open }"
+                ></i>
+              </button>
+
+              <div x-show="open" x-collapse class="bg-gray-50">
+                <a
+                  href="/admin/user"
+                  class="block py-2 pl-14 text-sm text-gray-600 hover:bg-blue-500 hover:text-white"
+                >
+                  <i class="fa-solid fa-user mr-2"></i>
+                  Danh sách người dùng
+                </a>
+                <a
+                  href="/admin/review"
+                  class="block py-2 pl-14 text-sm text-gray-600 hover:bg-blue-500 hover:text-white"
+                >
+                  <i class="fa-solid fa-user mr-2"></i>
+                  Danh sách đánh giá
+                </a>
+              </div>
+            </div>
+            <!-- PHÁP LÝ -->
+            <div x-data="{ open: false }">
+              <button
+                @click="open = !open"
+                class="w-full flex justify-between items-center py-3 px-6 text-gray-700 hover:bg-gray-100"
+              >
+                <span class="flex items-center gap-3">
+                  <i class="fa-solid fa-users w-5"></i>
+                  <span class="font-medium">Pháp lý</span>
+                </span>
+                <i
+                  class="fa-solid fa-chevron-right transition-transform"
+                  :class="{ 'rotate-90': open }"
+                ></i>
+              </button>
+
+              <div x-show="open" x-collapse class="bg-gray-50">
+                <a
+                  href="/admin/term"
+                  class="block py-2 pl-14 text-sm text-gray-600 hover:bg-blue-500 hover:text-white"
+                >
+                  <i class="fa-solid fa-user mr-2"></i>
+                  Điều khoản sử dụng
+                </a>
+                <a
+                  href="/admin/privacy"
+                  class="block py-2 pl-14 text-sm text-gray-600 hover:bg-blue-500 hover:text-white"
+                >
+                  <i class="fa-solid fa-user mr-2"></i>
+                  Quyền riêng tư
+                </a>
+                <a
+                  href="/admin/about"
+                  class="block py-2 pl-14 text-sm text-gray-600 hover:bg-blue-500 hover:text-white"
+                >
+                  <i class="fa-solid fa-user mr-2"></i>
+                  Về chúng tôi
+                </a>
+              </div>
+            </div>
           </nav>
         </aside>
 
       </div>
     </div>
 
-    <script
-      src="https://kit.fontawesome.com/a2d9a64f8f.js"
-      crossorigin="anonymous"
-    ></script>
     <script src="/home/js/data.js"></script>
     <script type="module" src="/admin/js/rooms.js"></script>
-    <script
-      src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"
-      defer
-    ></script>
   </body>
 </html>

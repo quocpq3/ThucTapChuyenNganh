@@ -1,0 +1,111 @@
+<div class="flex items-center mb-4 justify-between">
+  <h2 class="text-lg font-semibold text-gray-700 mr-4">Quản lý Endow</h2>
+  <a
+    href="/admin/endow/create"
+    class="inline-block mb-4 rounded bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700"
+  >
+    Thêm khuyến mãi
+  </a>
+</div>
+
+<div class="overflow-hidden rounded-lg border border-gray-200 shadow-md">
+  <table
+    class="w-full border-collapse bg-white text-left text-sm text-gray-500"
+  >
+    <thead class="bg-gray-50">
+      <tr>
+        <th class="px-6 py-4 font-medium text-gray-900">#</th>
+        <th class="px-6 py-4 font-medium text-gray-900">Tên</th>
+        <th class="px-6 py-4 font-medium text-gray-900">Mô tả</th>
+        <th class="px-6 py-4 font-medium text-gray-900">Loại</th>
+        <th class="px-6 py-4 font-medium text-gray-900">Giá trị</th>
+        <th class="px-6 py-4 font-medium text-gray-900">Trạng thái</th>
+        <th class="px-6 py-4 font-medium text-gray-900">Tiện ích</th>
+        <th class="px-6 py-4 font-medium text-gray-900 text-right">Thao tác</th>
+      </tr>
+    </thead>
+
+    <tbody class="divide-y divide-gray-100 border-t border-gray-100">
+      {{#each endows}}
+        <tr class="hover:bg-gray-50">
+          <td class="px-6 py-4 text-gray-700">{{stt}}</td>
+
+          <td class="px-6 py-4 font-medium text-gray-900">
+            {{name}}
+          </td>
+
+          <td class="px-6 py-4">
+            {{description}}
+          </td>
+
+          <!-- Type -->
+          <td class="px-6 py-4">
+            {{#if isPercent}}Giảm %{{/if}}
+            {{#if isAmount}}Giảm tiền{{/if}}
+            {{#if isCombo}}Combo{{/if}}
+          </td>
+
+          <!-- Value -->
+          <td class="px-6 py-4 font-medium text-gray-900">
+            {{#if isPercent}}
+              {{value}}%
+            {{/if}}
+            {{#if isAmount}}
+              {{value}}
+              đ
+            {{/if}}
+            {{#if isCombo}}
+              —
+            {{/if}}
+          </td>
+
+          <!-- Status -->
+          <td class="px-6 py-4">
+            {{#if status}}
+              <span
+                class="inline-flex items-center gap-1 rounded-full bg-green-50 px-2 py-1 text-xs font-semibold text-green-600"
+              >
+                <span class="h-1.5 w-1.5 rounded-full bg-green-600"></span>
+                Hoạt động
+              </span>
+            {{else}}
+              <span
+                class="inline-flex items-center gap-1 rounded-full bg-gray-100 px-2 py-1 text-xs font-semibold text-gray-600"
+              >
+                <span class="h-1.5 w-1.5 rounded-full bg-gray-500"></span>
+                Không hoạt động
+              </span>
+            {{/if}}
+          </td>
+
+          <!-- Amenity -->
+          <td class="px-6 py-4 font-medium text-gray-900">
+            {{amenity}}
+          </td>
+
+          <!-- Actions -->
+          <td class="px-6 py-4">
+            <div class="flex justify-end gap-4">
+              <form action="/admin/endow/{{_id}}?_method=DELETE" method="POST">
+                <button
+                  type="submit"
+                  class="text-red-600 hover:text-red-800"
+                  title="Delete"
+                >
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              </form>
+              <a
+                href="/admin/endow/edit/{{_id}}"
+                class="text-yellow-500 hover:text-yellow-700"
+                title="Edit"
+              >
+                <i class="fa-solid fa-pen-to-square"></i>
+              </a>
+            </div>
+          </td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>

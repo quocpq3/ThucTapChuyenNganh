@@ -6,23 +6,33 @@
   </head>
   <body>
     <header
-      class="fixed inset-x-0 top-0 z-40 backdrop border-b border-border/60 backdrop left-0 right-0 bg-card/60 header backdropshadow"
+      class="fixed inset-x-0 top-0 z-40 backdrop border-b border-border/60 bg-card/60 shadow-sm"
     >
       <div
         class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between"
       >
+
+        <!-- Logo -->
         <div class="flex items-center gap-3">
-          <div class="size-8 rounded-lg bg-[#11234B]"></div>
-          <a href="/" class="text-lg font-semibold tracking-tight">
+          <div class="w-8 h-8 rounded-lg bg-[#11234B]"></div>
+          <a
+            href="/"
+            class="text-lg font-semibold tracking-tight text-foreground"
+          >
             Khách sạn Azure Ocean
           </a>
         </div>
 
+        <!-- Desktop Menu -->
         <nav class="hidden md:flex items-center gap-8 text-sm">
-        <a
+          <a
             href="/rooms/room-list"
             class="text-foreground/80 hover:text-foreground"
           >Phòng</a>
+          <a
+            href="/roomtype/roomtype-list"
+            class="text-foreground/80 hover:text-foreground"
+          >Loại phòng</a>
           <a
             href="/#amenities"
             class="text-foreground/80 hover:text-foreground"
@@ -33,33 +43,27 @@
             href="/#testimonials"
             class="text-foreground/80 hover:text-foreground"
           >Đánh Giá</a>
-          <div class="flex items-center gap-3">
+          <a
+            href="/contact"
+            class="text-foreground/80 hover:text-foreground"
+          >Liên Hệ</a>
 
-              {{#if user}}
-         <div class="flex items-center gap-3 border-2 p-3 rounded-lg">
+          <!-- User Section -->
+          <div class="flex items-center gap-3">
+            {{#if user}}
+              <div class="flex items-center gap-3 border-2 p-3 rounded-lg">
                 <span class="text-sm text-foreground/80">
                   Xin chào,
                   <strong>{{user.name}}</strong>!
                 </span>
-  
                 <a
                   href="/logout"
                   class="px-3 py-1.5 text-xs font-medium rounded-md border border-border hover:bg-card transition"
                 >
                   Đăng xuất
                 </a>
-         </div class="flex items-center gap-3">
-
-              {{! 
-              <a
-                href="/admin"
-                class="px-3 py-1.5 text-xs font-medium rounded-md border border-border hover:bg-card transition"
-              >
-                Admin Page
-              </a> }}
-
+              </div>
             {{else}}
-
               <a
                 href="/login"
                 class="inline-flex items-center gap-2 rounded-md border border-input px-4 py-2 text-sm font-medium hover:bg-card/50"
@@ -68,33 +72,29 @@
               </a>
             {{/if}}
 
-          <a
-  href="/booking"
-  class="group inline-flex items-center gap-2
-         rounded-md bg-[#11234B]
-         px-4 py-2 text-sm font-semibold text-white
-         shadow-md transition-all duration-200
-         hover:bg-[#1E3A8A] hover:shadow-lg"
->
-  <svg
-    class="size-4 transition-transform duration-200 group-hover:translate-x-0.5"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-  >
-    <path
-      d="M7 10h10M7 14h4"
-      stroke-width="1.6"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-    />
-  </svg>
-  <span>Đặt ngay</span>
-</a>
-
+            <a
+              href="/booking"
+              class="group inline-flex items-center gap-2 rounded-md bg-[#11234B] px-4 py-2 text-sm font-semibold text-white shadow-md transition-all duration-200 hover:bg-[#1E3A8A] hover:shadow-lg"
+            >
+              <svg
+                class="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+              >
+                <path
+                  d="M7 10h10M7 14h4"
+                  stroke-width="1.6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+              <span>Đặt ngay</span>
+            </a>
           </div>
         </nav>
 
+        <!-- Mobile Menu Button -->
         <div class="md:hidden flex items-center gap-2">
           <button
             id="mobileToggle"
@@ -112,8 +112,8 @@
             </svg>
           </button>
         </div>
+
       </div>
     </header>
-
   </body>
 </html>

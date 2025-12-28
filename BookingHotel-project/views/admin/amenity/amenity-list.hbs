@@ -4,7 +4,7 @@
     href="/admin/amenity/create"
     class="inline-block mb-4 rounded bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700"
   >
-    Add Amenity
+    Thêm tiện ích
   </a>
 </div>
 
@@ -15,32 +15,23 @@
     <thead class="bg-gray-50">
       <tr>
         <th class="px-6 py-4 font-medium text-gray-900">#</th>
-        <th class="px-6 py-4 font-medium text-gray-900">Name</th>
-        <th class="px-6 py-4 font-medium text-gray-900">Description</th>
-        <th class="px-6 py-4 font-medium text-gray-900">Status</th>
-        <th class="px-6 py-4 font-medium text-gray-900 text-right">
-          Actions
-        </th>
+        <th class="px-6 py-4 font-medium text-gray-900">Tên</th>
+        <th class="px-6 py-4 font-medium text-gray-900">Mô tả</th>
+        <th class="px-6 py-4 font-medium text-gray-900">Trạng thái</th>
+        <th class="px-6 py-4 font-medium text-gray-900 text-right">Thao tác</th>
       </tr>
     </thead>
 
     <tbody class="divide-y divide-gray-100 border-t border-gray-100">
       {{#each amenities}}
         <tr class="hover:bg-gray-50">
-          <!-- STT -->
           <td class="px-6 py-4 text-gray-700">{{stt}}</td>
-
-          <!-- Name -->
           <td class="px-6 py-4 font-medium text-gray-900">
             {{name}}
           </td>
-
-          <!-- Description -->
           <td class="px-6 py-4">
             {{description}}
           </td>
-
-          <!-- Status -->
           <td class="px-6 py-4">
             {{#if status}}
               <span
@@ -58,11 +49,8 @@
               </span>
             {{/if}}
           </td>
-
-          <!-- Actions -->
           <td class="px-6 py-4">
             <div class="flex justify-end gap-4">
-              <!-- Delete -->
               <form
                 action="/admin/amenity/{{_id}}?_method=DELETE"
                 method="POST"
@@ -70,17 +58,15 @@
                 <button
                   type="submit"
                   class="text-red-600 hover:text-red-800"
-                  title="Delete"
+                  title="Xoá"
                 >
                   <i class="fa-solid fa-trash"></i>
                 </button>
               </form>
-
-              <!-- Edit -->
               <a
                 href="/admin/amenity/edit/{{_id}}"
                 class="text-yellow-500 hover:text-yellow-700"
-                title="Edit"
+                title="Sửa"
               >
                 <i class="fa-solid fa-pen-to-square"></i>
               </a>
